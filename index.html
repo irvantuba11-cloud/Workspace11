@@ -555,7 +555,6 @@
             fGrid.innerHTML = '';
             
             folders.forEach((f, idx) => {
-                // Logika utama: Sembunyikan folder "Semua Berkas" jika belum login admin
                 if (f === "Semua Berkas" && !isAdmin) return;
 
                 const count = f === "Semua Berkas" ? driveLinks.length : driveLinks.filter(l => l.folder === f).length;
@@ -640,10 +639,22 @@
                     emptyState.classList.add('hidden');
                     lGrid.classList.remove('hidden');
                     
-                    filtered.forEach((item) => {
+                    filtered.forEach((item, index) => {
                         let icon = 'file-text'; let color = 'text-indigo-600 bg-indigo-50 border-indigo-200';
                         if (item.type === 'excel') { icon = 'file-spreadsheet'; color = 'text-emerald-600 bg-emerald-50 border-emerald-200'; }
                         else if (item.type === 'archive') { icon = 'archive'; color = 'text-amber-600 bg-amber-50 border-amber-200'; }
+
+                        let fileActionButtons = '';
+                        if (isAdmin) {
+                            fileActionButtons = `
+                                <div class="flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-slate-200 shadow-sm">
+                                    ${index > 0 ? `<button onclick="moveLink(${item.id}, -1)" title="Geser Kiri/Atas" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>` : ''}
+                                    ${index < filtered.length - 1 ? `<button onclick="moveLink(${item.id}, 1)" title="Geser Kanan/Bawah" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>` : ''}
+                                    <button onclick="toggleLinkModal(true, ${item.id})" title="Edit & Pindah Folder" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
+                                    <button onclick="deleteLink(${item.id})" class="p-1 text-slate-500 hover:text-red-500 cursor-pointer" title="Hapus Link"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                                </div>
+                            `;
+                        }
 
                         const lCard = document.createElement('div');
                         lCard.className = "glass-3d-card rounded-2xl p-5 flex flex-col justify-between group";
@@ -653,6 +664,7 @@
                                     <div class="p-2.5 rounded-xl border ${color}"><i data-lucide="${icon}" class="w-5 h-5"></i></div>
                                     <div class="flex items-center gap-2">
                                         <span class="text-[10px] font-bold tracking-wider px-2.5 py-0.5 bg-white border border-slate-200 rounded-full text-slate-600 flex items-center gap-1 shadow-xs"><i data-lucide="folder" class="w-3 h-3"></i> ${item.folder}</span>
+                                        ${fileActionButtons}
                                     </div>
                                 </div>
                                 <h3 class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-indigo-600 transition-colors">${item.title}</h3>
