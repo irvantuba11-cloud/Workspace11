@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My WorkSpace - Daily Monitoring System</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background: radial-gradient(circle at 10% 10%, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+            perspective: 1000px;
+        }
+        .glass-3d-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(203, 213, 225, 0.6);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+        .glass-3d-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transform-style: preserve-3d;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 30px rgba(100, 116, 139, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+        }
+        .glass-3d-card:hover {
+            transform: translateY(-6px) scale(1.01) rotateX(2deg) rotateY(1deg);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 35px rgba(99, 102, 241, 0.12), inset 0 1px 2px rgba(255, 255, 255, 1);
+        }
+        .folder-3d-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.7) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transform-style: preserve-3d;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 8px 20px rgba(100, 116, 139, 0.08);
+        }
+        .folder-3d-card:hover {
+            transform: translateY(-4px) translateZ(8px);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 14px 25px rgba(16, 185, 129, 0.12);
+        }
+        .folder-sales-card {
+            background: linear-gradient(135deg, rgba(204, 251, 241, 0.85) 0%, rgba(255, 255, 255, 0.9) 100%);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(45, 212, 191, 0.5);
+            transform-style: preserve-3d;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.15), inset 0 0 12px rgba(255, 255, 255, 0.8);
+        }
+        .folder-sales-card:hover {
+            transform: translateY(-4px) translateZ(8px);
+            border-color: rgba(20, 184, 166, 0.8);
+            box-shadow: 0 16px 30px rgba(20, 184, 166, 0.25), inset 0 0 15px rgba(255, 255, 255, 1);
+        }
+        .folder-active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(79, 70, 229, 0.08) 100%);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 12px 25px rgba(99, 102, 241, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+        .folder-active:hover {
+            border-color: rgba(99, 102, 241, 0.7);
+            box-shadow: 0 16px 30px rgba(99, 102, 241, 0.2);
+        }
+        .translate-z {
+            transform: translateZ(15px);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 font-sans antialiased pb-12">
+
+    <!-- Toast Notifikasi -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-150 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-bold transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+        <span id="toastMessage">Link aplikasi berhasil disalin!</span>
+    </div>
+
+    <!-- Header -->
+    <nav class="glass-3d-nav sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-2xl shadow-lg shadow-indigo-600/20 transform transition-transform hover:rotate-12 duration-300">
+                    <i data-lucide="layers-3d" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-wider bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 bg-clip-text text-transparent uppercase">My WorkSpace</h1>
+                    <p class="text-xs text-indigo-600 font-bold tracking-widest uppercase mt-0.5">daily monitoring system</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="relative flex-1 md:w-64">
+                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Cari laporan atau data..." class="w-full pl-10 pr-4 py-2 bg-white/80 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-sm">
+                </div>
+                
+                <!-- Tombol Kontrol Admin -->
+                <div id="adminActionButtons" class="hidden items-center gap-2">
+                    <button onclick="toggleFolderModal(true)" class="inline-flex items-center gap-2 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-emerald-600 text-sm font-bold rounded-xl transition-all shadow-sm cursor-pointer">
+                        <i data-lucide="folder-plus" class="w-4 h-4"></i> + Folder
+                    </button>
+                    <button onclick="toggleLinkModal(true)" class="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-indigo-600/20 cursor-pointer">
+                        <i data-lucide="plus" class="w-4 h-4"></i> + Link
+                    </button>
+                </div>
+
+                <!-- Tombol Salin Link Aplikasi -->
+                <button onclick="copyAppUrl()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-indigo-600 text-xs font-bold rounded-xl transition-all shadow-sm cursor-pointer" title="Salin Tautan Aplikasi">
+                    <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Salin Link App
+                </button>
+
+                <!-- Indikator / Tombol Auth Mode -->
+                <div id="authContainer">
+                    <button onclick="toggleAuthModal(true)" class="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer">
+                        <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400"></i> Login Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="max-w-7xl mx-auto px-6 py-10">
+        
+        <!-- Folder Section -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-indigo-900/60 flex items-center gap-2">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i> FOLDER UTAMA
+                </h2>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5" id="folderGrid"></div>
+        </div>
+
+        <!-- Folder Content Area -->
+        <div id="folderContentContainer" class="hidden">
+            <div class="border-t border-slate-300 my-8 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="closeActiveFolder()" class="p-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-xl text-slate-600 transition-all cursor-pointer shadow-sm flex items-center gap-1.5 text-xs font-bold">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Menu Utama
+                    </button>
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="folder-open" class="w-5 h-5 text-indigo-600"></i> Direktori: <span id="activeFolderName" class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600"></span>
+                    </h2>
+                </div>
+                <div class="px-3 py-1 bg-white border border-slate-300 rounded-full text-xs font-semibold text-slate-600 tracking-wider shadow-sm" id="itemCounter">0 Link Terarsip</div>
+            </div>
+
+            <!-- Links Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="linksGrid"></div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-20 glass-3d-card rounded-2xl border-dashed border-2 border-slate-300">
+                <div class="inline-flex p-4 bg-white text-slate-400 border border-slate-200 rounded-full mb-4 shadow-sm">
+                    <i data-lucide="database-zap" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-base font-bold text-slate-700">Belum Ada Data di Folder Ini</h3>
+                <p class="text-slate-500 text-xs mt-1 max-w-xs mx-auto mb-6">Silakan masuk ke Mode Admin untuk menambahkan tautan laporan atau spreadsheet.</p>
+            </div>
+        </div>
+
+        <!-- Default State -->
+        <div id="welcomeState" class="text-center py-24 glass-3d-card rounded-2xl border-dashed border-2 border-slate-300">
+            <div class="inline-flex p-4 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-full mb-4 shadow-inner">
+                <i data-lucide="folder-kanban" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800">Pilih Folder untuk Melihat Berkas</h3>
+            <p class="text-slate-500 text-xs mt-1 max-w-sm mx-auto">Silakan klik salah satu kartu folder di atas untuk menampilkan daftar laporan dan tautan monitoring harian.</p>
+        </div>
+    </main>
+
+    <!-- Modal Form (Login Admin Password) -->
+    <div id="authModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <h3 class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="lock" class="text-amber-500 w-5 h-5"></i> Autentikasi Pemilik / Admin</h3>
+                <button onclick="toggleAuthModal(false)" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Password Admin</label>
+                    <input type="password" id="adminPasswordInput" required placeholder="Masukkan password..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="toggleAuthModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Batal</button>
+                    <button type="submit" class="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl shadow-lg cursor-pointer">Masuk</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Form (Create / Edit Folder) -->
+    <div id="folderModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <h3 id="folderModalTitle" class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="folder-plus" class="text-emerald-600 w-5 h-5"></i> Buat Folder</h3>
+                <button onclick="toggleFolderModal(false)" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="folderForm" onsubmit="handleFolderSubmit(event)" class="space-y-4">
+                <input type="hidden" id="editingOldFolderName" value="">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nama Folder</label>
+                    <input type="text" id="folderNameInput" required placeholder="Contoh: Monitoring Harian" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500">
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="toggleFolderModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Batal</button>
+                    <button type="submit" id="folderSubmitBtn" class="px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl shadow-lg shadow-emerald-600/20 cursor-pointer">Buat</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Form (Input / Edit Link & Pindah Folder) -->
+    <div id="linkModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <h3 id="linkModalTitle" class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="file-plus" class="text-indigo-600 w-5 h-5"></i> Tambah Tautan OneDrive</h3>
+                <button onclick="toggleLinkModal(false)" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="linkForm" onsubmit="handleLinkSubmit(event)" class="space-y-4">
+                <input type="hidden" id="editingLinkId" value="">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nama File / Judul Laporan</label>
+                    <input type="text" id="fileTitle" required placeholder="Contoh: Rekap Penjualan harian" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tautan URL OneDrive</label>
+                    <input type="url" id="fileUrl" required placeholder="https://1drv.ms/x/c/..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Simpan / Pindah ke Folder</label>
+                        <select id="fileFolder" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Format Berkas</label>
+                        <select id="fileType" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+                            <option value="excel">Excel / Spreadsheet</option>
+                            <option value="document">Dokumen / PDF / Word</option>
+                            <option value="archive">Zip / Rar / Format Lain</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Keterangan / Deskripsi Singkat</label>
+                    <textarea id="fileDesc" rows="2" placeholder="Catatan opsional monitoring berkas harian..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="toggleLinkModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Batal</button>
+                    <button type="submit" id="linkSubmitBtn" class="px-4 py-2 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-xl shadow-lg cursor-pointer">Simpan Link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-24 border-t border-slate-200 py-8 px-6 text-center max-w-7xl mx-auto">
+        <div class="text-xs text-slate-500 font-medium">
+            My WorkSpace • Daily Monitoring System © 2026
+        </div>
+    </footer>
+
+    <script>
+        let folders = JSON.parse(localStorage.getItem('od_folders_v3')) || ["Semua Berkas", "Action Plan", "KPI", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v3')) || [
+            {
+                id: 1,
+                title: "Contoh File Spreadsheet Utama",
+                url: "https://1drv.ms/x/c/3BAB06E241E4805E/IQAjCWfsLeC8TYHzjQltMOg1AWb-douK-ybHnPYWYPpI2Qo?e=9duIVK",
+                folder: "Keuangan",
+                type: "excel",
+                description: "File database atau spreadsheet referensi dari tautan contoh yang Anda berikan."
+            }
+        ];
+        
+        let activeFolder = null;
+        let searchQuery = "";
+        let isAdmin = false;
+
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            msgEl.innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        function copyAppUrl() {
+            const appUrl = window.location.href;
+            navigator.clipboard.writeText(appUrl).then(() => {
+                showToast("Link aplikasi berhasil disalin ke clipboard!");
+            }).catch(err => {
+                alert("Gagal menyalin link aplikasi.");
+            });
+        }
+
+        function toggleAuthModal(show) {
+            document.getElementById('authModal').classList.toggle('hidden', !show);
+            if (show) document.getElementById('adminPasswordInput').value = '';
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === "Irvantuba11!") {
+                isAdmin = true;
+                toggleAuthModal(false);
+                renderWorkspace();
+                alert("Berhasil masuk ke Mode Admin!");
+            } else {
+                alert("Password salah!");
+            }
+        }
+
+        function handleAdminLogout() {
+            isAdmin = false;
+            if (activeFolder === "Semua Berkas" || activeFolder === "Action Plan" || activeFolder === "KPI") {
+                activeFolder = null;
+            }
+            renderWorkspace();
+            alert("Keluar ke Mode Tamu. Folder terbatas dikunci.");
+        }
+
+        function toggleFolderModal(show, editName = null) {
+            if (!isAdmin) return;
+            const modal = document.getElementById('folderModal');
+            const titleEl = document.getElementById('folderModalTitle');
+            const inputEl = document.getElementById('folderNameInput');
+            const oldNameInput = document.getElementById('editingOldFolderName');
+            const submitBtn = document.getElementById('folderSubmitBtn');
+
+            if (show) {
+                if (editName) {
+                    titleEl.innerHTML = `<i data-lucide="edit-3" class="text-indigo-600 w-5 h-5"></i> Edit Nama Folder`;
+                    inputEl.value = editName;
+                    oldNameInput.value = editName;
+                    submitBtn.innerText = "Simpan Perubahan";
+                } else {
+                    titleEl.innerHTML = `<i data-lucide="folder-plus" class="text-emerald-600 w-5 h-5"></i> Buat Folder`;
+                    inputEl.value = "";
+                    oldNameInput.value = "";
+                    submitBtn.innerText = "Buat";
+                }
+                modal.classList.remove('hidden');
+                lucide.createIcons();
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function toggleLinkModal(show, editId = null) {
+            if (!isAdmin) return;
+            const modal = document.getElementById('linkModal');
+            const titleEl = document.getElementById('linkModalTitle');
+            const submitBtn = document.getElementById('linkSubmitBtn');
+            const select = document.getElementById('fileFolder');
+            
+            select.innerHTML = '';
+            folders.forEach(f => {
+                if (f !== "Semua Berkas") {
+                    const opt = document.createElement('option');
+                    opt.value = f; opt.innerText = f;
+                    if (activeFolder && f === activeFolder && !editId) opt.selected = true;
+                    select.appendChild(opt);
+                }
+            });
+
+            if (select.innerHTML === '') {
+                alert("Buat folder kustom terlebih dahulu via tombol (+ Folder)!");
+                return;
+            }
+
+            if (show) {
+                if (editId) {
+                    const item = driveLinks.find(l => l.id === editId);
+                    if (item) {
+                        titleEl.innerHTML = `<i data-lucide="edit-3" class="text-indigo-600 w-5 h-5"></i> Edit Berkas & Pindah Folder`;
+                        document.getElementById('editingLinkId').value = item.id;
+                        document.getElementById('fileTitle').value = item.title;
+                        document.getElementById('fileUrl').value = item.url;
+                        select.value = item.folder;
+                        document.getElementById('fileType').value = item.type;
+                        document.getElementById('fileDesc').value = item.description;
+                        submitBtn.innerText = "Simpan Perubahan";
+                    }
+                } else {
+                    titleEl.innerHTML = `<i data-lucide="file-plus" class="text-indigo-600 w-5 h-5"></i> Tambah Tautan OneDrive`;
+                    document.getElementById('editingLinkId').value = '';
+                    document.getElementById('linkForm').reset();
+                    if (activeFolder && activeFolder !== "Semua Berkas") select.value = activeFolder;
+                    submitBtn.innerText = "Simpan Link";
+                }
+                modal.classList.remove('hidden');
+                lucide.createIcons();
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function handleFolderSubmit(e) {
+            e.preventDefault();
+            if (!isAdmin) return;
+            const newName = document.getElementById('folderNameInput').value.trim();
+            const oldName = document.getElementById('editingOldFolderName').value;
+
+            if (!newName) return;
+
+            if (oldName) {
+                if (newName !== oldName && folders.includes(newName)) {
+                    alert("Nama folder tersebut sudah ada!");
+                    return;
+                }
+                folders = folders.map(f => f === oldName ? newName : f);
+                driveLinks = driveLinks.map(item => {
+                    if (item.folder === oldName) item.folder = newName;
+                    return item;
+                });
+                if (activeFolder === oldName) activeFolder = newName;
+            } else {
+                if (folders.includes(newName)) {
+                    alert("Nama folder tersebut sudah ada!");
+                    return;
+                }
+                folders.push(newName);
+            }
+
+            localStorage.setItem('od_folders_v3', JSON.stringify(folders));
+            localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+            toggleFolderModal(false);
+            renderWorkspace();
+        }
+
+        function handleLinkSubmit(e) {
+            e.preventDefault();
+            if (!isAdmin) return;
+            const editId = document.getElementById('editingLinkId').value;
+            const title = document.getElementById('fileTitle').value;
+            const url = document.getElementById('fileUrl').value;
+            const folder = document.getElementById('fileFolder').value;
+            const type = document.getElementById('fileType').value;
+            const description = document.getElementById('fileDesc').value || 'Tidak ada deskripsi berkas.';
+
+            if (editId) {
+                driveLinks = driveLinks.map(item => {
+                    if (item.id == editId) {
+                        return { ...item, title, url, folder, type, description };
+                    }
+                    return item;
+                });
+            } else {
+                const newLink = {
+                    id: Date.now(),
+                    title,
+                    url,
+                    folder,
+                    type,
+                    description
+                };
+                driveLinks.unshift(newLink);
+                activeFolder = folder;
+            }
+
+            localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+            toggleLinkModal(false);
+            renderWorkspace();
+        }
+
+        function deleteLink(id) {
+            if (!isAdmin) return;
+            if (confirm("Hapus link data ini?")) {
+                driveLinks = driveLinks.filter(item => item.id !== id);
+                localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+                renderWorkspace();
+            }
+        }
+
+        function moveLink(id, direction) {
+            if (!isAdmin) return;
+            const index = driveLinks.findIndex(l => l.id === id);
+            if (index === -1) return;
+
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= driveLinks.length) return;
+
+            const temp = driveLinks[index];
+            driveLinks[index] = driveLinks[targetIndex];
+            driveLinks[targetIndex] = temp;
+
+            localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+            renderWorkspace();
+        }
+
+        function deleteFolder(folderName, e) {
+            e.stopPropagation();
+            if (!isAdmin) return;
+            if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
+                folders = folders.filter(f => f !== folderName);
+                driveLinks = driveLinks.filter(item => item.folder !== folderName);
+                localStorage.setItem('od_folders_v3', JSON.stringify(folders));
+                localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+                if (activeFolder === folderName) activeFolder = null;
+                renderWorkspace();
+            }
+        }
+
+        function moveFolder(index, direction, e) {
+            e.stopPropagation();
+            if (!isAdmin) return;
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= folders.length) return;
+            
+            const temp = folders[index];
+            folders[index] = folders[targetIndex];
+            folders[targetIndex] = temp;
+
+            localStorage.setItem('od_folders_v3', JSON.stringify(folders));
+            renderWorkspace();
+        }
+
+        function openFolder(folderName) {
+            if ((folderName === "Semua Berkas" || folderName === "Action Plan" || folderName === "KPI") && !isAdmin) {
+                alert(`Akses Ditolak! Folder ${folderName} hanya dapat dibuka dalam Mode Admin. Silakan Login Admin terlebih dahulu.`);
+                return;
+            }
+            activeFolder = folderName;
+            renderWorkspace();
+        }
+
+        function closeActiveFolder() {
+            activeFolder = null;
+            renderWorkspace();
+        }
+
+        function renderWorkspace() {
+            const authContainer = document.getElementById('authContainer');
+            const adminActionButtons = document.getElementById('adminActionButtons');
+
+            if (isAdmin) {
+                adminActionButtons.classList.remove('hidden');
+                adminActionButtons.classList.add('flex');
+                authContainer.innerHTML = `
+                    <button onclick="handleAdminLogout()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer" title="Keluar Mode Admin">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Admin Aktif (Keluar)
+                    </button>
+                `;
+            } else {
+                adminActionButtons.classList.add('hidden');
+                adminActionButtons.classList.remove('flex');
+                authContainer.innerHTML = `
+                    <button onclick="toggleAuthModal(true)" class="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer">
+                        <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400"></i> Login Admin
+                    </button>
+                `;
+            }
+
+            const fGrid = document.getElementById('folderGrid');
+            fGrid.innerHTML = '';
+            
+            folders.forEach((f, idx) => {
+                if (f === "Semua Berkas" && !isAdmin) return;
+
+                const count = f === "Semua Berkas" ? driveLinks.length : driveLinks.filter(l => l.folder === f).length;
+                const isSelected = activeFolder === f;
+                const isLocked = ((f === "Semua Berkas" || f === "Action Plan" || f === "KPI") && !isAdmin);
+
+                const fLower = f.toLowerCase();
+                const isSalesOrMonitoring = fLower.includes('sales') || fLower.includes('monitoring');
+
+                let cardStyleClass = isSalesOrMonitoring ? 'folder-sales-card' : 'folder-3d-card';
+                if (isSelected) {
+                    cardStyleClass = 'folder-3d-card folder-active';
+                }
+
+                const fCard = document.createElement('div');
+                fCard.className = `${cardStyleClass} p-5 rounded-2xl cursor-pointer flex flex-col justify-between group ${isLocked ? 'opacity-85 border-amber-400/50' : ''}`;
+                fCard.onclick = () => openFolder(f);
+                
+                let iconType = isSelected ? 'folder-open' : 'folder';
+                let iconColor = isSelected ? 'text-indigo-600' : 'text-amber-500';
+
+                if (isLocked) {
+                    iconType = 'lock';
+                    iconColor = 'text-amber-600';
+                } else {
+                    if (f === "Semua Berkas") { iconType = 'database'; iconColor = 'text-indigo-600'; }
+                    else if (fLower.includes('kpi')) { iconType = 'trending-up'; iconColor = 'text-purple-600'; }
+                    else if (fLower.includes('action') || fLower.includes('plan')) { iconType = 'target'; iconColor = 'text-emerald-600'; }
+                    else if (fLower.includes('keuang') || fLower.includes('finan')) { iconType = 'wallet'; iconColor = 'text-blue-600'; }
+                    else if (fLower.includes('umum') || fLower.includes('general')) { iconType = 'file-text'; iconColor = 'text-indigo-500'; }
+                    else if (isSalesOrMonitoring) { iconType = 'check-square'; iconColor = 'text-teal-600'; }
+                }
+
+                let actionButtons = '';
+                if (isAdmin && f !== "Semua Berkas") {
+                    actionButtons = `
+                        <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all bg-white/90 p-1 rounded-xl border border-slate-200 shadow-sm">
+                            ${idx > 1 ? `<button onclick="moveFolder(${idx}, -1, event)" title="Geser Kiri" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>` : ''}
+                            ${idx < folders.length - 1 ? `<button onclick="moveFolder(${idx}, 1, event)" title="Geser Kanan" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>` : ''}
+                            <button onclick="toggleFolderModal(true, '${f}'); event.stopPropagation();" title="Edit Nama" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
+                            ${(f !== "Umum" && f !== "Keuangan" && f !== "Action Plan" && f !== "KPI") ? `<button onclick="deleteFolder('${f}', event)" title="Hapus Folder" class="p-1 text-slate-500 hover:text-red-500 cursor-pointer"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>` : ''}
+                        </div>
+                    `;
+                }
+
+                fCard.innerHTML = `
+                    <div class="flex items-start justify-between w-full translate-z">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="${iconType}" class="w-8 h-8 ${iconColor}"></i>
+                            ${isLocked ? '<span class="px-2 py-0.5 bg-amber-100 text-amber-700 text-[9px] font-bold rounded-md tracking-wider">Terkunci</span>' : ''}
+                        </div>
+                        ${actionButtons}
+                    </div>
+                    <div class="mt-5 translate-z">
+                        <h4 class="text-sm font-bold truncate text-slate-800">${f}</h4>
+                        <p class="text-[11px] mt-0.5 text-slate-500">${count} Berkas Data</p>
+                    </div>
+                `;
+                fGrid.appendChild(fCard);
+            });
+
+            const welcomeState = document.getElementById('welcomeState');
+            const folderContentContainer = document.getElementById('folderContentContainer');
+
+            if (activeFolder === null) {
+                welcomeState.classList.remove('hidden');
+                folderContentContainer.classList.add('hidden');
+            } else {
+                welcomeState.classList.add('hidden');
+                folderContentContainer.classList.remove('hidden');
+                document.getElementById('activeFolderName').innerText = activeFolder;
+
+                const lGrid = document.getElementById('linksGrid');
+                const emptyState = document.getElementById('emptyState');
+                lGrid.innerHTML = '';
+
+                const filtered = driveLinks.filter(item => {
+                    const matchesFolder = activeFolder === "Semua Berkas" || item.folder === activeFolder;
+                    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                          item.description.toLowerCase().includes(searchQuery.toLowerCase());
+                    return matchesFolder && matchesSearch;
+                });
+
+                document.getElementById('itemCounter').innerText = `${filtered.length} Link Terarsip`;
+
+                if (filtered.length === 0) {
+                    emptyState.classList.remove('hidden');
+                    lGrid.classList.add('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                    lGrid.classList.remove('hidden');
+                    
+                    filtered.forEach((item) => {
+                        let icon = 'file-text'; let color = 'text-indigo-600 bg-indigo-50 border-indigo-200';
+                        if (item.type === 'excel') { icon = 'file-spreadsheet'; color = 'text-emerald-600 bg-emerald-50 border-emerald-200'; }
+                        else if (item.type === 'archive') { icon = 'archive'; color = 'text-amber-600 bg-amber-50 border-amber-200'; }
+
+                        const lCard = document.createElement('div');
+                        lCard.className = "glass-3d-card rounded-2xl p-5 flex flex-col justify-between group";
+                        lCard.innerHTML = `
+                            <div class="translate-z">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="p-2.5 rounded-xl border ${color}"><i data-lucide="${icon}" class="w-5 h-5"></i></div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-[10px] font-bold tracking-wider px-2.5 py-0.5 bg-white border border-slate-200 rounded-full text-slate-600 flex items-center gap-1 shadow-xs"><i data-lucide="folder" class="w-3 h-3"></i> ${item.folder}</span>
+                                    </div>
+                                </div>
+                                <h3 class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-indigo-600 transition-colors">${item.title}</h3>
+                                <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">${item.description}</p>
+                            </div>
+                            <div class="mt-5 pt-3 border-t border-slate-200/80 flex justify-end translate-z">
+                                <a href="${item.url}" target="_blank" class="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-500">Buka Berkas <i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>
+                            </div>
+                        `;
+                        lGrid.appendChild(lCard);
+                    });
+                }
+            }
+            lucide.createIcons();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderWorkspace();
+        });
+
+        window.onload = renderWorkspace;
+    </script>
+</body>
+</html>
