@@ -46,6 +46,21 @@
             border-color: rgba(16, 185, 129, 0.4);
             box-shadow: 0 14px 25px rgba(16, 185, 129, 0.12);
         }
+        /* Efek Light & Warna Khusus yang lebih cerah untuk Folder Sales / Monitoring */
+        .folder-sales-card {
+            background: linear-gradient(135deg, rgba(153, 246, 228, 0.65) 0%, rgba(255, 255, 255, 0.95) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(20, 184, 166, 0.6);
+            transform-style: preserve-3d;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.2), inset 0 0 18px rgba(255, 255, 255, 0.9);
+        }
+        .folder-sales-card:hover {
+            transform: translateY(-4px) translateZ(8px);
+            border-color: rgba(20, 184, 166, 0.9);
+            box-shadow: 0 18px 35px rgba(20, 184, 166, 0.3), inset 0 0 22px rgba(255, 255, 255, 1);
+        }
         .folder-active {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(79, 70, 229, 0.08) 100%);
             border-color: rgba(99, 102, 241, 0.5);
@@ -561,8 +576,16 @@
                 const isSelected = activeFolder === f;
                 const isLocked = ((f === "Semua Berkas" || f === "Action Plan" || f === "KPI") && !isAdmin);
 
+                const fLower = f.toLowerCase();
+                const isSalesOrMonitoring = fLower.includes('sales') || fLower.includes('monitoring');
+
+                let cardStyleClass = isSalesOrMonitoring ? 'folder-sales-card' : 'folder-3d-card';
+                if (isSelected) {
+                    cardStyleClass = 'folder-3d-card folder-active';
+                }
+
                 const fCard = document.createElement('div');
-                fCard.className = `folder-3d-card p-5 rounded-2xl cursor-pointer flex flex-col justify-between group ${isSelected ? 'folder-active' : ''} ${isLocked ? 'opacity-85 border-amber-400/50' : ''}`;
+                fCard.className = `${cardStyleClass} p-5 rounded-2xl cursor-pointer flex flex-col justify-between group ${isLocked ? 'opacity-85 border-amber-400/50' : ''}`;
                 fCard.onclick = () => openFolder(f);
                 
                 let iconType = isSelected ? 'folder-open' : 'folder';
@@ -572,12 +595,12 @@
                     iconType = 'lock';
                     iconColor = 'text-amber-600';
                 } else {
-                    const fLower = f.toLowerCase();
                     if (f === "Semua Berkas") { iconType = 'database'; iconColor = 'text-indigo-600'; }
                     else if (fLower.includes('kpi')) { iconType = 'trending-up'; iconColor = 'text-purple-600'; }
                     else if (fLower.includes('action') || fLower.includes('plan')) { iconType = 'target'; iconColor = 'text-emerald-600'; }
                     else if (fLower.includes('keuang') || fLower.includes('finan')) { iconType = 'wallet'; iconColor = 'text-blue-600'; }
                     else if (fLower.includes('umum') || fLower.includes('general')) { iconType = 'file-text'; iconColor = 'text-indigo-500'; }
+                    else if (isSalesOrMonitoring) { iconType = 'check-square'; iconColor = 'text-teal-600'; }
                 }
 
                 let actionButtons = '';
