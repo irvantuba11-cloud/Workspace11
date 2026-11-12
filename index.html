@@ -185,19 +185,15 @@
             </div>
             <p id="choiceFileTitle" class="text-xs text-slate-500 font-medium"></p>
             <div class="space-y-2 pt-2">
-                <!-- 1. Pilihan Buka di Tab Baru Chrome/Safari -->
+                <!-- 1. Buka di Tab Baru Chrome/Safari -->
                 <a id="btnOpenNewTab" href="#" target="_blank" onclick="toggleChoiceModal(false)" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition-all shadow-xs">
-                    <i data-lucide="globe" class="w-4 h-4 text-indigo-500 shrink-0"></i> Buka dengan Chrome / Tab Baru
+                    <i data-lucide="globe" class="w-4 h-4 text-indigo-500 shrink-0"></i> Buka di Tab Baru (Chrome / Safari)
                 </a>
-                <!-- 2. Pilihan Buka dengan Excel (Aplikasi Web/Microsoft) -->
-                <a id="btnOpenExcel" href="#" target="_blank" onclick="toggleChoiceModal(false)" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-xl text-xs font-bold text-slate-700 hover:text-amber-600 transition-all shadow-xs">
-                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-amber-500 shrink-0"></i> Buka dengan Excel
-                </a>
-                <!-- 3. Pilihan Buka dengan Spreadsheet HP -->
+                <!-- 2. Buka dengan Excel/Spreadsheet (Aplikasi HP) -->
                 <button onclick="openInSpreadsheetApp()" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 rounded-xl text-xs font-bold text-slate-700 hover:text-emerald-600 transition-all shadow-xs cursor-pointer text-left">
-                    <i data-lucide="layout-list" class="w-4 h-4 text-emerald-500 shrink-0"></i> Buka dengan Spreadsheet (Aplikasi HP)
+                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-500 shrink-0"></i> Buka dengan Excel/Spreadsheet
                 </button>
-                <!-- 4. Salin Tautan -->
+                <!-- 3. Salin Tautan -->
                 <button onclick="copyFileUrlFromModal()" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-purple-50 border border-slate-200 hover:border-purple-300 rounded-xl text-xs font-bold text-slate-700 hover:text-purple-600 transition-all shadow-xs cursor-pointer text-left">
                     <i data-lucide="copy" class="w-4 h-4 text-purple-500 shrink-0"></i> Salin Tautan Berkas
                 </button>
@@ -300,9 +296,9 @@
     </footer>
 
     <script>
-        // Menggunakan versi v21 untuk memunculkan pilihan lengkap (Chrome, Excel, Spreadsheet)
-        let folders = JSON.parse(localStorage.getItem('od_folders_v21')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v21')) || [
+        // Menggunakan versi v22 untuk teks "Buka dengan Excel/Spreadsheet"
+        let folders = JSON.parse(localStorage.getItem('od_folders_v22')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v22')) || [
             {
                 id: 1,
                 title: "Pengawalan",
@@ -362,7 +358,6 @@
                 currentChoiceUrl = url;
                 document.getElementById('choiceFileTitle').innerText = `Berkas: ${title}`;
                 document.getElementById('btnOpenNewTab').href = url;
-                document.getElementById('btnOpenExcel').href = url;
                 modal.classList.remove('hidden');
                 lucide.createIcons();
             } else {
@@ -523,8 +518,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v21', JSON.stringify(folders));
-            localStorage.setItem('od_links_v21', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v22', JSON.stringify(folders));
+            localStorage.setItem('od_links_v22', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -559,7 +554,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v21', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v22', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -569,7 +564,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v21', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v22', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -586,7 +581,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v21', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v22', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -596,8 +591,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v21', JSON.stringify(folders));
-                localStorage.setItem('od_links_v21', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v22', JSON.stringify(folders));
+                localStorage.setItem('od_links_v22', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -613,7 +608,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v21', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v22', JSON.stringify(folders));
             renderWorkspace();
         }
 
