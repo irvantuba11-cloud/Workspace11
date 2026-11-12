@@ -46,7 +46,6 @@
             border-color: rgba(16, 185, 129, 0.4);
             box-shadow: 0 14px 25px rgba(16, 185, 129, 0.12);
         }
-        /* Efek Light & Warna Khusus yang lebih cerah untuk Folder Sales / Monitoring */
         .folder-sales-card {
             background: linear-gradient(135deg, rgba(153, 246, 228, 0.65) 0%, rgba(255, 255, 255, 0.95) 100%);
             backdrop-filter: blur(16px);
@@ -269,10 +268,29 @@
     </footer>
 
     <script>
-        let folders = JSON.parse(localStorage.getItem('od_folders_v3')) || ["Semua Berkas", "Action Plan", "KPI", "Umum", "Keuangan"];
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v3')) || [
+        // Data Folder Default (Termasuk Monitoring Sales)
+        let folders = JSON.parse(localStorage.getItem('od_folders_v4')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        
+        // Data File / Link Default (Termasuk file Pengawalan & Form Market Share)
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v4')) || [
             {
                 id: 1,
+                title: "Pengawalan",
+                url: "#",
+                folder: "Monitoring Sales",
+                type: "excel",
+                description: "Jakarta Barat-Utara"
+            },
+            {
+                id: 2,
+                title: "Form Market Share",
+                url: "#",
+                folder: "Monitoring Sales",
+                type: "document",
+                description: "Microsoft Forms"
+            },
+            {
+                id: 3,
                 title: "Contoh File Spreadsheet Utama",
                 url: "https://1drv.ms/x/c/3BAB06E241E4805E/IQAjCWfsLeC8TYHzjQltMOg1AWb-douK-ybHnPYWYPpI2Qo?e=9duIVK",
                 folder: "Keuangan",
@@ -437,8 +455,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v3', JSON.stringify(folders));
-            localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v4', JSON.stringify(folders));
+            localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -473,7 +491,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
         }
@@ -482,7 +500,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -499,7 +517,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -509,8 +527,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v3', JSON.stringify(folders));
-                localStorage.setItem('od_links_v3', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v4', JSON.stringify(folders));
+                localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -526,7 +544,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v3', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v4', JSON.stringify(folders));
             renderWorkspace();
         }
 
