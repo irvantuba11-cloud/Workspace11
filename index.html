@@ -231,7 +231,7 @@
                     <input type="text" id="fileTitle" required placeholder="Contoh: Rekap Penjualan harian" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tautan URL OneDrive</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tautan URL Berkas</label>
                     <input type="url" id="fileUrl" required placeholder="https://1drv.ms/x/c/..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
@@ -268,12 +268,12 @@
     </footer>
 
     <script>
-        let folders = JSON.parse(localStorage.getItem('od_folders_v5')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v5')) || [
+        let folders = JSON.parse(localStorage.getItem('od_folders_v6')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v6')) || [
             {
                 id: 1,
                 title: "Pengawalan",
-                url: "#",
+                url: "https://1drv.ms/x/c/3BAB06E241E4805E/IQAjCWfsLeC8TYHzjQltMOg1AWb-douK-ybHnPYWYPpI2Qo?e=9duIVK",
                 folder: "Monitoring Sales",
                 type: "excel",
                 description: "Jakarta Barat-Utara"
@@ -281,7 +281,7 @@
             {
                 id: 2,
                 title: "Form Market Share",
-                url: "#",
+                url: "https://forms.office.com/",
                 folder: "Monitoring Sales",
                 type: "document",
                 description: "Microsoft Forms"
@@ -412,7 +412,7 @@
                         submitBtn.innerText = "Simpan Perubahan";
                     }
                 } else {
-                    titleEl.innerHTML = `<i data-lucide="file-plus" class="text-indigo-600 w-5 h-5"></i> Tambah Tautan OneDrive`;
+                    titleEl.innerHTML = `<i data-lucide="file-plus" class="text-indigo-600 w-5 h-5"></i> Tambah Tautan Berkas`;
                     document.getElementById('editingLinkId').value = '';
                     document.getElementById('linkForm').reset();
                     if (activeFolder && activeFolder !== "Semua Berkas") select.value = activeFolder;
@@ -452,8 +452,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v5', JSON.stringify(folders));
-            localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v6', JSON.stringify(folders));
+            localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -488,7 +488,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
         }
@@ -497,7 +497,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -514,7 +514,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -524,8 +524,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v5', JSON.stringify(folders));
-                localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v6', JSON.stringify(folders));
+                localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -541,7 +541,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v5', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v6', JSON.stringify(folders));
             renderWorkspace();
         }
 
@@ -588,7 +588,6 @@
             const restrictedFolders = ["Semua Berkas", "Action Plan", "KPI", "Umum", "Keuangan"];
 
             folders.forEach((f, idx) => {
-                // Sembunyikan folder terbatas jika belum login admin
                 if (restrictedFolders.includes(f) && !isAdmin) return;
 
                 const count = f === "Semua Berkas" ? driveLinks.length : driveLinks.filter(l => l.folder === f).length;
