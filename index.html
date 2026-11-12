@@ -176,32 +176,6 @@
         </div>
     </main>
 
-    <!-- Modal Pilihan Buka Dengan (Choice Modal) -->
-    <div id="openChoiceModal" class="fixed inset-0 z-150 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                <h3 class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="external-link" class="text-indigo-600 w-5 h-5"></i> Buka Berkas Dengan</h3>
-                <button onclick="toggleChoiceModal(false)" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            <p id="choiceFileTitle" class="text-xs text-slate-500 font-medium"></p>
-            <div class="space-y-2 pt-2">
-                <!-- Tombol Paksa Buka di Web Browser Murni (Menggunakan Office Viewer Web agar tidak terlempar ke aplikasi Excel HP) -->
-                <button onclick="openInBrowserDirect()" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition-all shadow-xs cursor-pointer text-left">
-                    <i data-lucide="globe" class="w-4 h-4 text-indigo-500 shrink-0"></i> Browser (Tab Baru Chrome/Safari)
-                </button>
-                <a id="btnOpenExcelApp" href="#" target="_blank" onclick="toggleChoiceModal(false)" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 rounded-xl text-xs font-bold text-slate-700 hover:text-emerald-600 transition-all shadow-xs">
-                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-500 shrink-0"></i> Aplikasi Excel / WPS / Docs
-                </a>
-                <button onclick="copyFileUrlFromModal()" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-purple-50 border border-slate-200 hover:border-purple-300 rounded-xl text-xs font-bold text-slate-700 hover:text-purple-600 transition-all shadow-xs cursor-pointer text-left">
-                    <i data-lucide="copy" class="w-4 h-4 text-purple-500 shrink-0"></i> Salin Tautan Berkas
-                </button>
-            </div>
-            <div class="pt-2 flex justify-end">
-                <button onclick="toggleChoiceModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Batal</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal Form (Login Admin Password) -->
     <div id="authModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
@@ -294,9 +268,9 @@
     </footer>
 
     <script>
-        // Menggunakan versi v15 untuk memaksa buka di browser murni menggunakan Office Web Viewer URL
-        let folders = JSON.parse(localStorage.getItem('od_folders_v15')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v15')) || [
+        // Menggunakan versi v19 untuk mengembalikan tombol Buka Berkas ke standar asal yang stabil dan permanen
+        let folders = JSON.parse(localStorage.getItem('od_folders_v19')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v19')) || [
             {
                 id: 1,
                 title: "Pengawalan",
@@ -326,7 +300,6 @@
         let activeFolder = null;
         let searchQuery = "";
         let isAdmin = false;
-        let currentChoiceUrl = "";
 
         function showToast(message) {
             const toast = document.getElementById('toastNotification');
@@ -350,38 +323,6 @@
             });
         }
 
-        function toggleChoiceModal(show, title = "", url = "") {
-            const modal = document.getElementById('openChoiceModal');
-            if (show) {
-                currentChoiceUrl = url;
-                document.getElementById('choiceFileTitle').innerText = `Berkas: ${title}`;
-                document.getElementById('btnOpenExcelApp').href = url;
-                modal.classList.remove('hidden');
-                lucide.createIcons();
-            } else {
-                modal.classList.add('hidden');
-            }
-        }
-
-        // Fungsi khusus untuk memaksa buka di tab browser murni tanpa terlempar ke aplikasi Excel
-        function openInBrowserDirect() {
-            if (currentChoiceUrl) {
-                toggleChoiceModal(false);
-                // Membungkus link dengan Office Online Viewer untuk memaksa render dalam bentuk halaman web murni di browser
-                let viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(currentChoiceUrl)}`;
-                window.open(currentChoiceUrl, '_blank');
-            }
-        }
-
-        function copyFileUrlFromModal() {
-            if (currentChoiceUrl) {
-                navigator.clipboard.writeText(currentChoiceUrl).then(() => {
-                    showToast("Tautan berkas berhasil disalin!");
-                    toggleChoiceModal(false);
-                });
-            }
-        }
-
         function toggleAuthModal(show) {
             document.getElementById('authModal').classList.toggle('hidden', !show);
             if (show) document.getElementById('adminPasswordInput').value = '';
@@ -390,7 +331,7 @@
         function handleAdminLogin(e) {
             e.preventDefault();
             const pass = document.getElementById('adminPasswordInput').value;
-            // Password admin baru: irvan11
+            // Password admin: irvan11
             if (pass === "irvan11") {
                 isAdmin = true;
                 toggleAuthModal(false);
@@ -513,8 +454,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v15', JSON.stringify(folders));
-            localStorage.setItem('od_links_v15', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v19', JSON.stringify(folders));
+            localStorage.setItem('od_links_v19', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -549,7 +490,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v15', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v19', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -559,7 +500,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v15', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v19', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -576,7 +517,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v15', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v19', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -586,8 +527,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v15', JSON.stringify(folders));
-                localStorage.setItem('od_links_v15', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v19', JSON.stringify(folders));
+                localStorage.setItem('od_links_v19', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -603,7 +544,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v15', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v19', JSON.stringify(folders));
             renderWorkspace();
         }
 
@@ -774,9 +715,9 @@
                                 <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">${item.description}</p>
                             </div>
                             <div class="mt-5 pt-3 border-t border-slate-200/80 flex justify-end translate-z">
-                                <button onclick="toggleChoiceModal(true, '${item.title.replace(/'/g, "\\'")}', '${item.url}')" class="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-500 cursor-pointer">
+                                <a href="${item.url}" target="_blank" class="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-500">
                                     Buka Berkas <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                                </button>
+                                </a>
                             </div>
                         `;
                         lGrid.appendChild(lCard);
