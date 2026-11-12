@@ -268,9 +268,9 @@
     </footer>
 
     <script>
-        // Menggunakan versi v10 untuk memastikan file Pengawalan langsung mengarah ke link Jakarta Barat-Utara yang benar
-        let folders = JSON.parse(localStorage.getItem('od_folders_v10')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v10')) || [
+        // Menggunakan versi v11 untuk memastikan link Pengawalan menggunakan URL OneDrive yang valid (bebas Error 404)
+        let folders = JSON.parse(localStorage.getItem('od_folders_v11')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v11')) || [
             {
                 id: 1,
                 title: "Pengawalan",
@@ -454,8 +454,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v10', JSON.stringify(folders));
-            localStorage.setItem('od_links_v10', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v11', JSON.stringify(folders));
+            localStorage.setItem('od_links_v11', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -490,7 +490,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v10', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v11', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -500,7 +500,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v10', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v11', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -517,7 +517,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v10', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v11', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -527,8 +527,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v10', JSON.stringify(folders));
-                localStorage.setItem('od_links_v10', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v11', JSON.stringify(folders));
+                localStorage.setItem('od_links_v11', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -544,7 +544,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v10', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v11', JSON.stringify(folders));
             renderWorkspace();
         }
 
