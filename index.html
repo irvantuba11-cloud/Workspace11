@@ -268,11 +268,8 @@
     </footer>
 
     <script>
-        // Data Folder Default (Termasuk Monitoring Sales)
-        let folders = JSON.parse(localStorage.getItem('od_folders_v4')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
-        
-        // Data File / Link Default (Termasuk file Pengawalan & Form Market Share)
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v4')) || [
+        let folders = JSON.parse(localStorage.getItem('od_folders_v5')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v5')) || [
             {
                 id: 1,
                 title: "Pengawalan",
@@ -345,7 +342,7 @@
 
         function handleAdminLogout() {
             isAdmin = false;
-            if (activeFolder === "Semua Berkas" || activeFolder === "Action Plan" || activeFolder === "KPI") {
+            if (activeFolder === "Semua Berkas" || activeFolder === "Action Plan" || activeFolder === "KPI" || activeFolder === "Umum" || activeFolder === "Keuangan") {
                 activeFolder = null;
             }
             renderWorkspace();
@@ -455,8 +452,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v4', JSON.stringify(folders));
-            localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v5', JSON.stringify(folders));
+            localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -491,7 +488,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
         }
@@ -500,7 +497,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -517,7 +514,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -527,8 +524,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v4', JSON.stringify(folders));
-                localStorage.setItem('od_links_v4', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v5', JSON.stringify(folders));
+                localStorage.setItem('od_links_v5', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -544,12 +541,13 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v4', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v5', JSON.stringify(folders));
             renderWorkspace();
         }
 
         function openFolder(folderName) {
-            if ((folderName === "Semua Berkas" || folderName === "Action Plan" || folderName === "KPI") && !isAdmin) {
+            const restrictedFolders = ["Semua Berkas", "Action Plan", "KPI", "Umum", "Keuangan"];
+            if (restrictedFolders.includes(folderName) && !isAdmin) {
                 alert(`Akses Ditolak! Folder ${folderName} hanya dapat dibuka dalam Mode Admin. Silakan Login Admin terlebih dahulu.`);
                 return;
             }
@@ -587,12 +585,15 @@
             const fGrid = document.getElementById('folderGrid');
             fGrid.innerHTML = '';
             
+            const restrictedFolders = ["Semua Berkas", "Action Plan", "KPI", "Umum", "Keuangan"];
+
             folders.forEach((f, idx) => {
-                if (f === "Semua Berkas" && !isAdmin) return;
+                // Sembunyikan folder terbatas jika belum login admin
+                if (restrictedFolders.includes(f) && !isAdmin) return;
 
                 const count = f === "Semua Berkas" ? driveLinks.length : driveLinks.filter(l => l.folder === f).length;
                 const isSelected = activeFolder === f;
-                const isLocked = ((f === "Semua Berkas" || f === "Action Plan" || f === "KPI") && !isAdmin);
+                const isLocked = restrictedFolders.includes(f) && !isAdmin;
 
                 const fLower = f.toLowerCase();
                 const isSalesOrMonitoring = fLower.includes('sales') || fLower.includes('monitoring');
