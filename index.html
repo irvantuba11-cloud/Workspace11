@@ -268,9 +268,9 @@
     </footer>
 
     <script>
-        // Menggunakan versi v7 untuk memaksa reset cache data di HP
-        let folders = JSON.parse(localStorage.getItem('od_folders_v7')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v7')) || [
+        // Menggunakan versi v8 untuk memastikan sinkronisasi penyimpanan persisten stabil di HP & PC
+        let folders = JSON.parse(localStorage.getItem('od_folders_v8')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v8')) || [
             {
                 id: 1,
                 title: "Pengawalan",
@@ -282,7 +282,7 @@
             {
                 id: 2,
                 title: "Form Market Share",
-                url: "https://forms.office.com/",
+                url: "https://forms.cloud.microsoft/r/bWJFCGmaHy",
                 folder: "Monitoring Sales",
                 type: "document",
                 description: "Microsoft Forms"
@@ -331,7 +331,8 @@
         function handleAdminLogin(e) {
             e.preventDefault();
             const pass = document.getElementById('adminPasswordInput').value;
-            if (pass === "Irvantuba11!") {
+            // Password admin baru diperbarui menjadi "irvan11"
+            if (pass === "irvan11") {
                 isAdmin = true;
                 toggleAuthModal(false);
                 renderWorkspace();
@@ -453,8 +454,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v7', JSON.stringify(folders));
-            localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v8', JSON.stringify(folders));
+            localStorage.setItem('od_links_v8', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -489,16 +490,17 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v8', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
+            showToast("Perubahan link berhasil disimpan permanen!");
         }
 
         function deleteLink(id) {
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v8', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -515,7 +517,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v8', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -525,8 +527,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v7', JSON.stringify(folders));
-                localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v8', JSON.stringify(folders));
+                localStorage.setItem('od_links_v8', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -542,7 +544,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v7', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v8', JSON.stringify(folders));
             renderWorkspace();
         }
 
