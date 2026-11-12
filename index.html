@@ -185,7 +185,7 @@
             </div>
             <p id="choiceFileTitle" class="text-xs text-slate-500 font-medium"></p>
             <div class="space-y-2 pt-2">
-                <!-- Fitur Baru: Buka di Tab Baru Chrome/Safari -->
+                <!-- Tombol Buka di Tab Baru: Memakai Office Viewer agar sistem HP membacanya sebagai halaman web biasa di Chrome/Safari -->
                 <a id="btnOpenNewTab" href="#" target="_blank" onclick="toggleChoiceModal(false)" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition-all shadow-xs">
                     <i data-lucide="external-link" class="w-4 h-4 text-indigo-500 shrink-0"></i> Buka di Tab Baru (Chrome / Safari)
                 </a>
@@ -296,9 +296,9 @@
     </footer>
 
     <script>
-        // Menggunakan versi v16 untuk menambahkan fitur "Buka di Tab Baru" secara spesifik
-        let folders = JSON.parse(localStorage.getItem('od_folders_v16')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v16')) || [
+        // Menggunakan versi v17 untuk mengarahkan opsi "Buka di Tab Baru" melalui Office Viewer Web murni
+        let folders = JSON.parse(localStorage.getItem('od_folders_v17')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v17')) || [
             {
                 id: 1,
                 title: "Pengawalan",
@@ -357,9 +357,12 @@
             if (show) {
                 currentChoiceUrl = url;
                 document.getElementById('choiceFileTitle').innerText = `Berkas: ${title}`;
-                // Mengarahkan tombol Buka di Tab Baru langsung ke URL tujuan dengan target _blank
-                document.getElementById('btnOpenNewTab').href = url;
+                
+                // Membungkus link dengan Office Online Viewer agar HP membacanya sebagai halaman web murni di tab browser
+                let viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`;
+                document.getElementById('btnOpenNewTab').href = viewerUrl;
                 document.getElementById('btnOpenExcelApp').href = url;
+                
                 modal.classList.remove('hidden');
                 lucide.createIcons();
             } else {
@@ -507,8 +510,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v16', JSON.stringify(folders));
-            localStorage.setItem('od_links_v16', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v17', JSON.stringify(folders));
+            localStorage.setItem('od_links_v17', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -543,7 +546,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v16', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v17', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -553,7 +556,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v16', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v17', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -570,7 +573,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v16', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v17', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -580,8 +583,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v16', JSON.stringify(folders));
-                localStorage.setItem('od_links_v16', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v17', JSON.stringify(folders));
+                localStorage.setItem('od_links_v17', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -597,7 +600,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v16', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v17', JSON.stringify(folders));
             renderWorkspace();
         }
 
