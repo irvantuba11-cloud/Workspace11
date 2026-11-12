@@ -221,7 +221,7 @@
     <div id="linkModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                <h3 id="linkModalTitle" class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="file-plus" class="text-indigo-600 w-5 h-5"></i> Tambah Tautan OneDrive</h3>
+                <h3 id="linkModalTitle" class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="file-plus" class="text-indigo-600 w-5 h-5"></i> Tambah Tautan Berkas</h3>
                 <button onclick="toggleLinkModal(false)" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <form id="linkForm" onsubmit="handleLinkSubmit(event)" class="space-y-4">
@@ -268,8 +268,9 @@
     </footer>
 
     <script>
-        let folders = JSON.parse(localStorage.getItem('od_folders_v6')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v6')) || [
+        // Menggunakan versi v7 untuk memaksa reset cache data di HP
+        let folders = JSON.parse(localStorage.getItem('od_folders_v7')) || ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v7')) || [
             {
                 id: 1,
                 title: "Pengawalan",
@@ -452,8 +453,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v6', JSON.stringify(folders));
-            localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v7', JSON.stringify(folders));
+            localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -488,7 +489,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
         }
@@ -497,7 +498,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -514,7 +515,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -524,8 +525,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v6', JSON.stringify(folders));
-                localStorage.setItem('od_links_v6', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v7', JSON.stringify(folders));
+                localStorage.setItem('od_links_v7', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -541,7 +542,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v6', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v7', JSON.stringify(folders));
             renderWorkspace();
         }
 
