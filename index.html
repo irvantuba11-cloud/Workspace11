@@ -8,18 +8,11 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         body {
-            /* Background hidup 3D dengan gradasi warna bergerak yang dinamis dan berwarna */
             background: linear-gradient(135deg, #1e1b4b, #312e81, #0f172a, #134e4a, #1e3a8a);
             background-size: 300% 300%;
             animation: gradientAnimation 12s ease infinite;
@@ -62,18 +55,18 @@
             box-shadow: 0 14px 25px rgba(16, 185, 129, 0.2);
         }
         .folder-sales-card {
-            background: linear-gradient(135deg, rgba(153, 246, 228, 0.75) 0%, rgba(255, 255, 255, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(153, 246, 228, 0.8) 0%, rgba(255, 255, 255, 0.98) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(20, 184, 166, 0.6);
+            border: 1px solid rgba(20, 184, 166, 0.7);
             transform-style: preserve-3d;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.25), inset 0 0 18px rgba(255, 255, 255, 0.9);
+            box-shadow: 0 12px 35px rgba(20, 184, 166, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.9);
         }
         .folder-sales-card:hover {
-            transform: translateY(-4px) translateZ(8px);
-            border-color: rgba(20, 184, 166, 0.9);
-            box-shadow: 0 18px 35px rgba(20, 184, 166, 0.35), inset 0 0 22px rgba(255, 255, 255, 1);
+            transform: translateY(-6px) translateZ(10px);
+            border-color: rgba(20, 184, 166, 1);
+            box-shadow: 0 20px 40px rgba(20, 184, 166, 0.4), inset 0 0 25px rgba(255, 255, 255, 1);
         }
         .folder-active {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(79, 70, 229, 0.1) 100%);
@@ -143,11 +136,12 @@
         <!-- Folder Section -->
         <div class="mb-12">
             <div class="flex items-center justify-between mb-5">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-white/80 flex items-center gap-2 drop-shadow-md">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-white/90 flex items-center gap-2 drop-shadow-md">
                     <i data-lucide="layout-grid" class="w-4 h-4"></i> FOLDER UTAMA
                 </h2>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5" id="folderGrid"></div>
+            <!-- Diperbesar grid kartu foldernya agar lebih luas dan mencolok -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="folderGrid"></div>
         </div>
 
         <!-- Folder Content Area -->
@@ -175,15 +169,6 @@
                 <h3 class="text-base font-bold text-slate-700">Belum Ada Data di Folder Ini</h3>
                 <p class="text-slate-500 text-xs mt-1 max-w-xs mx-auto mb-6">Silakan masuk ke Mode Admin untuk menambahkan tautan laporan atau spreadsheet.</p>
             </div>
-        </div>
-
-        <!-- Default State -->
-        <div id="welcomeState" class="text-center py-24 glass-3d-card rounded-2xl border-dashed border-2 border-white/40">
-            <div class="inline-flex p-4 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-full mb-4 shadow-inner">
-                <i data-lucide="folder-kanban" class="w-10 h-10"></i>
-            </div>
-            <h3 class="text-lg font-bold text-slate-800">Pilih Folder untuk Melihat Berkas</h3>
-            <p class="text-slate-500 text-xs mt-1 max-w-sm mx-auto">Silakan klik salah satu kartu folder di atas untuk menampilkan daftar laporan dan tautan monitoring harian.</p>
         </div>
     </main>
 
@@ -307,7 +292,7 @@
     </footer>
 
     <script>
-        // Versi v25 dengan background hidup 3D beranimasi gradasi warna dinamis
+        // Versi v26: Background hidup 3D bergradasi dinamis, ukuran folder diperbesar, dan welcome state disembunyikan sampai folder dipilih
         let defaultFolders = ["Semua Berkas", "Monitoring Sales"];
         let defaultLinks = [
             {
@@ -328,8 +313,8 @@
             }
         ];
 
-        let folders = JSON.parse(localStorage.getItem('od_folders_v25')) || defaultFolders;
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v25')) || defaultLinks;
+        let folders = JSON.parse(localStorage.getItem('od_folders_v26')) || defaultFolders;
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v26')) || defaultLinks;
         
         let activeFolder = null;
         let searchQuery = "";
@@ -524,8 +509,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v25', JSON.stringify(folders));
-            localStorage.setItem('od_links_v25', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v26', JSON.stringify(folders));
+            localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -560,7 +545,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v25', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -570,7 +555,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v25', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -587,7 +572,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v25', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -597,8 +582,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v25', JSON.stringify(folders));
-                localStorage.setItem('od_links_v25', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v26', JSON.stringify(folders));
+                localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -614,7 +599,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v25', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v26', JSON.stringify(folders));
             renderWorkspace();
         }
 
@@ -676,7 +661,7 @@
                 }
 
                 const fCard = document.createElement('div');
-                fCard.className = `${cardStyleClass} p-5 rounded-2xl cursor-pointer flex flex-col justify-between group ${isLocked ? 'opacity-85 border-amber-400/50' : ''}`;
+                fCard.className = `${cardStyleClass} p-6 rounded-2xl cursor-pointer flex flex-col justify-between group ${isLocked ? 'opacity-85 border-amber-400/50' : ''}`;
                 fCard.onclick = () => openFolder(f);
                 
                 let iconType = isSelected ? 'folder-open' : 'folder';
@@ -687,10 +672,6 @@
                     iconColor = 'text-amber-600';
                 } else {
                     if (f === "Semua Berkas") { iconType = 'database'; iconColor = 'text-indigo-600'; }
-                    else if (fLower.includes('kpi')) { iconType = 'trending-up'; iconColor = 'text-purple-600'; }
-                    else if (fLower.includes('action') || fLower.includes('plan')) { iconType = 'target'; iconColor = 'text-emerald-600'; }
-                    else if (fLower.includes('keuang') || fLower.includes('finan')) { iconType = 'wallet'; iconColor = 'text-blue-600'; }
-                    else if (fLower.includes('umum') || fLower.includes('general')) { iconType = 'file-text'; iconColor = 'text-indigo-500'; }
                     else if (isSalesOrMonitoring) { iconType = 'check-square'; iconColor = 'text-teal-600'; }
                 }
 
@@ -701,7 +682,6 @@
                             ${idx > 1 ? `<button onclick="moveFolder(${idx}, -1, event)" title="Geser Kiri" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>` : ''}
                             ${idx < folders.length - 1 ? `<button onclick="moveFolder(${idx}, 1, event)" title="Geser Kanan" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>` : ''}
                             <button onclick="toggleFolderModal(true, '${f}'); event.stopPropagation();" title="Edit Nama" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
-                            ${(f !== "Umum" && f !== "Keuangan" && f !== "Action Plan" && f !== "KPI") ? `<button onclick="deleteFolder('${f}', event)" title="Hapus Folder" class="p-1 text-slate-500 hover:text-red-500 cursor-pointer"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>` : ''}
                         </div>
                     `;
                 }
@@ -709,27 +689,24 @@
                 fCard.innerHTML = `
                     <div class="flex items-start justify-between w-full translate-z">
                         <div class="flex items-center gap-2">
-                            <i data-lucide="${iconType}" class="w-8 h-8 ${iconColor}"></i>
+                            <i data-lucide="${iconType}" class="w-10 h-10 ${iconColor}"></i>
                             ${isLocked ? '<span class="px-2 py-0.5 bg-amber-100 text-amber-700 text-[9px] font-bold rounded-md tracking-wider">Terkunci</span>' : ''}
                         </div>
                         ${actionButtons}
                     </div>
-                    <div class="mt-5 translate-z">
-                        <h4 class="text-sm font-bold truncate text-slate-800">${f}</h4>
-                        <p class="text-[11px] mt-0.5 text-slate-500">${count} Berkas Data</p>
+                    <div class="mt-6 translate-z">
+                        <h4 class="text-base font-bold truncate text-slate-800">${f}</h4>
+                        <p class="text-xs mt-1 text-slate-500 font-medium">${count} Berkas Data</p>
                     </div>
                 `;
                 fGrid.appendChild(fCard);
             });
 
-            const welcomeState = document.getElementById('welcomeState');
             const folderContentContainer = document.getElementById('folderContentContainer');
 
             if (activeFolder === null) {
-                welcomeState.classList.remove('hidden');
                 folderContentContainer.classList.add('hidden');
             } else {
-                welcomeState.classList.add('hidden');
                 folderContentContainer.classList.remove('hidden');
                 document.getElementById('activeFolderName').innerText = activeFolder;
 
