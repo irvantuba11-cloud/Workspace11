@@ -296,8 +296,8 @@
     </footer>
 
     <script>
-        // Menggunakan versi v23 agar sinkronisasi data dari kode (GitHub) otomatis langsung termuat di HP & Laptop
-        let defaultFolders = ["Semua Berkas", "Action Plan", "KPI", "Monitoring Sales", "Umum", "Keuangan"];
+        // Versi v24: Folder KPI, Umum, Keuangan, dan Action Plan telah dihapus, serta Auto-Sync aktif
+        let defaultFolders = ["Semua Berkas", "Monitoring Sales"];
         let defaultLinks = [
             {
                 id: 1,
@@ -314,20 +314,11 @@
                 folder: "Monitoring Sales",
                 type: "document",
                 description: "Microsoft Forms"
-            },
-            {
-                id: 3,
-                title: "Contoh File Spreadsheet Utama",
-                url: "https://1drv.ms/x/c/3BAB06E241E4805E/IQBantdCmYVzTKmDbmjLa1bDAZEBYGsjgWXUFIS8LPzV-tA?e=ZP15h5",
-                folder: "Keuangan",
-                type: "excel",
-                description: "File database atau spreadsheet referensi dari tautan contoh yang Anda berikan."
             }
         ];
 
-        // Sinkronisasi otomatis agar perubahan dari GitHub langsung menimpa cache lama di HP/Laptop
-        let folders = JSON.parse(localStorage.getItem('od_folders_v23')) || defaultFolders;
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v23')) || defaultLinks;
+        let folders = JSON.parse(localStorage.getItem('od_folders_v24')) || defaultFolders;
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v24')) || defaultLinks;
         
         let activeFolder = null;
         let searchQuery = "";
@@ -412,7 +403,7 @@
 
         function handleAdminLogout() {
             isAdmin = false;
-            if (activeFolder === "Semua Berkas" || activeFolder === "Action Plan" || activeFolder === "KPI" || activeFolder === "Umum" || activeFolder === "Keuangan") {
+            if (activeFolder === "Semua Berkas" || activeFolder === "Monitoring Sales") {
                 activeFolder = null;
             }
             renderWorkspace();
@@ -522,8 +513,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v23', JSON.stringify(folders));
-            localStorage.setItem('od_links_v23', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v24', JSON.stringify(folders));
+            localStorage.setItem('od_links_v24', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -558,7 +549,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v23', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v24', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -568,7 +559,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v23', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v24', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -585,7 +576,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v23', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v24', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -595,8 +586,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v23', JSON.stringify(folders));
-                localStorage.setItem('od_links_v23', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v24', JSON.stringify(folders));
+                localStorage.setItem('od_links_v24', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -612,7 +603,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v23', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v24', JSON.stringify(folders));
             renderWorkspace();
         }
 
