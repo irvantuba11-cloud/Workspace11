@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My WorkSpace - Daily Monitoring System</title>
+    <link rel="manifest" href="manifest.json">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -671,7 +672,6 @@
                     iconColor = 'text-amber-600';
                 } else {
                     if (f === "Semua Berkas") { iconType = 'database'; iconColor = 'text-indigo-600'; }
-                    // Menggunakan ikon file-spreadsheet bernuansa Teal modern untuk folder Monitoring Sales
                     else if (isSalesOrMonitoring) { iconType = 'file-spreadsheet'; iconColor = 'text-teal-700'; }
                 }
 
