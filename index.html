@@ -55,18 +55,18 @@
             box-shadow: 0 14px 25px rgba(16, 185, 129, 0.2);
         }
         .folder-sales-card {
-            background: linear-gradient(135deg, rgba(153, 246, 228, 0.8) 0%, rgba(255, 255, 255, 0.98) 100%);
+            background: linear-gradient(135deg, rgba(204, 251, 241, 0.9) 0%, rgba(255, 255, 255, 0.98) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(20, 184, 166, 0.7);
+            border: 2px solid rgba(13, 148, 136, 0.8);
             transform-style: preserve-3d;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 12px 35px rgba(20, 184, 166, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.9);
+            box-shadow: 0 12px 35px rgba(13, 148, 136, 0.35), inset 0 0 20px rgba(255, 255, 255, 1);
         }
         .folder-sales-card:hover {
             transform: translateY(-6px) translateZ(10px);
-            border-color: rgba(20, 184, 166, 1);
-            box-shadow: 0 20px 40px rgba(20, 184, 166, 0.4), inset 0 0 25px rgba(255, 255, 255, 1);
+            border-color: rgba(13, 148, 136, 1);
+            box-shadow: 0 20px 40px rgba(13, 148, 136, 0.5), inset 0 0 25px rgba(255, 255, 255, 1);
         }
         .folder-active {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(79, 70, 229, 0.1) 100%);
@@ -140,7 +140,6 @@
                     <i data-lucide="layout-grid" class="w-4 h-4"></i> FOLDER UTAMA
                 </h2>
             </div>
-            <!-- Diperbesar grid kartu foldernya agar lebih luas dan mencolok -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="folderGrid"></div>
         </div>
 
@@ -292,7 +291,7 @@
     </footer>
 
     <script>
-        // Versi v26: Background hidup 3D bergradasi dinamis, ukuran folder diperbesar, dan welcome state disembunyikan sampai folder dipilih
+        // Versi v27: Ikon folder Monitoring Sales diganti menjadi ikon laporan/spreadsheet 3D bernuansa Teal-Emerald yang profesional dan kontras
         let defaultFolders = ["Semua Berkas", "Monitoring Sales"];
         let defaultLinks = [
             {
@@ -313,8 +312,8 @@
             }
         ];
 
-        let folders = JSON.parse(localStorage.getItem('od_folders_v26')) || defaultFolders;
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v26')) || defaultLinks;
+        let folders = JSON.parse(localStorage.getItem('od_folders_v27')) || defaultFolders;
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v27')) || defaultLinks;
         
         let activeFolder = null;
         let searchQuery = "";
@@ -509,8 +508,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v26', JSON.stringify(folders));
-            localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v27', JSON.stringify(folders));
+            localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -545,7 +544,7 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -555,7 +554,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -572,7 +571,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -582,8 +581,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v26', JSON.stringify(folders));
-                localStorage.setItem('od_links_v26', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v27', JSON.stringify(folders));
+                localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -599,7 +598,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v26', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v27', JSON.stringify(folders));
             renderWorkspace();
         }
 
@@ -672,7 +671,8 @@
                     iconColor = 'text-amber-600';
                 } else {
                     if (f === "Semua Berkas") { iconType = 'database'; iconColor = 'text-indigo-600'; }
-                    else if (isSalesOrMonitoring) { iconType = 'check-square'; iconColor = 'text-teal-600'; }
+                    // Menggunakan ikon file-spreadsheet bernuansa Teal modern untuk folder Monitoring Sales
+                    else if (isSalesOrMonitoring) { iconType = 'file-spreadsheet'; iconColor = 'text-teal-700'; }
                 }
 
                 let actionButtons = '';
@@ -689,14 +689,14 @@
                 fCard.innerHTML = `
                     <div class="flex items-start justify-between w-full translate-z">
                         <div class="flex items-center gap-2">
-                            <i data-lucide="${iconType}" class="w-10 h-10 ${iconColor}"></i>
+                            <i data-lucide="${iconType}" class="w-10 h-10 ${iconColor} drop-shadow-sm"></i>
                             ${isLocked ? '<span class="px-2 py-0.5 bg-amber-100 text-amber-700 text-[9px] font-bold rounded-md tracking-wider">Terkunci</span>' : ''}
                         </div>
                         ${actionButtons}
                     </div>
                     <div class="mt-6 translate-z">
-                        <h4 class="text-base font-bold truncate text-slate-800">${f}</h4>
-                        <p class="text-xs mt-1 text-slate-500 font-medium">${count} Berkas Data</p>
+                        <h4 class="text-base font-bold truncate text-slate-900">${f}</h4>
+                        <p class="text-xs mt-1 text-slate-600 font-semibold">${count} Berkas Data</p>
                     </div>
                 `;
                 fGrid.appendChild(fCard);
