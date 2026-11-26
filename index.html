@@ -13,7 +13,7 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #050c1a;
+            background-color: #040916;
             perspective: 1200px;
             min-height: 100vh;
             width: 100%;
@@ -25,7 +25,7 @@
             inset: 0;
             z-index: -2;
             pointer-events: none;
-            background: radial-gradient(circle at 50% 22%, #173875 0%, #0b1b3d 48%, #040914 100%);
+            background: radial-gradient(circle at 50% 24%, #132e63 0%, #091836 52%, #030712 100%);
             overflow: hidden;
         }
         .city-skyline-backdrop svg {
@@ -38,7 +38,7 @@
             inset: 0;
             z-index: -1;
             pointer-events: none;
-            background: linear-gradient(180deg, rgba(4, 10, 24, 0.14) 0%, rgba(4, 10, 24, 0.04) 55%, rgba(2, 6, 16, 0.28) 100%);
+            background: linear-gradient(180deg, rgba(3, 8, 20, 0.16) 0%, rgba(3, 8, 20, 0.05) 55%, rgba(2, 6, 15, 0.28) 100%);
         }
         .glass-3d-nav {
             background: rgba(255, 255, 255, 0.95);
@@ -188,166 +188,229 @@
 </head>
 <body class="min-h-screen text-slate-800 antialiased pb-12 flex flex-col justify-between">
 
-    <!-- Latar Belakang Siluet Kota & Gedung Perkantoran Modern (SVG HD) -->
+    <!-- Latar Belakang Kota Jakarta Malam Futuristik + Jalan Raya + Billboard "urip iku urup" -->
     <div class="city-skyline-backdrop" aria-hidden="true">
         <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#040916"/>
-                    <stop offset="45%" stop-color="#0a1d42"/>
-                    <stop offset="78%" stop-color="#133169"/>
-                    <stop offset="100%" stop-color="#071226"/>
+                <!-- Langit Malam Biru Tua Tenang -->
+                <linearGradient id="jktNightSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#030712"/>
+                    <stop offset="48%" stop-color="#081530"/>
+                    <stop offset="82%" stop-color="#102754"/>
+                    <stop offset="100%" stop-color="#060f24"/>
                 </linearGradient>
-                <radialGradient id="horizonGlow" cx="52%" cy="68%" r="55%">
-                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.26"/>
-                    <stop offset="45%" stop-color="#1d4ed8" stop-opacity="0.16"/>
-                    <stop offset="100%" stop-color="#040916" stop-opacity="0"/>
+
+                <!-- Cahaya Cakrawala Sudirman-Thamrin -->
+                <radialGradient id="jktHorizonGlow" cx="50%" cy="68%" r="58%">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.18"/>
+                    <stop offset="50%" stop-color="#1d4ed8" stop-opacity="0.12"/>
+                    <stop offset="100%" stop-color="#030712" stop-opacity="0"/>
                 </radialGradient>
-                <linearGradient id="bldgBack" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#142d5e"/>
-                    <stop offset="100%" stop-color="#08142b"/>
+
+                <!-- Siluet Gedung Belakang & Tengah -->
+                <linearGradient id="jktTowerFar" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#112752"/>
+                    <stop offset="100%" stop-color="#061024"/>
                 </linearGradient>
-                <linearGradient id="bldgMid" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#102752"/>
-                    <stop offset="50%" stop-color="#091836"/>
-                    <stop offset="100%" stop-color="#050e21"/>
+                <linearGradient id="jktTowerMid" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#0d2047"/>
+                    <stop offset="55%" stop-color="#07132b"/>
+                    <stop offset="100%" stop-color="#040b1a"/>
                 </linearGradient>
-                <linearGradient id="bldgFront" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#0a1936"/>
-                    <stop offset="100%" stop-color="#030814"/>
+                <linearGradient id="jktTowerNear" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#091733"/>
+                    <stop offset="100%" stop-color="#030712"/>
                 </linearGradient>
-                <linearGradient id="glassHighlight" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.22"/>
-                    <stop offset="60%" stop-color="#1e40af" stop-opacity="0.08"/>
-                    <stop offset="100%" stop-color="#030814" stop-opacity="0"/>
-                </linearGradient>
-                <pattern id="officeWinA" width="18" height="22" patternUnits="userSpaceOnUse">
-                    <rect x="3" y="4" width="5" height="9" rx="0.6" fill="#7dd3fc" fill-opacity="0.32"/>
-                    <rect x="11" y="4" width="5" height="9" rx="0.6" fill="#e0f2fe" fill-opacity="0.14"/>
-                    <rect x="3" y="15" width="5" height="5" rx="0.6" fill="#38bdf8" fill-opacity="0.18"/>
-                    <rect x="11" y="15" width="5" height="5" rx="0.6" fill="#fde68a" fill-opacity="0.22"/>
+
+                <!-- Pola Jendela Gedung Perkantoran Halus -->
+                <pattern id="jktWinGrid" width="16" height="20" patternUnits="userSpaceOnUse">
+                    <rect x="3" y="4" width="4.5" height="8" rx="0.5" fill="#93c5fd" fill-opacity="0.22"/>
+                    <rect x="10" y="4" width="4.5" height="8" rx="0.5" fill="#e0f2fe" fill-opacity="0.10"/>
+                    <rect x="3" y="14" width="4.5" height="4" rx="0.5" fill="#38bdf8" fill-opacity="0.14"/>
+                    <rect x="10" y="14" width="4.5" height="4" rx="0.5" fill="#fde68a" fill-opacity="0.15"/>
                 </pattern>
-                <pattern id="officeWinB" width="14" height="18" patternUnits="userSpaceOnUse">
-                    <rect x="2" y="3" width="10" height="3.5" rx="0.5" fill="#bae6fd" fill-opacity="0.26"/>
-                    <rect x="2" y="9" width="10" height="3.5" rx="0.5" fill="#38bdf8" fill-opacity="0.14"/>
-                    <rect x="2" y="14" width="10" height="2.5" rx="0.5" fill="#fef08a" fill-opacity="0.20"/>
+                <pattern id="jktWinStrip" width="14" height="16" patternUnits="userSpaceOnUse">
+                    <rect x="2" y="3" width="10" height="3" rx="0.5" fill="#bae6fd" fill-opacity="0.18"/>
+                    <rect x="2" y="9" width="10" height="3" rx="0.5" fill="#60a5fa" fill-opacity="0.12"/>
                 </pattern>
-                <pattern id="officeWinWarm" width="20" height="24" patternUnits="userSpaceOnUse">
-                    <rect x="3" y="4" width="6" height="8" rx="0.6" fill="#fde68a" fill-opacity="0.28"/>
-                    <rect x="12" y="4" width="6" height="8" rx="0.6" fill="#93c5fd" fill-opacity="0.24"/>
-                    <rect x="3" y="15" width="6" height="6" rx="0.6" fill="#60a5fa" fill-opacity="0.16"/>
-                </pattern>
-                <linearGradient id="groundMist" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#071329" stop-opacity="0"/>
-                    <stop offset="65%" stop-color="#061024" stop-opacity="0.65"/>
-                    <stop offset="100%" stop-color="#030813" stop-opacity="0.96"/>
+
+                <!-- Jalan Raya Malam Jakarta & Jalur Layang -->
+                <linearGradient id="roadAsphalt" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#071226"/>
+                    <stop offset="45%" stop-color="#0b1b38"/>
+                    <stop offset="100%" stop-color="#040914"/>
+                </linearGradient>
+                <linearGradient id="roadLightTrailCyan" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.05"/>
+                    <stop offset="50%" stop-color="#7dd3fc" stop-opacity="0.65"/>
+                    <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.1"/>
+                </linearGradient>
+                <linearGradient id="roadLightTrailAmber" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#fde68a" stop-opacity="0.08"/>
+                    <stop offset="50%" stop-color="#fcd34d" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#fde68a" stop-opacity="0.05"/>
+                </linearGradient>
+
+                <!-- Panel Billboard Jalan Polos Elegan -->
+                <linearGradient id="billboardFrame" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1e293b"/>
+                    <stop offset="100%" stop-color="#090f1d"/>
+                </linearGradient>
+                <linearGradient id="billboardScreen" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#0c1e42"/>
+                    <stop offset="55%" stop-color="#091633"/>
+                    <stop offset="100%" stop-color="#050d21"/>
                 </linearGradient>
             </defs>
 
-            <rect width="1920" height="1080" fill="url(#skyGrad)"/>
-            <rect width="1920" height="1080" fill="url(#horizonGlow)"/>
+            <!-- Langit & Cahaya Horizon -->
+            <rect width="1920" height="1080" fill="url(#jktNightSky)"/>
+            <rect width="1920" height="1080" fill="url(#jktHorizonGlow)"/>
 
-            <g fill="#bae6fd" opacity="0.35">
-                <circle cx="180" cy="120" r="1.2"/><circle cx="340" cy="85" r="1.5"/>
-                <circle cx="520" cy="150" r="1"/><circle cx="790" cy="95" r="1.3"/>
-                <circle cx="1060" cy="115" r="1.1"/><circle cx="1290" cy="80" r="1.6"/>
-                <circle cx="1540" cy="140" r="1.2"/><circle cx="1760" cy="100" r="1.4"/>
+            <!-- Bintang Tipis -->
+            <g fill="#bae6fd" opacity="0.28">
+                <circle cx="210" cy="110" r="1.2"/><circle cx="430" cy="75" r="1.4"/>
+                <circle cx="690" cy="130" r="1"/><circle cx="960" cy="85" r="1.3"/>
+                <circle cx="1220" cy="120" r="1.1"/><circle cx="1490" cy="70" r="1.5"/>
+                <circle cx="1740" cy="115" r="1.2"/>
             </g>
 
-            <g fill="url(#bldgBack)" opacity="0.88">
-                <rect x="20" y="540" width="95" height="540"/>
-                <rect x="130" y="470" width="110" height="610"/><polygon points="130,470 185,435 240,470"/>
-                <rect x="260" y="510" width="85" height="570"/>
-                <rect x="370" y="410" width="115" height="670"/><rect x="424" y="340" width="6" height="70"/>
-                <rect x="510" y="490" width="100" height="590"/>
-                <rect x="635" y="380" width="120" height="700"/><rect x="655" y="355" width="80" height="25"/>
-                <rect x="780" y="460" width="95" height="620"/>
-                <rect x="900" y="350" width="130" height="730"/><polygon points="900,350 1030,310 1030,350"/><rect x="962" y="255" width="5" height="65"/>
-                <rect x="1060" y="440" width="105" height="640"/>
-                <rect x="1190" y="390" width="125" height="690"/>
-                <rect x="1340" y="480" width="95" height="600"/>
-                <rect x="1460" y="370" width="130" height="710"/><rect x="1522" y="300" width="6" height="70"/>
-                <rect x="1615" y="450" width="110" height="630"/>
-                <rect x="1750" y="420" width="100" height="660"/>
-                <rect x="1865" y="510" width="75" height="570"/>
+            <!-- Lapisan 1: Siluet Gedung Pencakar Langit Jakarta (Jauh) -->
+            <g fill="url(#jktTowerFar)" opacity="0.86">
+                <rect x="30" y="470" width="90" height="440"/>
+                <rect x="145" y="390" width="115" height="520"/>
+                <rect x="285" y="440" width="85" height="470"/>
+                <rect x="395" y="330" width="110" height="580"/><rect x="447" y="260" width="5" height="70"/>
+                <rect x="530" y="410" width="95" height="500"/>
+                <rect x="650" y="290" width="125" height="620"/><polygon points="650,290 712,250 775,290"/>
+                <rect x="800" y="370" width="105" height="540"/>
+                <rect x="930" y="255" width="135" height="655"/><polygon points="930,255 1065,215 1065,255"/><rect x="995" y="155" width="5" height="65"/>
+                <rect x="1095" y="350" width="110" height="560"/>
+                <rect x="1230" y="305" width="130" height="605"/>
+                <rect x="1385" y="395" width="95" height="515"/>
+                <rect x="1505" y="285" width="130" height="625"/><rect x="1567" y="215" width="5" height="70"/>
+                <rect x="1660" y="375" width="115" height="535"/>
+                <rect x="1800" y="425" width="100" height="485"/>
             </g>
 
+            <!-- Lapisan 2: Gedung Perkantoran Modern Jakarta (Tengah) -->
             <g>
-                <rect x="65" y="520" width="125" height="560" fill="url(#bldgMid)"/>
-                <rect x="77" y="535" width="101" height="460" fill="url(#officeWinA)"/>
-                <rect x="65" y="520" width="28" height="560" fill="url(#glassHighlight)"/>
+                <!-- Menara Kiri -->
+                <rect x="95" y="440" width="130" height="470" fill="url(#jktTowerMid)"/>
+                <rect x="110" y="458" width="100" height="390" fill="url(#jktWinGrid)"/>
+                <line x1="95" y1="440" x2="225" y2="440" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="1.5"/>
 
-                <rect x="220" y="430" width="135" height="650" fill="url(#bldgMid)"/>
-                <rect x="242" y="395" width="91" height="35" fill="#132d5e"/>
-                <rect x="285" y="330" width="5" height="65" fill="#38bdf8" opacity="0.65"/>
-                <circle cx="287.5" cy="328" r="3" fill="#ef4444"/>
-                <rect x="234" y="445" width="107" height="540" fill="url(#officeWinB)"/>
-                <rect x="220" y="430" width="32" height="650" fill="url(#glassHighlight)"/>
+                <!-- Menara Ikonik Jakarta Kiri-Tengah -->
+                <rect x="275" y="340" width="140" height="570" fill="url(#jktTowerMid)"/>
+                <rect x="300" y="310" width="90" height="30" fill="#122957"/>
+                <rect x="342" y="235" width="4.5" height="75" fill="#7dd3fc" opacity="0.6"/>
+                <circle cx="344.2" cy="233" r="2.8" fill="#ef4444"/>
+                <rect x="292" y="358" width="106" height="480" fill="url(#jktWinStrip)"/>
 
-                <rect x="445" y="365" width="145" height="715" fill="url(#bldgMid)"/>
-                <polygon points="445,365 590,330 590,365" fill="#173875"/>
-                <rect x="462" y="382" width="111" height="590" fill="url(#officeWinWarm)"/>
-                <rect x="445" y="365" width="35" height="715" fill="url(#glassHighlight)"/>
+                <!-- Menara Tengah -->
+                <rect x="575" y="275" width="155" height="635" fill="url(#jktTowerMid)"/>
+                <polygon points="575,275 730,240 730,275" fill="#153269"/>
+                <rect x="650" y="170" width="4.5" height="75" fill="#7dd3fc" opacity="0.65"/>
+                <circle cx="652.2" cy="168" r="3" fill="#38bdf8"/>
+                <rect x="594" y="295" width="117" height="540" fill="url(#jktWinGrid)"/>
 
-                <rect x="715" y="325" width="155" height="755" fill="url(#bldgMid)"/>
-                <rect x="735" y="295" width="115" height="30" fill="#173875"/>
-                <rect x="790" y="220" width="5" height="75" fill="#7dd3fc" opacity="0.7"/>
-                <circle cx="792.5" cy="218" r="3.2" fill="#38bdf8"/>
-                <rect x="732" y="345" width="121" height="630" fill="url(#officeWinA)"/>
-                <rect x="715" y="325" width="40" height="755" fill="url(#glassHighlight)"/>
+                <!-- Menara Tengah-Kanan -->
+                <rect x="855" y="325" width="145" height="585" fill="url(#jktTowerMid)"/>
+                <rect x="873" y="345" width="109" height="490" fill="url(#jktWinStrip)"/>
 
-                <rect x="985" y="390" width="140" height="690" fill="url(#bldgMid)"/>
-                <polygon points="985,390 1125,425 1125,390" fill="#071226"/>
-                <rect x="1002" y="430" width="106" height="545" fill="url(#officeWinB)"/>
-                <rect x="985" y="390" width="32" height="690" fill="url(#glassHighlight)"/>
+                <!-- Menara Kanan Tinggi (Gaya Thamrin Nine / Autograph) -->
+                <rect x="1145" y="245" width="160" height="665" fill="url(#jktTowerMid)"/>
+                <rect x="1168" y="212" width="114" height="33" fill="#132d5e"/>
+                <rect x="1186" y="185" width="78" height="27" fill="#183875"/>
+                <rect x="1223" y="115" width="4.5" height="70" fill="#bae6fd" opacity="0.7"/>
+                <circle cx="1225.2" cy="113" r="3" fill="#38bdf8"/>
+                <rect x="1165" y="265" width="120" height="570" fill="url(#jktWinGrid)"/>
 
-                <rect x="1250" y="340" width="160" height="740" fill="url(#bldgMid)"/>
-                <rect x="1272" y="310" width="116" height="30" fill="#153269"/>
-                <rect x="1328" y="240" width="5" height="70" fill="#7dd3fc" opacity="0.65"/>
-                <circle cx="1330.5" cy="238" r="3" fill="#ef4444"/>
-                <rect x="1268" y="358" width="124" height="610" fill="url(#officeWinWarm)"/>
-                <rect x="1250" y="340" width="38" height="740" fill="url(#glassHighlight)"/>
-
-                <rect x="1555" y="420" width="145" height="660" fill="url(#bldgMid)"/>
-                <rect x="1573" y="438" width="109" height="530" fill="url(#officeWinA)"/>
-                <rect x="1555" y="420" width="34" height="660" fill="url(#glassHighlight)"/>
-
-                <rect x="1765" y="485" width="130" height="595" fill="url(#bldgMid)"/>
-                <rect x="1780" y="502" width="100" height="470" fill="url(#officeWinB)"/>
+                <!-- Menara Kanan -->
+                <rect x="1595" y="345" width="145" height="565" fill="url(#jktTowerMid)"/>
+                <rect x="1613" y="365" width="109" height="475" fill="url(#jktWinStrip)"/>
             </g>
 
+            <!-- Lapisan 3: Gedung Depan Kiri & Kanan -->
             <g>
-                <rect x="0" y="610" width="110" height="470" fill="url(#bldgFront)"/>
-                <rect x="14" y="628" width="82" height="360" fill="url(#officeWinB)" opacity="0.7"/>
+                <rect x="0" y="530" width="120" height="380" fill="url(#jktTowerNear)"/>
+                <rect x="16" y="550" width="88" height="310" fill="url(#jktWinStrip)" opacity="0.7"/>
 
-                <rect x="330" y="560" width="140" height="520" fill="url(#bldgFront)"/>
-                <rect x="348" y="578" width="104" height="400" fill="url(#officeWinA)" opacity="0.75"/>
-                <line x1="330" y1="560" x2="470" y2="560" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="2"/>
+                <rect x="445" y="485" width="145" height="425" fill="url(#jktTowerNear)"/>
+                <rect x="464" y="505" width="107" height="350" fill="url(#jktWinGrid)" opacity="0.75"/>
+                <line x1="445" y1="485" x2="590" y2="485" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1.5"/>
 
-                <rect x="575" y="505" width="165" height="575" fill="url(#bldgFront)"/>
-                <rect x="595" y="525" width="125" height="450" fill="url(#officeWinB)" opacity="0.8"/>
-                <line x1="575" y1="505" x2="740" y2="505" stroke="#7dd3fc" stroke-opacity="0.4" stroke-width="2"/>
+                <rect x="1005" y="495" width="145" height="415" fill="url(#jktTowerNear)"/>
+                <rect x="1024" y="515" width="107" height="340" fill="url(#jktWinStrip)" opacity="0.75"/>
 
-                <rect x="855" y="545" width="150" height="535" fill="url(#bldgFront)"/>
-                <rect x="874" y="564" width="112" height="410" fill="url(#officeWinWarm)" opacity="0.72"/>
-                <line x1="855" y1="545" x2="1005" y2="545" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="2"/>
-
-                <rect x="1115" y="515" width="155" height="565" fill="url(#bldgFront)"/>
-                <rect x="1135" y="535" width="115" height="430" fill="url(#officeWinA)" opacity="0.78"/>
-                <line x1="1115" y1="515" x2="1270" y2="515" stroke="#7dd3fc" stroke-opacity="0.4" stroke-width="2"/>
-
-                <rect x="1400" y="575" width="165" height="505" fill="url(#bldgFront)"/>
-                <rect x="1420" y="594" width="125" height="390" fill="url(#officeWinB)" opacity="0.72"/>
-
-                <rect x="1685" y="550" width="135" height="530" fill="url(#bldgFront)"/>
-                <rect x="1702" y="568" width="101" height="410" fill="url(#officeWinA)" opacity="0.75"/>
+                <rect x="1765" y="500" width="155" height="410" fill="url(#jktTowerNear)"/>
+                <rect x="1784" y="520" width="117" height="340" fill="url(#jktWinGrid)" opacity="0.72"/>
             </g>
 
-            <rect x="0" y="920" width="1920" height="160" fill="url(#groundMist)"/>
-            <g opacity="0.55">
-                <line x1="0" y1="1012" x2="1920" y2="1012" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="28 18"/>
-                <line x1="0" y1="1024" x2="1920" y2="1024" stroke="#fde68a" stroke-width="1.2" stroke-dasharray="16 26"/>
-                <line x1="0" y1="1040" x2="1920" y2="1040" stroke="#60a5fa" stroke-width="2" stroke-dasharray="45 22"/>
+            <!-- Jembatan Layang / Flyover Futuristik Jakarta -->
+            <g>
+                <path d="M0 845 Q 680 805 1920 848 L 1920 868 Q 680 825 0 865 Z" fill="#0c1d3d" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="1.2"/>
+                <!-- Pilar Flyover -->
+                <rect x="260" y="852" width="16" height="65" fill="#08142b"/>
+                <rect x="640" y="838" width="16" height="75" fill="#08142b"/>
+                <rect x="1040" y="836" width="16" height="75" fill="#08142b"/>
+                <rect x="1480" y="844" width="16" height="70" fill="#08142b"/>
+                <!-- Lampu Jalan Flyover -->
+                <g fill="#bae6fd" opacity="0.8">
+                    <circle cx="180" cy="842" r="2.2"/><circle cx="380" cy="834" r="2.2"/>
+                    <circle cx="580" cy="829" r="2.2"/><circle cx="780" cy="827" r="2.2"/>
+                    <circle cx="980" cy="828" r="2.2"/><circle cx="1180" cy="831" r="2.2"/>
+                    <circle cx="1380" cy="835" r="2.2"/><circle cx="1580" cy="840" r="2.2"/>
+                    <circle cx="1780" cy="845" r="2.2"/>
+                </g>
+            </g>
+
+            <!-- Jalan Raya Utama Kota Jakarta Malam Hari (Perspektif Lebar) -->
+            <g>
+                <!-- Badan Jalan Aspal -->
+                <polygon points="0,895 1920,895 1920,1080 0,1080" fill="url(#roadAsphalt)"/>
+                <!-- Trotoar & Pembatas Jalan -->
+                <line x1="0" y1="895" x2="1920" y2="895" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="2"/>
+                <line x1="0" y1="900" x2="1920" y2="900" stroke="#1e3a8a" stroke-opacity="0.7" stroke-width="3"/>
+
+                <!-- Marka Jalan Putus-Putus Perspektif -->
+                <line x1="0" y1="948" x2="1920" y2="948" stroke="#93c5fd" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="42 28"/>
+                <line x1="0" y1="996" x2="1920" y2="996" stroke="#e0f2fe" stroke-opacity="0.48" stroke-width="2.5" stroke-dasharray="56 34"/>
+                <line x1="0" y1="1044" x2="1920" y2="1044" stroke="#60a5fa" stroke-opacity="0.32" stroke-width="2" stroke-dasharray="48 30"/>
+
+                <!-- Jejak Cahaya Kendaraan Malam (Light Trails Futuristik Halus) -->
+                <rect x="110" y="925" width="380" height="3.5" rx="1.75" fill="url(#roadLightTrailCyan)"/>
+                <rect x="690" y="932" width="460" height="3" rx="1.5" fill="url(#roadLightTrailAmber)"/>
+                <rect x="1290" y="923" width="420" height="3.5" rx="1.75" fill="url(#roadLightTrailCyan)"/>
+
+                <rect x="220" y="972" width="510" height="4" rx="2" fill="url(#roadLightTrailAmber)"/>
+                <rect x="910" y="978" width="560" height="4.5" rx="2.25" fill="url(#roadLightTrailCyan)"/>
+
+                <rect x="80" y="1020" width="490" height="4.5" rx="2.25" fill="url(#roadLightTrailCyan)"/>
+                <rect x="760" y="1025" width="610" height="4" rx="2" fill="url(#roadLightTrailAmber)"/>
+                <rect x="1460" y="1018" width="380" height="4.5" rx="2.25" fill="url(#roadLightTrailCyan)"/>
+            </g>
+
+            <!-- Billboard Tepi Jalan dengan Tulisan Polos Elegan "urip iku urup" -->
+            <g transform="translate(1315, 645)">
+                <!-- Tiang Penyangga Billboard -->
+                <rect x="162" y="132" width="22" height="122" fill="#0b152b" stroke="#334155" stroke-width="1.2"/>
+                <rect x="167" y="132" width="5" height="122" fill="#1e3a8a" opacity="0.6"/>
+                <!-- Dudukan Bawah -->
+                <rect x="148" y="246" width="50" height="10" rx="2" fill="#0f172a" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="1"/>
+
+                <!-- Rangka Luar Billboard -->
+                <rect x="0" y="0" width="346" height="134" rx="10" fill="url(#billboardFrame)" stroke="#60a5fa" stroke-opacity="0.55" stroke-width="2"/>
+                <!-- Layar Dalam Billboard -->
+                <rect x="10" y="10" width="326" height="114" rx="6" fill="url(#billboardScreen)" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1"/>
+
+                <!-- Sorot Lampu Atas Billboard Halus -->
+                <line x1="48" y1="4" x2="96" y2="4" stroke="#bae6fd" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+                <line x1="149" y1="4" x2="197" y2="4" stroke="#bae6fd" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+                <line x1="250" y1="4" x2="298" y2="4" stroke="#bae6fd" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+
+                <!-- Tulisan Polos & Bersih "urip iku urup" -->
+                <text x="173" y="75" text-anchor="middle" fill="#f8fafc" font-family="'Plus Jakarta Sans', sans-serif" font-size="31" font-weight="700" letter-spacing="1.5">urip iku urup</text>
             </g>
         </svg>
     </div>
@@ -613,8 +676,8 @@
             }
         ];
 
-        let folders = JSON.parse(localStorage.getItem('od_folders_v34')) || defaultFolders;
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v34')) || defaultLinks;
+        let folders = JSON.parse(localStorage.getItem('od_folders_v35')) || defaultFolders;
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v35')) || defaultLinks;
 
         let activeFolder = null;
         let searchQuery = "";
@@ -908,8 +971,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v34', JSON.stringify(folders));
-            localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v35', JSON.stringify(folders));
+            localStorage.setItem('od_links_v35', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -944,8 +1007,8 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_folders_v34', JSON.stringify(folders));
-            localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v35', JSON.stringify(folders));
+            localStorage.setItem('od_links_v35', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -955,7 +1018,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v35', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -972,7 +1035,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v35', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -982,8 +1045,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v34', JSON.stringify(folders));
-                localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v35', JSON.stringify(folders));
+                localStorage.setItem('od_links_v35', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -999,7 +1062,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v34', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v35', JSON.stringify(folders));
             renderWorkspace();
         }
 
