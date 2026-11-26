@@ -10,14 +10,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body {
-            background: #173b7a;
+            background: #1b498a;
             perspective: 1000px;
             min-height: 100vh;
             width: 100%;
             position: relative;
             overflow-x: hidden;
         }
-        /* Full-Screen Bright Live 3D WebGL Cityscape */
+        /* Full-Screen Modern Jakarta-Style 3D Skyline Canvas */
         #city3dContainer {
             position: fixed;
             inset: 0;
@@ -26,19 +26,19 @@
             z-index: -1;
             pointer-events: none;
             overflow: hidden;
-            background: linear-gradient(180deg, #38bdf8 0%, #2563eb 38%, #1e3a8a 75%, #0f294a 100%);
+            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 32%, #1d4ed8 68%, #1e3a8a 100%);
         }
         #city3dCanvas {
             display: block;
             width: 100%;
             height: 100%;
         }
-        .city-vignette {
+        .city-atmosphere {
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(circle at 50% 35%, rgba(186, 230, 253, 0.14) 0%, transparent 65%),
-                linear-gradient(to bottom, rgba(14, 116, 144, 0.08) 0%, transparent 45%, rgba(15, 23, 42, 0.38) 100%);
+                radial-gradient(ellipse 80% 45% at 50% 18%, rgba(224, 242, 254, 0.25) 0%, transparent 70%),
+                linear-gradient(to bottom, rgba(186, 230, 253, 0.12) 0%, transparent 45%, rgba(15, 23, 42, 0.32) 100%);
             pointer-events: none;
         }
         .glass-3d-nav {
@@ -46,7 +46,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(203, 213, 225, 0.8);
-            box-shadow: 0 4px 25px rgba(15, 23, 42, 0.16);
+            box-shadow: 0 4px 25px rgba(15, 23, 42, 0.14);
         }
         /* Wadah Ikon 3D Header */
         .logo-3d-box {
@@ -62,29 +62,29 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.88) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.92);
             transform-style: preserve-3d;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.2), inset 0 1px 1px rgba(255, 255, 255, 1);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18), inset 0 1px 1px rgba(255, 255, 255, 1);
         }
         .glass-3d-card:hover {
             transform: translateY(-6px) scale(1.01) rotateX(2deg) rotateY(1deg);
             border-color: rgba(56, 189, 248, 0.75);
-            box-shadow: 0 20px 36px rgba(14, 165, 233, 0.28), inset 0 1px 2px rgba(255, 255, 255, 1);
+            box-shadow: 0 20px 36px rgba(14, 165, 233, 0.25), inset 0 1px 2px rgba(255, 255, 255, 1);
         }
         .folder-3d-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.93) 0%, rgba(241, 245, 249, 0.88) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(241, 245, 249, 0.89) 100%);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.92);
             transform-style: preserve-3d;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
         }
         .folder-3d-card:hover {
             transform: translateY(-4px) translateZ(8px);
             border-color: rgba(56, 189, 248, 0.75);
-            box-shadow: 0 16px 28px rgba(14, 165, 233, 0.25);
+            box-shadow: 0 16px 28px rgba(14, 165, 233, 0.24);
         }
         .folder-sales-card {
             background: linear-gradient(135deg, rgba(240, 249, 255, 0.96) 0%, rgba(255, 255, 255, 0.99) 100%);
@@ -93,17 +93,17 @@
             border: 2px solid rgba(2, 132, 199, 0.8);
             transform-style: preserve-3d;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22), inset 0 0 18px rgba(255, 255, 255, 1);
+            box-shadow: 0 14px 34px rgba(15, 23, 42, 0.2), inset 0 0 18px rgba(255, 255, 255, 1);
         }
         .folder-sales-card:hover {
             transform: translateY(-6px) translateZ(10px);
             border-color: rgba(3, 105, 161, 1);
-            box-shadow: 0 22px 40px rgba(56, 189, 248, 0.38), inset 0 0 22px rgba(255, 255, 255, 1);
+            box-shadow: 0 22px 40px rgba(56, 189, 248, 0.35), inset 0 0 22px rgba(255, 255, 255, 1);
         }
         .folder-active {
             background: linear-gradient(135deg, rgba(224, 242, 254, 0.96) 0%, rgba(255, 255, 255, 0.98) 100%);
             border-color: rgba(2, 132, 199, 0.9);
-            box-shadow: 0 12px 28px rgba(14, 165, 233, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+            box-shadow: 0 12px 28px rgba(14, 165, 233, 0.26), inset 0 1px 2px rgba(255, 255, 255, 0.95);
         }
         .translate-z {
             transform: translateZ(15px);
@@ -112,10 +112,10 @@
 </head>
 <body class="min-h-screen text-slate-800 font-sans antialiased pb-12 flex flex-col justify-between">
 
-    <!-- Live 3D Realistic Bright Cityscape Canvas -->
+    <!-- Live 3D Modern Jakarta Skyline Canvas -->
     <div id="city3dContainer" aria-hidden="true">
         <canvas id="city3dCanvas"></canvas>
-        <div class="city-vignette"></div>
+        <div class="city-atmosphere"></div>
     </div>
 
     <div>
@@ -132,15 +132,10 @@
                     <!-- Ikon Logo 3D Kubus / Menara Kaca Isometric -->
                     <div class="logo-3d-box p-2.5 rounded-2xl transform transition-all hover:scale-105 hover:-rotate-3 duration-300 flex items-center justify-center">
                         <svg class="w-8 h-8 drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Top Face 3D -->
                             <polygon points="20,4 35,12 20,20 5,12" fill="url(#cubeTop)"/>
-                            <!-- Left Face 3D -->
                             <polygon points="5,12 20,20 20,36 5,28" fill="url(#cubeLeft)"/>
-                            <!-- Right Face 3D -->
                             <polygon points="20,20 35,12 35,28 20,36" fill="url(#cubeRight)"/>
-                            <!-- Inner Glass Core Highlight -->
                             <polygon points="20,9 29,14 20,19 11,14" fill="#e0f2fe" fill-opacity="0.45"/>
-                            <!-- Edge Highlights -->
                             <polyline points="5,12 20,20 35,12" stroke="#bae6fd" stroke-width="1.2" stroke-linecap="round"/>
                             <line x1="20" y1="20" x2="20" y2="36" stroke="#7dd3fc" stroke-width="1.2" stroke-linecap="round"/>
                             <defs>
@@ -356,20 +351,20 @@
 
     <script>
         /* =========================================================
-           1. LIVE 3D BRIGHT REALISTIC CITYSCAPE ENGINE (THREE.JS)
+           1. REALISTIC JAKARTA-STYLE 3D MODERN SKYLINE (THREE.JS)
            ========================================================= */
         function initLive3DCity() {
             const canvas = document.getElementById('city3dCanvas');
             if (!canvas || typeof THREE === 'undefined') return;
 
             const scene = new THREE.Scene();
-            // Kabut atmosfer biru cerah agar kedalaman 3D terasa terang & modern
-            const fogColor = new THREE.Color(0x2563eb);
-            scene.fog = new THREE.FogExp2(fogColor, 0.0095);
+            // Kabut atmosfer biru langit modern Jakarta yang terang dan bersih
+            const fogColor = new THREE.Color(0x3b82f6);
+            scene.fog = new THREE.FogExp2(fogColor, 0.0062);
 
-            const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.5, 240);
-            camera.position.set(0, 24, 56);
-            camera.lookAt(0, 12, -16);
+            const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.5, 340);
+            camera.position.set(16, 36, 86);
+            camera.lookAt(0, 18, -25);
 
             const renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
@@ -380,73 +375,93 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.28;
+            renderer.toneMappingExposure = 1.24;
 
-            // Pencahayaan Kota Terang & Modern (Daylight / Golden-Blue Sky)
-            const hemiLight = new THREE.HemisphereLight(0xe0f2fe, 0x1e3a8a, 1.35);
+            // Pencahayaan Matahari Pagi/Sore Cerah & Pantulan Langit
+            const hemiLight = new THREE.HemisphereLight(0xf0f9ff, 0x334155, 1.35);
             scene.add(hemiLight);
 
-            const sunLight = new THREE.DirectionalLight(0xffffff, 1.75);
-            sunLight.position.set(-40, 75, 45);
+            const sunLight = new THREE.DirectionalLight(0xfffbeb, 1.85);
+            sunLight.position.set(-55, 95, 65);
             scene.add(sunLight);
 
-            const skyBounceLight = new THREE.DirectionalLight(0x7dd3fc, 1.05);
-            skyBounceLight.position.set(45, 40, -25);
-            scene.add(skyBounceLight);
+            const skyFillLight = new THREE.DirectionalLight(0x7dd3fc, 0.95);
+            skyFillLight.position.set(65, 50, -40);
+            scene.add(skyFillLight);
 
-            // Tekstur Prosedural Kaca Gedung Cerah & Reflektif
-            function createGlassBuildingTexture(seed) {
+            // Palet Fasad Kaca Gedung Modern (Bukan Satu Warna Polos)
+            const facadePalettes = [
+                { top: '#7dd3fc', mid: '#1d4ed8', bot: '#0f172a', mullion: 'rgba(224,242,254,0.38)', glass: 'rgba(186,230,253,0.34)' }, // Sky Blue Curtain Wall
+                { top: '#cbd5e1', mid: '#334155', bot: '#0f172a', mullion: 'rgba(241,245,249,0.35)', glass: 'rgba(148,163,184,0.28)' }, // Corporate Steel Silver
+                { top: '#5eead4', mid: '#0f766e', bot: '#042f2e', mullion: 'rgba(204,251,241,0.32)', glass: 'rgba(153,246,228,0.28)' }, // Emerald Eco-Tower Glass
+                { top: '#93c5fd', mid: '#1e3a8a', bot: '#09152e', mullion: 'rgba(219,234,254,0.36)', glass: 'rgba(191,219,254,0.30)' }, // Deep Royal Glass
+                { top: '#e2e8f0', mid: '#475569', bot: '#1e293b', mullion: 'rgba(255,255,255,0.40)', glass: 'rgba(203,213,225,0.32)' }  // Platinum Executive Tower
+            ];
+
+            // Generator Tekstur Curtain Wall Resolusi Tinggi dengan Refleksi Awan/Langit
+            function createCurtainWallTexture(paletteIdx, seed) {
+                const pal = facadePalettes[paletteIdx % facadePalettes.length];
                 const texCanvas = document.createElement('canvas');
-                texCanvas.width = 128;
-                texCanvas.height = 256;
+                texCanvas.width = 256;
+                texCanvas.height = 512;
                 const ctx = texCanvas.getContext('2d');
 
-                // Dasar fasad kaca biru cerah reflektif
-                const grad = ctx.createLinearGradient(0, 0, 0, 256);
-                grad.addColorStop(0, '#38bdf8');
-                grad.addColorStop(0.45, '#1d4ed8');
-                grad.addColorStop(1, '#172554');
+                // Gradien pantulan langit pada kaca gedung
+                const grad = ctx.createLinearGradient(0, 0, 256, 512);
+                grad.addColorStop(0, pal.top);
+                grad.addColorStop(0.42, pal.mid);
+                grad.addColorStop(1, pal.bot);
                 ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, 128, 256);
+                ctx.fillRect(0, 0, 256, 512);
 
-                // Grid jendela kaca & cahaya ruangan yang lebih terang dan rapat
-                const cols = 8;
-                const rows = 24;
-                const padX = 4;
-                const padY = 3;
-                const cellW = 128 / cols;
-                const cellH = 256 / rows;
+                // Sapuan refleksi awan/cahaya matahari diagonal pada kaca
+                const cloudGrad = ctx.createLinearGradient(0, 40, 256, 260);
+                cloudGrad.addColorStop(0, 'rgba(255, 255, 255, 0.24)');
+                cloudGrad.addColorStop(0.5, 'rgba(224, 242, 254, 0.08)');
+                cloudGrad.addColorStop(1, 'rgba(255, 255, 255, 0.16)');
+                ctx.fillStyle = cloudGrad;
+                ctx.fillRect(0, 0, 256, 512);
 
-                let s = seed * 9973;
+                let s = seed * 7919;
                 const rand = () => {
                     s = (s * 16807) % 2147483647;
                     return (s - 1) / 2147483646;
                 };
 
-                for (let r = 1; r < rows - 1; r++) {
-                    const floorLitChance = rand();
+                // Lantai & Panel Kaca Halus
+                const cols = 10;
+                const rows = 36;
+                const cellW = 256 / cols;
+                const cellH = 512 / rows;
+
+                for (let r = 0; r < rows; r++) {
+                    // Setiap beberapa lantai ada spandrel / sabuk beton arsitektural
+                    if (r % 9 === 0) {
+                        ctx.fillStyle = 'rgba(15, 23, 42, 0.32)';
+                        ctx.fillRect(0, r * cellH, 256, cellH * 0.55);
+                        continue;
+                    }
                     for (let c = 0; c < cols; c++) {
                         const v = rand();
-                        if (v > 0.58 && floorLitChance > 0.22) {
-                            ctx.fillStyle = v > 0.86
-                                ? 'rgba(255, 251, 235, 0.55)'
-                                : 'rgba(224, 242, 254, 0.48)';
-                        } else {
-                            ctx.fillStyle = 'rgba(186, 230, 253, 0.24)';
+                        if (v > 0.68) {
+                            ctx.fillStyle = pal.glass;
+                            ctx.fillRect(c * cellW + 1.5, r * cellH + 1.5, cellW - 3, cellH - 3);
+                        } else if (v > 0.54) {
+                            ctx.fillStyle = 'rgba(255, 251, 235, 0.28)';
+                            ctx.fillRect(c * cellW + 1.5, r * cellH + 1.5, cellW - 3, cellH - 3);
                         }
-                        ctx.fillRect(
-                            c * cellW + padX * 0.5,
-                            r * cellH + padY * 0.5,
-                            cellW - padX,
-                            cellH - padY
-                        );
                     }
                 }
 
-                // Rangka baja vertikal mengilap
-                ctx.fillStyle = 'rgba(224, 242, 254, 0.22)';
-                for (let c = 0; c <= cols; c += 2) {
-                    ctx.fillRect(c * cellW, 0, 1.5, 256);
+                // Garis mullion vertikal tipis
+                ctx.fillStyle = pal.mullion;
+                for (let c = 0; c <= cols; c++) {
+                    ctx.fillRect(c * cellW, 0, 1.2, 512);
+                }
+                // Garis lantai horizontal tipis
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.25)';
+                for (let r = 0; r <= rows; r++) {
+                    ctx.fillRect(0, r * cellH, 256, 1);
                 }
 
                 const texture = new THREE.CanvasTexture(texCanvas);
@@ -455,154 +470,345 @@
                 return texture;
             }
 
-            const textures = [
-                createGlassBuildingTexture(11),
-                createGlassBuildingTexture(29),
-                createGlassBuildingTexture(47),
-                createGlassBuildingTexture(73)
-            ];
-
-            const roofMat = new THREE.MeshStandardMaterial({
-                color: 0x3b82f6,
-                roughness: 0.28,
-                metalness: 0.65
+            const glassMaterials = facadePalettes.map((_, idx) => {
+                const tex = createCurtainWallTexture(idx, (idx + 1) * 37);
+                return new THREE.MeshStandardMaterial({
+                    map: tex,
+                    roughness: 0.16,
+                    metalness: 0.78
+                });
             });
 
-            // Permukaan Tanah / Boulevard Kota Terang
-            const groundGeo = new THREE.PlaneGeometry(280, 280);
-            const groundMat = new THREE.MeshStandardMaterial({
-                color: 0x1e3a8a,
-                roughness: 0.3,
-                metalness: 0.7
+            const concreteTrimMat = new THREE.MeshStandardMaterial({
+                color: 0xcbd5e1,
+                roughness: 0.45,
+                metalness: 0.55
             });
-            const ground = new THREE.Mesh(groundGeo, groundMat);
+
+            const darkRoofMat = new THREE.MeshStandardMaterial({
+                color: 0x1e293b,
+                roughness: 0.5,
+                metalness: 0.6
+            });
+
+            const greenParkMat = new THREE.MeshStandardMaterial({
+                color: 0x15803d,
+                roughness: 0.85,
+                metalness: 0.1
+            });
+
+            // Dasar Kota & Boulevard Jalan Raya Utama (Ala Sudirman-Thamrin)
+            const ground = new THREE.Mesh(
+                new THREE.PlaneGeometry(420, 420),
+                new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6, metalness: 0.4 })
+            );
             ground.rotation.x = -Math.PI / 2;
             scene.add(ground);
 
+            // Jalur Hijau / Median Taman Kota
+            const boulevardCenter = new THREE.Mesh(
+                new THREE.PlaneGeometry(1.6, 360),
+                greenParkMat
+            );
+            boulevardCenter.rotation.x = -Math.PI / 2;
+            boulevardCenter.position.set(0, 0.03, -40);
+            scene.add(boulevardCenter);
+
+            // Marka Jalan Putih
+            const dashGeo = new THREE.PlaneGeometry(0.22, 3.2);
+            const dashMat = new THREE.MeshBasicMaterial({ color: 0xf8fafc, transparent: true, opacity: 0.65 });
+            for (let z = -180; z < 90; z += 9) {
+                const dashL = new THREE.Mesh(dashGeo, dashMat);
+                dashL.rotation.x = -Math.PI / 2;
+                dashL.position.set(-2.6, 0.04, z);
+                scene.add(dashL);
+
+                const dashR = new THREE.Mesh(dashGeo, dashMat);
+                dashR.rotation.x = -Math.PI / 2;
+                dashR.position.set(2.6, 0.04, z);
+                scene.add(dashR);
+            }
+
             const cityGroup = new THREE.Group();
             scene.add(cityGroup);
-
             const beacons = [];
-            let buildingIdx = 0;
 
-            // Susun blok gedung 3D dengan koridor jalan raya
-            for (let gx = -9; gx <= 9; gx++) {
-                for (let gz = -11; gz <= 4; gz++) {
-                    if (gx === 0 || gx === -4 || gx === 4 || gz === -3 || gz === -7) continue;
+            // Fungsi Pembangun 7 Bentuk Pencakar Langit Modern Berbeda (Tidak Kaku / Tidak Seperti LEGO)
+            function buildSkyscraper(type, x, z, scaleW, totalH, rotY, matIdx) {
+                const group = new THREE.Group();
+                group.position.set(x, 0, z);
+                group.rotation.y = rotY;
 
-                    buildingIdx++;
-                    const distFromCenter = Math.hypot(gx * 0.85, (gz + 3) * 0.9);
-                    const heightBoost = Math.max(0, 1 - distFromCenter / 12);
+                const mainMat = glassMaterials[matIdx % glassMaterials.length];
+                const altMat = glassMaterials[(matIdx + 2) % glassMaterials.length];
 
-                    const width = 2.6 + ((buildingIdx * 17) % 10) * 0.18;
-                    const depth = 2.6 + ((buildingIdx * 23) % 10) * 0.18;
-                    const height = 6 + heightBoost * 24 + ((buildingIdx * 31) % 12);
+                if (type === 0) {
+                    // TIPE 0: Landmark Supertall Tapered Spire (Ala Autograph / Gama Tower)
+                    const pH = totalH * 0.14;
+                    const podium = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 1.45, pH, scaleW * 1.35), concreteTrimMat);
+                    podium.position.y = pH / 2;
+                    group.add(podium);
 
-                    const posX = gx * 5.6 + (((buildingIdx * 7) % 5) - 2) * 0.25;
-                    const posZ = gz * 5.8 + (((buildingIdx * 13) % 5) - 2) * 0.25;
+                    const lowerH = totalH * 0.48;
+                    const lower = new THREE.Mesh(new THREE.BoxGeometry(scaleW, lowerH, scaleW * 0.92), mainMat);
+                    lower.position.y = pH + lowerH / 2;
+                    group.add(lower);
 
-                    const tex = textures[buildingIdx % textures.length].clone();
-                    tex.needsUpdate = true;
-                    tex.repeat.set(Math.max(1, Math.round(width / 2.2)), Math.max(2, Math.round(height / 7)));
+                    // Bagian tengah mengecil (Setback)
+                    const midH = totalH * 0.26;
+                    const mid = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 0.76, midH, scaleW * 0.72), mainMat);
+                    mid.position.y = pH + lowerH + midH / 2;
+                    group.add(mid);
 
-                    const sideMat = new THREE.MeshStandardMaterial({
-                        map: tex,
-                        roughness: 0.2,
-                        metalness: 0.72
-                    });
+                    // Mahkota kaca runcing (Crystal Crown)
+                    const crownH = totalH * 0.12;
+                    const crown = new THREE.Mesh(new THREE.CylinderGeometry(scaleW * 0.12, scaleW * 0.52, crownH, 4), altMat);
+                    crown.rotation.y = Math.PI / 4;
+                    crown.position.y = pH + lowerH + midH + crownH / 2;
+                    group.add(crown);
 
-                    const materials = [sideMat, sideMat, roofMat, roofMat, sideMat, sideMat];
-                    const geo = new THREE.BoxGeometry(width, height, depth);
-                    const mesh = new THREE.Mesh(geo, materials);
-                    mesh.position.set(posX, height / 2, posZ);
-                    cityGroup.add(mesh);
+                    // Puncak antena tinggi
+                    const spireH = 7.5;
+                    const spire = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.14, spireH, 8), concreteTrimMat);
+                    spire.position.y = totalH + spireH / 2;
+                    group.add(spire);
 
-                    // Mahkota gedung bertingkat & antena baja mengilap
-                    if (height > 21) {
-                        const crownH = height * 0.16;
-                        const crownGeo = new THREE.BoxGeometry(width * 0.65, crownH, depth * 0.65);
-                        const crown = new THREE.Mesh(crownGeo, materials);
-                        crown.position.set(posX, height + crownH / 2, posZ);
-                        cityGroup.add(crown);
+                    const beacon = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.22, 8, 8),
+                        new THREE.MeshBasicMaterial({ color: 0xfef08a, transparent: true, opacity: 0.95 })
+                    );
+                    beacon.position.y = totalH + spireH + 0.15;
+                    group.add(beacon);
+                    beacons.push({ mesh: beacon, phase: x * 0.3 });
 
-                        if (height > 26) {
-                            const spireH = 3.5 + (buildingIdx % 3);
-                            const spireGeo = new THREE.CylinderGeometry(0.04, 0.09, spireH, 6);
-                            const spireMat = new THREE.MeshBasicMaterial({ color: 0xe0f2fe });
-                            const spire = new THREE.Mesh(spireGeo, spireMat);
-                            spire.position.set(posX, height + crownH + spireH / 2, posZ);
-                            cityGroup.add(spire);
+                } else if (type === 1) {
+                    // TIPE 1: Menara Silinder / Oval Kaca Modern (Curved Glass Tower)
+                    const radius = scaleW * 0.56;
+                    const cyl = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.94, radius, totalH, 28), mainMat);
+                    cyl.scale.set(1.15, 1, 0.85);
+                    cyl.position.y = totalH / 2;
+                    group.add(cyl);
 
-                            const beaconGeo = new THREE.SphereGeometry(0.15, 8, 8);
-                            const beaconMat = new THREE.MeshBasicMaterial({
-                                color: buildingIdx % 2 === 0 ? 0xbae6fd : 0xfef08a,
-                                transparent: true,
-                                opacity: 0.95
-                            });
-                            const beacon = new THREE.Mesh(beaconGeo, beaconMat);
-                            beacon.position.set(posX, height + crownH + spireH + 0.1, posZ);
-                            cityGroup.add(beacon);
-                            beacons.push({ mesh: beacon, phase: buildingIdx * 1.3 });
-                        }
+                    // Cincin sabuk baja horizontal modern
+                    for (let r = 0.25; r <= 0.95; r += 0.23) {
+                        const ring = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.98, radius * 0.98, 0.45, 28), concreteTrimMat);
+                        ring.scale.set(1.16, 1, 0.86);
+                        ring.position.y = totalH * r;
+                        group.add(ring);
                     }
+
+                    // Mahkota atap melingkar
+                    const crown = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.72, radius * 0.88, totalH * 0.08, 24), darkRoofMat);
+                    crown.position.y = totalH + totalH * 0.04;
+                    group.add(crown);
+
+                } else if (type === 2) {
+                    // TIPE 2: Menara Kembar Modern dengan Skybridge Kaca
+                    const subW = scaleW * 0.46;
+                    const gap = scaleW * 0.34;
+                    const towerA = new THREE.Mesh(new THREE.BoxGeometry(subW, totalH, subW * 1.15), mainMat);
+                    towerA.position.set(-gap, totalH / 2, 0);
+                    group.add(towerA);
+
+                    const towerB = new THREE.Mesh(new THREE.BoxGeometry(subW, totalH * 0.92, subW * 1.15), mainMat);
+                    towerB.position.set(gap, (totalH * 0.92) / 2, 0);
+                    group.add(towerB);
+
+                    // Skybridge kaca penghubung
+                    const bridge = new THREE.Mesh(new THREE.BoxGeometry(gap * 2.1, totalH * 0.07, subW * 0.65), altMat);
+                    bridge.position.set(0, totalH * 0.68, 0);
+                    group.add(bridge);
+
+                    // Podium dasar bersama
+                    const base = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 1.35, totalH * 0.12, subW * 1.4), concreteTrimMat);
+                    base.position.y = totalH * 0.06;
+                    group.add(base);
+
+                } else if (type === 3) {
+                    // TIPE 3: Menara Prisma Segi Enam / Berlian (Faceted Hexagonal Tower)
+                    const hexR = scaleW * 0.62;
+                    const hexBody = new THREE.Mesh(new THREE.CylinderGeometry(hexR * 0.88, hexR, totalH * 0.88, 6), mainMat);
+                    hexBody.position.y = (totalH * 0.88) / 2;
+                    group.add(hexBody);
+
+                    const topCap = new THREE.Mesh(new THREE.CylinderGeometry(hexR * 0.62, hexR * 0.88, totalH * 0.12, 6), altMat);
+                    topCap.position.y = totalH * 0.88 + (totalH * 0.12) / 2;
+                    group.add(topCap);
+
+                } else if (type === 4) {
+                    // TIPE 4: Menara Atap Miring Modern (Diagonal Slanted Roof Tower)
+                    const bodyH = totalH * 0.84;
+                    const body = new THREE.Mesh(new THREE.BoxGeometry(scaleW, bodyH, scaleW * 0.85), mainMat);
+                    body.position.y = bodyH / 2;
+                    group.add(body);
+
+                    // Puncak atap miring dinamis (Wedge / Slanted Crown)
+                    const wedgeH = totalH * 0.18;
+                    const wedgeGeo = new THREE.ConeGeometry(scaleW * 0.68, wedgeH, 4);
+                    const wedge = new THREE.Mesh(wedgeGeo, altMat);
+                    wedge.rotation.y = Math.PI / 4;
+                    wedge.scale.set(1.05, 1, 0.88);
+                    wedge.position.y = bodyH + wedgeH / 2;
+                    group.add(wedge);
+
+                } else if (type === 5) {
+                    // TIPE 5: Menara Bertingkat Teras Hijau & Helipad (Corporate HQ)
+                    const tier1H = totalH * 0.45;
+                    const tier1 = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 1.25, tier1H, scaleW * 1.15), mainMat);
+                    tier1.position.y = tier1H / 2;
+                    group.add(tier1);
+
+                    // Taman teras hijau di lantai tengah
+                    const terrace = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 1.28, 0.35, scaleW * 1.18), greenParkMat);
+                    terrace.position.y = tier1H + 0.15;
+                    group.add(terrace);
+
+                    const tier2H = totalH * 0.55;
+                    const tier2 = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 0.86, tier2H, scaleW * 0.82), mainMat);
+                    tier2.position.set(scaleW * 0.1, tier1H + tier2H / 2, -scaleW * 0.08);
+                    group.add(tier2);
+
+                    // Lingkaran Helipad di atap
+                    const helipad = new THREE.Mesh(
+                        new THREE.RingGeometry(scaleW * 0.16, scaleW * 0.24, 24),
+                        new THREE.MeshBasicMaterial({ color: 0xfef08a, side: THREE.DoubleSide })
+                    );
+                    helipad.rotation.x = -Math.PI / 2;
+                    helipad.position.set(scaleW * 0.1, totalH + 0.08, -scaleW * 0.08);
+                    group.add(helipad);
+
+                } else {
+                    // TIPE 6: Menara Kaca Ramping dengan Sirip Vertikal Baja (Finned Skyscraper)
+                    const core = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 0.9, totalH, scaleW * 0.9), mainMat);
+                    core.position.y = totalH / 2;
+                    group.add(core);
+
+                    const fin1 = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 1.06, totalH * 1.04, scaleW * 0.22), concreteTrimMat);
+                    fin1.position.y = (totalH * 1.04) / 2;
+                    group.add(fin1);
+
+                    const fin2 = new THREE.Mesh(new THREE.BoxGeometry(scaleW * 0.22, totalH * 1.04, scaleW * 1.06), concreteTrimMat);
+                    fin2.position.y = (totalH * 1.04) / 2;
+                    group.add(fin2);
                 }
+
+                cityGroup.add(group);
             }
 
-            // Aliran Cahaya Lalu Lintas Kota yang Bergerak Halus
+            // Daftar Klaster Gedung Modern Jakarta (Komposisi Organik, Tidak Kaku Seperti Grid LEGO)
+            const jakartaSkylineLayout = [
+                // Koridor Utama Kiri Boulevard
+                { type: 0, x: -11.5, z: -18, w: 5.4, h: 46, rot: 0.05, mat: 0 },
+                { type: 1, x: -12.0, z: -4,  w: 5.0, h: 34, rot: 0.2,  mat: 1 },
+                { type: 2, x: -13.5, z: -34, w: 6.2, h: 42, rot: -0.06, mat: 3 },
+                { type: 4, x: -11.0, z: 12,  w: 4.8, h: 27, rot: 0.08, mat: 2 },
+                { type: 5, x: -14.5, z: -52, w: 6.4, h: 38, rot: 0.0,  mat: 4 },
+
+                // Koridor Utama Kanan Boulevard
+                { type: 1, x: 11.5,  z: -14, w: 5.5, h: 44, rot: -0.15, mat: 2 },
+                { type: 5, x: 12.5,  z: 2,   w: 5.6, h: 32, rot: 0.06,  mat: 0 },
+                { type: 0, x: 13.0,  z: -32, w: 5.8, h: 50, rot: -0.04, mat: 1 },
+                { type: 6, x: 11.2,  z: 18,  w: 4.6, h: 25, rot: 0.12,  mat: 3 },
+                { type: 3, x: 14.0,  z: -50, w: 5.6, h: 40, rot: 0.25,  mat: 4 },
+
+                // Lapis Kedua Kiri (Distrik Bisnis SCBD / Kuningan)
+                { type: 3, x: -24.5, z: -12, w: 5.4, h: 37, rot: 0.3,  mat: 4 },
+                { type: 6, x: -25.0, z: -28, w: 5.2, h: 45, rot: -0.1, mat: 1 },
+                { type: 1, x: -23.5, z: 6,   w: 5.0, h: 29, rot: 0.0,  mat: 0 },
+                { type: 4, x: -26.5, z: -45, w: 5.8, h: 36, rot: 0.18, mat: 2 },
+                { type: 2, x: -24.0, z: 22,  w: 5.4, h: 22, rot: -0.05, mat: 3 },
+
+                // Lapis Kedua Kanan
+                { type: 2, x: 24.5,  z: -20, w: 6.2, h: 41, rot: 0.08, mat: 3 },
+                { type: 4, x: 23.5,  z: -4,  w: 5.2, h: 35, rot: -0.14, mat: 4 },
+                { type: 1, x: 26.0,  z: -38, w: 5.6, h: 43, rot: 0.1,  mat: 0 },
+                { type: 5, x: 24.0,  z: 14,  w: 5.2, h: 26, rot: 0.0,  mat: 1 },
+                { type: 6, x: 27.0,  z: -56, w: 5.4, h: 34, rot: -0.2, mat: 2 },
+
+                // Lapis Jauh & Panorama Lebar Kiri-Kanan
+                { type: 5, x: -38.0, z: -22, w: 6.0, h: 33, rot: 0.12, mat: 2 },
+                { type: 0, x: -40.0, z: -42, w: 5.8, h: 44, rot: -0.08, mat: 3 },
+                { type: 1, x: -37.0, z: 0,   w: 5.2, h: 24, rot: 0.0,  mat: 1 },
+                { type: 3, x: -52.0, z: -30, w: 6.2, h: 31, rot: 0.22, mat: 0 },
+
+                { type: 3, x: 38.5,  z: -26, w: 6.0, h: 36, rot: -0.18, mat: 1 },
+                { type: 0, x: 41.0,  z: -46, w: 6.0, h: 45, rot: 0.06,  mat: 4 },
+                { type: 4, x: 37.5,  z: -6,  w: 5.4, h: 28, rot: 0.1,   mat: 2 },
+                { type: 1, x: 53.0,  z: -34, w: 6.4, h: 32, rot: -0.1,  mat: 3 },
+
+                // Cakrawala Belakang (Background Skyline Depth)
+                { type: 1, x: -6.0,  z: -68, w: 6.2, h: 42, rot: 0.0,  mat: 1 },
+                { type: 0, x: 7.5,   z: -74, w: 6.5, h: 52, rot: 0.05, mat: 0 },
+                { type: 2, x: -22.0, z: -66, w: 6.8, h: 39, rot: -0.04, mat: 4 },
+                { type: 6, x: 22.5,  z: -70, w: 6.0, h: 41, rot: 0.08, mat: 3 },
+                { type: 4, x: -36.0, z: -64, w: 6.2, h: 35, rot: 0.15, mat: 2 },
+                { type: 5, x: 38.0,  z: -66, w: 6.4, h: 37, rot: -0.12, mat: 1 }
+            ];
+
+            jakartaSkylineLayout.forEach((b) => {
+                buildSkyscraper(b.type, b.x, b.z, b.w, b.h, b.rot, b.mat);
+            });
+
+            // Pepohonan Kota Hijau di Sepanjang Trotoar Boulevard
+            const foliageMat = new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.8 });
+            const trunkMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.9 });
+            for (let tz = -70; tz <= 30; tz += 8) {
+                [-6.8, 6.8].forEach((tx) => {
+                    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 1.2, 6), trunkMat);
+                    trunk.position.set(tx, 0.6, tz);
+                    cityGroup.add(trunk);
+
+                    const crown = new THREE.Mesh(new THREE.DodecahedronGeometry(0.95, 1), foliageMat);
+                    crown.position.set(tx, 1.65, tz);
+                    cityGroup.add(crown);
+                });
+            }
+
+            // Kendaraan Melaju Halus di Boulevard Utama
             const trafficCars = [];
-            const carGeo = new THREE.BoxGeometry(0.18, 0.08, 1.35);
-            const carGeoX = new THREE.BoxGeometry(1.35, 0.08, 0.18);
+            const carBodyGeo = new THREE.BoxGeometry(0.55, 0.32, 1.25);
+            const carColors = [0xffffff, 0xe2e8f0, 0x38bdf8, 0xfef08a, 0x94a3b8];
 
-            const zLanes = [-22.4, -17.4, 0.4, 22.4];
-            zLanes.forEach((laneX, idx) => {
+            [-4.1, -1.8, 1.8, 4.1].forEach((laneX, laneIdx) => {
+                const dir = laneX < 0 ? 1 : -1;
                 for (let i = 0; i < 6; i++) {
-                    const dir = idx % 2 === 0 ? 1 : -1;
-                    const mat = new THREE.MeshBasicMaterial({
-                        color: dir > 0 ? 0xffffff : 0xbae6fd,
-                        transparent: true,
-                        opacity: 0.85
+                    const carMat = new THREE.MeshStandardMaterial({
+                        color: carColors[(laneIdx + i) % carColors.length],
+                        roughness: 0.25,
+                        metalness: 0.6
                     });
-                    const car = new THREE.Mesh(carGeo, mat);
-                    car.position.set(laneX + (dir * 0.35), 0.12, -65 + i * 16);
+                    const car = new THREE.Mesh(carBodyGeo, carMat);
+                    car.position.set(laneX, 0.22, -90 + i * 24 + laneIdx * 5);
                     cityGroup.add(car);
-                    trafficCars.push({ mesh: car, axis: 'z', speed: (0.11 + (i % 3) * 0.03) * dir });
+                    trafficCars.push({
+                        mesh: car,
+                        speed: (0.14 + (i % 3) * 0.035) * dir
+                    });
                 }
             });
 
-            const xLanes = [-17.4, -40.6];
-            xLanes.forEach((laneZ, idx) => {
-                for (let i = 0; i < 6; i++) {
-                    const dir = idx % 2 === 0 ? 1 : -1;
-                    const mat = new THREE.MeshBasicMaterial({
-                        color: dir > 0 ? 0xe0f2fe : 0xfef08a,
-                        transparent: true,
-                        opacity: 0.8
-                    });
-                    const car = new THREE.Mesh(carGeoX, mat);
-                    car.position.set(-55 + i * 18, 0.12, laneZ + (dir * 0.35));
-                    cityGroup.add(car);
-                    trafficCars.push({ mesh: car, axis: 'x', speed: (0.105 + (i % 3) * 0.025) * dir });
-                }
-            });
-
-            // Partikel Cahaya Udara Siang/Sore Cerah
-            const particleCount = 95;
-            const pGeo = new THREE.BufferGeometry();
-            const pPos = new Float32Array(particleCount * 3);
-            for (let i = 0; i < particleCount; i++) {
-                pPos[i * 3] = (Math.random() - 0.5) * 110;
-                pPos[i * 3 + 1] = 4 + Math.random() * 38;
-                pPos[i * 3 + 2] = -55 + Math.random() * 85;
-            }
-            pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-            const pMat = new THREE.PointsMaterial({
-                color: 0xe0f2fe,
-                size: 0.24,
+            // Awan Halus Melayang di Langit Cerah Jakarta
+            const clouds = [];
+            const cloudMat = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
                 transparent: true,
-                opacity: 0.45
+                opacity: 0.22
             });
-            const particles = new THREE.Points(pGeo, pMat);
-            scene.add(particles);
+            for (let c = 0; c < 14; c++) {
+                const cloudGroup = new THREE.Group();
+                for (let puff = 0; puff < 3; puff++) {
+                    const puffMesh = new THREE.Mesh(
+                        new THREE.SphereGeometry(4 + puff * 1.4, 12, 10),
+                        cloudMat
+                    );
+                    puffMesh.scale.set(1.8, 0.45, 1.1);
+                    puffMesh.position.set(puff * 4.5, (puff % 2) * 0.8, 0);
+                    cloudGroup.add(puffMesh);
+                }
+                cloudGroup.position.set(-95 + c * 16, 56 + (c % 4) * 5, -65 - (c % 3) * 18);
+                scene.add(cloudGroup);
+                clouds.push({ group: cloudGroup, speed: 0.018 + (c % 3) * 0.006 });
+            }
 
             // Parallax Kursor Halus
             let targetMouseX = 0;
@@ -612,40 +818,40 @@
                 targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
             });
 
-            // Loop Animasi Real-Time (Gerak kamera lebih hidup namun mulus)
+            // Animasi Real-Time Sinematik (Aerial Drone Orbit Halus)
             const clock = new THREE.Clock();
             function animate() {
                 requestAnimationFrame(animate);
                 const t = clock.getElapsedTime();
 
-                const driftX = Math.sin(t * 0.24) * 6.5 + targetMouseX * 2.8;
-                const driftY = 23.5 + Math.cos(t * 0.3) * 1.5 - targetMouseY * 1.6;
-                camera.position.x += (driftX - camera.position.x) * 0.035;
-                camera.position.y += (driftY - camera.position.y) * 0.035;
-                camera.lookAt(0, 12.5, -18);
+                const camX = 14 + Math.sin(t * 0.22) * 9.5 + targetMouseX * 3.5;
+                const camY = 34 + Math.cos(t * 0.28) * 2.2 - targetMouseY * 2.0;
+                const camZ = 82 + Math.sin(t * 0.18) * 4.5;
+
+                camera.position.x += (camX - camera.position.x) * 0.03;
+                camera.position.y += (camY - camera.position.y) * 0.03;
+                camera.position.z += (camZ - camera.position.z) * 0.03;
+                camera.lookAt(0, 18, -26);
 
                 for (let i = 0; i < beacons.length; i++) {
                     const b = beacons[i];
-                    const pulse = (Math.sin(t * 2.6 + b.phase) + 1) * 0.5;
-                    b.mesh.material.opacity = 0.3 + pulse * 0.7;
-                    const s = 0.85 + pulse * 0.45;
-                    b.mesh.scale.set(s, s, s);
+                    const pulse = (Math.sin(t * 2.5 + b.phase) + 1) * 0.5;
+                    b.mesh.material.opacity = 0.35 + pulse * 0.65;
                 }
 
                 for (let i = 0; i < trafficCars.length; i++) {
                     const c = trafficCars[i];
-                    if (c.axis === 'z') {
-                        c.mesh.position.z += c.speed;
-                        if (c.mesh.position.z > 35) c.mesh.position.z = -65;
-                        if (c.mesh.position.z < -65) c.mesh.position.z = 35;
-                    } else {
-                        c.mesh.position.x += c.speed;
-                        if (c.mesh.position.x > 55) c.mesh.position.x = -55;
-                        if (c.mesh.position.x < -55) c.mesh.position.x = 55;
-                    }
+                    c.mesh.position.z += c.speed;
+                    if (c.mesh.position.z > 65) c.mesh.position.z = -110;
+                    if (c.mesh.position.z < -110) c.mesh.position.z = 65;
                 }
 
-                particles.rotation.y = t * 0.02;
+                for (let i = 0; i < clouds.length; i++) {
+                    const cl = clouds[i];
+                    cl.group.position.x += cl.speed;
+                    if (cl.group.position.x > 115) cl.group.position.x = -115;
+                }
+
                 renderer.render(scene, camera);
             }
             animate();
