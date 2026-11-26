@@ -14,184 +14,353 @@
             100% { background-position: 0% 50%; }
         }
         body {
-            background: linear-gradient(135deg, #1e1b4b, #312e81, #0f172a, #134e4a, #1e3a8a);
+            background: linear-gradient(135deg, #060d1f 0%, #0b1938 35%, #0f294a 70%, #071326 100%);
             background-size: 300% 300%;
-            animation: gradientAnimation 12s ease infinite;
+            animation: gradientAnimation 15s ease infinite;
             perspective: 1000px;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* Container Siluet Gedung 3D Glass & Steel Tower */
+        .cityscape-3d-bg {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 62vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
         }
         .glass-3d-nav {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.90);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(203, 213, 225, 0.6);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(203, 213, 225, 0.7);
+            box-shadow: 0 4px 25px rgba(2, 6, 23, 0.25);
+        }
+        /* Wadah Ikon 3D Header */
+        .logo-3d-box {
+            background: linear-gradient(145deg, #1e3a8a, #0f172a);
+            box-shadow: 
+                0 10px 20px -5px rgba(15, 23, 42, 0.5),
+                inset 0 2px 3px rgba(147, 197, 253, 0.6),
+                inset 0 -3px 6px rgba(2, 6, 23, 0.8);
+            border: 1px solid rgba(96, 165, 250, 0.4);
+            transform-style: preserve-3d;
         }
         .glass-3d-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.78) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.85);
             transform-style: preserve-3d;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.9);
         }
         .glass-3d-card:hover {
             transform: translateY(-6px) scale(1.01) rotateX(2deg) rotateY(1deg);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 20px 35px rgba(99, 102, 241, 0.2), inset 0 1px 2px rgba(255, 255, 255, 1);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 20px 35px rgba(30, 58, 138, 0.3), inset 0 1px 2px rgba(255, 255, 255, 1);
         }
         .folder-3d-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.8) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 245, 249, 0.82) 100%);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border: 1px solid rgba(226, 232, 240, 0.85);
             transform-style: preserve-3d;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         .folder-3d-card:hover {
             transform: translateY(-4px) translateZ(8px);
-            border-color: rgba(16, 185, 129, 0.4);
-            box-shadow: 0 14px 25px rgba(16, 185, 129, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 14px 25px rgba(30, 58, 138, 0.25);
         }
         .folder-sales-card {
-            background: linear-gradient(135deg, rgba(204, 251, 241, 0.9) 0%, rgba(255, 255, 255, 0.98) 100%);
+            background: linear-gradient(135deg, rgba(224, 242, 254, 0.92) 0%, rgba(255, 255, 255, 0.98) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 2px solid rgba(13, 148, 136, 0.8);
+            border: 2px solid rgba(2, 132, 199, 0.75);
             transform-style: preserve-3d;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 12px 35px rgba(13, 148, 136, 0.35), inset 0 0 20px rgba(255, 255, 255, 1);
+            box-shadow: 0 12px 35px rgba(2, 132, 199, 0.35), inset 0 0 20px rgba(255, 255, 255, 1);
         }
         .folder-sales-card:hover {
             transform: translateY(-6px) translateZ(10px);
-            border-color: rgba(13, 148, 136, 1);
-            box-shadow: 0 20px 40px rgba(13, 148, 136, 0.5), inset 0 0 25px rgba(255, 255, 255, 1);
+            border-color: rgba(3, 105, 161, 1);
+            box-shadow: 0 20px 40px rgba(2, 132, 199, 0.5), inset 0 0 25px rgba(255, 255, 255, 1);
         }
         .folder-active {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(79, 70, 229, 0.1) 100%);
-            border-color: rgba(99, 102, 241, 0.6);
-            box-shadow: 0 12px 25px rgba(99, 102, 241, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.15) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border-color: rgba(30, 58, 138, 0.6);
+            box-shadow: 0 12px 25px rgba(30, 58, 138, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.8);
         }
         .translate-z {
             transform: translateZ(15px);
         }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 font-sans antialiased pb-12">
+<body class="min-h-screen text-slate-800 font-sans antialiased pb-12 flex flex-col justify-between">
 
-    <!-- Toast Notifikasi -->
-    <div id="toastNotification" class="fixed bottom-6 right-6 z-150 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-bold transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none">
-        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-        <span id="toastMessage">Link aplikasi berhasil disalin!</span>
+    <!-- Background 3D Glass & Steel Tower Cityscape -->
+    <div class="cityscape-3d-bg">
+        <!-- Cahaya Ambient Kota -->
+        <div class="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-sky-500/15 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-0 right-1/4 w-[600px] h-[350px] bg-blue-600/20 rounded-full blur-[120px]"></div>
+
+        <svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" class="w-full h-full opacity-90">
+            <defs>
+                <!-- Gradien Kaca Sisi Terang (Glass Facade Left) -->
+                <linearGradient id="glassLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.32" />
+                    <stop offset="50%" stop-color="#0284c7" stop-opacity="0.18" />
+                    <stop offset="100%" stop-color="#0f172a" stop-opacity="0.65" />
+                </linearGradient>
+                <!-- Gradien Kaca Sisi Gelap (Glass Facade Right - 3D Depth) -->
+                <linearGradient id="glassDark" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.45" />
+                    <stop offset="100%" stop-color="#020617" stop-opacity="0.88" />
+                </linearGradient>
+                <!-- Gradien Baja / Steel Frame -->
+                <linearGradient id="steelEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#bae6fd" stop-opacity="0.7" />
+                    <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.3" />
+                    <stop offset="100%" stop-color="#0f172a" stop-opacity="0.1" />
+                </linearGradient>
+                <!-- Pola Grid Jendela Kaca & Baja -->
+                <pattern id="glassGrid" width="24" height="18" patternUnits="userSpaceOnUse">
+                    <path d="M 24 0 L 0 0 0 18" fill="none" stroke="#7dd3fc" stroke-width="0.6" stroke-opacity="0.22"/>
+                    <rect x="2" y="2" width="8" height="5" fill="#bae6fd" fill-opacity="0.08"/>
+                </pattern>
+                <pattern id="glassGridDense" width="16" height="12" patternUnits="userSpaceOnUse">
+                    <path d="M 16 0 L 0 0 0 12" fill="none" stroke="#93c5fd" stroke-width="0.5" stroke-opacity="0.18"/>
+                </pattern>
+            </defs>
+
+            <!-- Layer Belakang: Siluet Gedung Kabur (Depth of Field) -->
+            <g opacity="0.35">
+                <polygon points="80,600 80,260 150,235 150,600" fill="#1e3a8a"/>
+                <polygon points="150,600 150,235 220,260 220,600" fill="#091124"/>
+                
+                <polygon points="480,600 480,190 560,165 560,600" fill="#1d4ed8"/>
+                <polygon points="560,600 560,165 640,190 640,600" fill="#060d1f"/>
+
+                <polygon points="1050,600 1050,210 1130,180 1130,600" fill="#1e40af"/>
+                <polygon points="1130,600 1130,180 1210,210 1210,600" fill="#060d1f"/>
+            </g>
+
+            <!-- Gedung 1 (Kiri): Twin Steel Spire Tower -->
+            <g>
+                <!-- Antena Baja -->
+                <line x1="260" y1="95" x2="260" y2="170" stroke="url(#steelEdge)" stroke-width="2.5"/>
+                <line x1="275" y1="115" x2="275" y2="175" stroke="url(#steelEdge)" stroke-width="1.5"/>
+                <!-- Sisi Kiri Kaca -->
+                <polygon points="180,600 180,200 260,170 260,600" fill="url(#glassLight)"/>
+                <polygon points="180,600 180,200 260,170 260,600" fill="url(#glassGrid)"/>
+                <!-- Sisi Kanan Gelap 3D -->
+                <polygon points="260,600 260,170 345,205 345,600" fill="url(#glassDark)"/>
+                <polygon points="260,600 260,170 345,205 345,600" fill="url(#glassGridDense)"/>
+                <!-- Rusuk Baja Tengah (3D Edge Highlight) -->
+                <line x1="260" y1="170" x2="260" y2="600" stroke="url(#steelEdge)" stroke-width="2"/>
+                <polyline points="180,200 260,170 345,205" fill="none" stroke="#7dd3fc" stroke-width="1.5" stroke-opacity="0.6"/>
+            </g>
+
+            <!-- Gedung 2 (Kiri-Tengah): Diagonal Slanted Glass Tower -->
+            <g>
+                <polygon points="330,600 330,290 420,250 420,600" fill="url(#glassLight)"/>
+                <polygon points="330,600 330,290 420,250 420,600" fill="url(#glassGridDense)"/>
+                <polygon points="420,600 420,250 495,280 495,600" fill="url(#glassDark)"/>
+                <line x1="420" y1="250" x2="420" y2="600" stroke="url(#steelEdge)" stroke-width="1.5"/>
+                <polyline points="330,290 420,250 495,280" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.5"/>
+            </g>
+
+            <!-- Gedung 3 (Tengah-Kanan Utama): Iconic 3D Glass & Steel Skyscraper -->
+            <g>
+                <!-- Puncak Menara Baja -->
+                <line x1="820" y1="45" x2="820" y2="120" stroke="#bae6fd" stroke-width="3" stroke-opacity="0.8"/>
+                <circle cx="820" cy="45" r="2.5" fill="#38bdf8"/>
+                <!-- Tier Atas -->
+                <polygon points="750,600 750,150 820,120 820,600" fill="url(#glassLight)"/>
+                <polygon points="750,600 750,150 820,120 820,600" fill="url(#glassGrid)"/>
+                <polygon points="820,600 820,120 895,155 895,600" fill="url(#glassDark)"/>
+                <polygon points="820,600 820,120 895,155 895,600" fill="url(#glassGridDense)"/>
+                <!-- Tier Sayap Samping (3D Setback) -->
+                <polygon points="710,600 710,240 750,225 750,600" fill="url(#glassLight)"/>
+                <polygon points="895,600 895,220 940,245 940,600" fill="url(#glassDark)"/>
+                <!-- Garis Struktur Baja Vertikal & Diagonal -->
+                <line x1="820" y1="120" x2="820" y2="600" stroke="url(#steelEdge)" stroke-width="2.5"/>
+                <line x1="750" y1="150" x2="750" y2="600" stroke="#7dd3fc" stroke-width="1" stroke-opacity="0.4"/>
+                <polyline points="750,150 820,120 895,155" fill="none" stroke="#bae6fd" stroke-width="1.8" stroke-opacity="0.75"/>
+                <!-- Pantulan Cahaya Diagonal Kaca -->
+                <polygon points="755,210 815,185 815,245 755,270" fill="#bae6fd" fill-opacity="0.08"/>
+                <polygon points="755,310 815,285 815,325 755,350" fill="#bae6fd" fill-opacity="0.06"/>
+            </g>
+
+            <!-- Gedung 4 (Kanan): Modern Corporate Steel Tower -->
+            <g>
+                <polygon points="1180,600 1180,175 1275,140 1275,600" fill="url(#glassLight)"/>
+                <polygon points="1180,600 1180,175 1275,140 1275,600" fill="url(#glassGrid)"/>
+                <polygon points="1275,600 1275,140 1370,180 1370,600" fill="url(#glassDark)"/>
+                <polygon points="1275,600 1275,140 1370,180 1370,600" fill="url(#glassGridDense)"/>
+                <line x1="1275" y1="140" x2="1275" y2="600" stroke="url(#steelEdge)" stroke-width="2.2"/>
+                <polyline points="1180,175 1275,140 1370,180" fill="none" stroke="#7dd3fc" stroke-width="1.5" stroke-opacity="0.65"/>
+            </g>
+
+            <!-- Gedung 5 (Tengah Depan Rendah): Podium Kaca Modern -->
+            <g>
+                <polygon points="580,600 580,360 660,330 660,600" fill="url(#glassLight)"/>
+                <polygon points="580,600 580,360 660,330 660,600" fill="url(#glassGridDense)"/>
+                <polygon points="660,600 660,330 730,360 730,600" fill="url(#glassDark)"/>
+                <line x1="660" y1="330" x2="660" y2="600" stroke="url(#steelEdge)" stroke-width="1.5"/>
+            </g>
+
+            <!-- Garis Cakrawala / Lantai Dasar Glow -->
+            <rect x="0" y="596" width="1440" height="4" fill="url(#steelEdge)" opacity="0.5"/>
+        </svg>
     </div>
 
-    <!-- Header -->
-    <nav class="glass-3d-nav sticky top-0 z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-                <div class="p-3 bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-2xl shadow-lg shadow-indigo-600/20 transform transition-transform hover:rotate-12 duration-300">
-                    <i data-lucide="layers-3d" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-black tracking-wider bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 bg-clip-text text-transparent uppercase">My WorkSpace</h1>
-                    <p class="text-xs text-indigo-600 font-bold tracking-widest uppercase mt-0.5">daily monitoring system</p>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <div class="relative flex-1 md:w-64">
-                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                    <input type="text" id="searchInput" placeholder="Cari laporan atau data..." class="w-full pl-10 pr-4 py-2 bg-white/80 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-sm">
+    <div>
+        <!-- Toast Notifikasi -->
+        <div id="toastNotification" class="fixed bottom-6 right-6 z-150 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-bold transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+            <span id="toastMessage">Link aplikasi berhasil disalin!</span>
+        </div>
+
+        <!-- Header -->
+        <nav class="glass-3d-nav sticky top-0 z-50 px-6 py-4">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <!-- Ikon Logo 3D Kubus / Menara Kaca Isometric -->
+                    <div class="logo-3d-box p-2.5 rounded-2xl transform transition-all hover:scale-105 hover:-rotate-3 duration-300 flex items-center justify-center">
+                        <svg class="w-8 h-8 drop-shadow-[0_4px_6px_rgba(0,0,0,0.5)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Top Face 3D -->
+                            <polygon points="20,4 35,12 20,20 5,12" fill="url(#cubeTop)"/>
+                            <!-- Left Face 3D -->
+                            <polygon points="5,12 20,20 20,36 5,28" fill="url(#cubeLeft)"/>
+                            <!-- Right Face 3D -->
+                            <polygon points="20,20 35,12 35,28 20,36" fill="url(#cubeRight)"/>
+                            <!-- Inner Glass Core Highlight -->
+                            <polygon points="20,9 29,14 20,19 11,14" fill="#e0f2fe" fill-opacity="0.45"/>
+                            <!-- Edge Highlights -->
+                            <polyline points="5,12 20,20 35,12" stroke="#bae6fd" stroke-width="1.2" stroke-linecap="round"/>
+                            <line x1="20" y1="20" x2="20" y2="36" stroke="#7dd3fc" stroke-width="1.2" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="cubeTop" x1="5" y1="4" x2="35" y2="20" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#93c5fd"/>
+                                    <stop offset="100%" stop-color="#3b82f6"/>
+                                </linearGradient>
+                                <linearGradient id="cubeLeft" x1="5" y1="12" x2="20" y2="36" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#2563eb"/>
+                                    <stop offset="100%" stop-color="#1e3a8a"/>
+                                </linearGradient>
+                                <linearGradient id="cubeRight" x1="20" y1="12" x2="35" y2="36" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#1d4ed8"/>
+                                    <stop offset="100%" stop-color="#0f172a"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-black tracking-wider bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 bg-clip-text text-transparent uppercase drop-shadow-xs">My WorkSpace</h1>
+                        <p class="text-xs text-blue-800 font-bold tracking-widest uppercase mt-0.5">daily monitoring system</p>
+                    </div>
                 </div>
                 
-                <!-- Tombol Kontrol Admin -->
-                <div id="adminActionButtons" class="hidden items-center gap-2">
-                    <button onclick="toggleFolderModal(true)" class="inline-flex items-center gap-2 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-emerald-600 text-sm font-bold rounded-xl transition-all shadow-sm cursor-pointer">
-                        <i data-lucide="folder-plus" class="w-4 h-4"></i> + Folder
-                    </button>
-                    <button onclick="toggleLinkModal(true)" class="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-indigo-600/20 cursor-pointer">
-                        <i data-lucide="plus" class="w-4 h-4"></i> + Link
-                    </button>
-                </div>
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <div class="relative flex-1 md:w-64">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" id="searchInput" placeholder="Cari laporan atau data..." class="w-full pl-10 pr-4 py-2 bg-white/90 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-800/40 focus:border-blue-800 transition-all shadow-sm">
+                    </div>
+                    
+                    <!-- Tombol Kontrol Admin -->
+                    <div id="adminActionButtons" class="hidden items-center gap-2">
+                        <button onclick="toggleFolderModal(true)" class="inline-flex items-center gap-2 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-emerald-600 text-sm font-bold rounded-xl transition-all shadow-sm cursor-pointer">
+                            <i data-lucide="folder-plus" class="w-4 h-4"></i> + Folder
+                        </button>
+                        <button onclick="toggleLinkModal(true)" class="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-900 to-indigo-800 hover:from-blue-800 hover:to-indigo-700 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-blue-900/20 cursor-pointer">
+                            <i data-lucide="plus" class="w-4 h-4"></i> + Link
+                        </button>
+                    </div>
 
-                <!-- Tombol Salin Link Aplikasi -->
-                <button onclick="copyAppUrl()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-indigo-600 text-xs font-bold rounded-xl transition-all shadow-sm cursor-pointer" title="Salin Tautan Aplikasi">
-                    <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Salin Link App
-                </button>
-
-                <!-- Indikator / Tombol Auth Mode -->
-                <div id="authContainer">
-                    <button onclick="toggleAuthModal(true)" class="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer">
-                        <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400"></i> Login Admin
+                    <!-- Tombol Salin Link Aplikasi -->
+                    <button onclick="copyAppUrl()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-blue-900 text-xs font-bold rounded-xl transition-all shadow-sm cursor-pointer" title="Salin Tautan Aplikasi">
+                        <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Salin Link App
                     </button>
+
+                    <!-- Indikator / Tombol Auth Mode -->
+                    <div id="authContainer">
+                        <button onclick="toggleAuthModal(true)" class="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer">
+                            <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400"></i> Login Admin
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Main Workspace -->
-    <main class="max-w-7xl mx-auto px-6 py-10">
-        
-        <!-- Folder Section -->
-        <div class="mb-12">
-            <div class="flex items-center justify-between mb-5">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-white/90 flex items-center gap-2 drop-shadow-md">
-                    <i data-lucide="layout-grid" class="w-4 h-4"></i> FOLDER UTAMA
-                </h2>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="folderGrid"></div>
-        </div>
-
-        <!-- Folder Content Area -->
-        <div id="folderContentContainer" class="hidden">
-            <div class="border-t border-white/20 my-8 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <button onclick="closeActiveFolder()" class="p-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-xl text-slate-600 transition-all cursor-pointer shadow-sm flex items-center gap-1.5 text-xs font-bold">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Menu Utama
-                    </button>
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2 drop-shadow-md">
-                        <i data-lucide="folder-open" class="w-5 h-5 text-indigo-400"></i> Direktori: <span id="activeFolderName" class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-purple-300"></span>
+        <!-- Main Workspace -->
+        <main class="max-w-7xl mx-auto px-6 py-10">
+            
+            <!-- Folder Section -->
+            <div class="mb-12">
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-sky-100 flex items-center gap-2 drop-shadow-md">
+                        <i data-lucide="layout-grid" class="w-4 h-4 text-sky-400"></i> FOLDER UTAMA
                     </h2>
                 </div>
-                <div class="px-3 py-1 bg-white/90 border border-white/30 rounded-full text-xs font-semibold text-slate-700 tracking-wider shadow-sm" id="itemCounter">0 Link Terarsip</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="folderGrid"></div>
             </div>
 
-            <!-- Links Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="linksGrid"></div>
-
-            <!-- Empty State -->
-            <div id="emptyState" class="hidden text-center py-20 glass-3d-card rounded-2xl border-dashed border-2 border-slate-300">
-                <div class="inline-flex p-4 bg-white text-slate-400 border border-slate-200 rounded-full mb-4 shadow-sm">
-                    <i data-lucide="database-zap" class="w-8 h-8"></i>
+            <!-- Folder Content Area -->
+            <div id="folderContentContainer" class="hidden">
+                <div class="border-t border-white/20 my-8 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <button onclick="closeActiveFolder()" class="p-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-xl text-slate-600 transition-all cursor-pointer shadow-sm flex items-center gap-1.5 text-xs font-bold">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Menu Utama
+                        </button>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2 drop-shadow-md">
+                            <i data-lucide="folder-open" class="w-5 h-5 text-sky-400"></i> Direktori: <span id="activeFolderName" class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-blue-200"></span>
+                        </h2>
+                    </div>
+                    <div class="px-3 py-1 bg-white/90 border border-white/30 rounded-full text-xs font-semibold text-slate-700 tracking-wider shadow-sm" id="itemCounter">0 Link Terarsip</div>
                 </div>
-                <h3 class="text-base font-bold text-slate-700">Belum Ada Data di Folder Ini</h3>
-                <p class="text-slate-500 text-xs mt-1 max-w-xs mx-auto mb-6">Silakan masuk ke Mode Admin untuk menambahkan tautan laporan atau spreadsheet.</p>
+
+                <!-- Links Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="linksGrid"></div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden text-center py-20 glass-3d-card rounded-2xl border-dashed border-2 border-slate-300">
+                    <div class="inline-flex p-4 bg-white text-slate-400 border border-slate-200 rounded-full mb-4 shadow-sm">
+                        <i data-lucide="database-zap" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-700">Belum Ada Data di Folder Ini</h3>
+                    <p class="text-slate-500 text-xs mt-1 max-w-xs mx-auto mb-6">Silakan masuk ke Mode Admin untuk menambahkan tautan laporan atau spreadsheet.</p>
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <!-- Modal Pilihan Buka Dengan (Choice Modal) -->
     <div id="openChoiceModal" class="fixed inset-0 z-150 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                <h3 class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="external-link" class="text-indigo-600 w-5 h-5"></i> Buka Berkas Dengan</h3>
+                <h3 class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="external-link" class="text-blue-800 w-5 h-5"></i> Buka Berkas Dengan</h3>
                 <button onclick="toggleChoiceModal(false)" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <p id="choiceFileTitle" class="text-xs text-slate-500 font-medium"></p>
             <div class="space-y-2 pt-2">
                 <!-- 1. Buka di Tab Baru Chrome/Safari -->
-                <a id="btnOpenNewTab" href="#" target="_blank" onclick="toggleChoiceModal(false)" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition-all shadow-xs">
-                    <i data-lucide="globe" class="w-4 h-4 text-indigo-500 shrink-0"></i> Buka di Tab Baru (Chrome / Safari)
+                <a id="btnOpenNewTab" href="#" target="_blank" onclick="toggleChoiceModal(false)" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 rounded-xl text-xs font-bold text-slate-700 hover:text-blue-900 transition-all shadow-xs">
+                    <i data-lucide="globe" class="w-4 h-4 text-blue-700 shrink-0"></i> Buka di Tab Baru (Chrome / Safari)
                 </a>
                 <!-- 2. Buka dengan Excel/Spreadsheet -->
                 <button onclick="openInSpreadsheetApp()" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 rounded-xl text-xs font-bold text-slate-700 hover:text-emerald-600 transition-all shadow-xs cursor-pointer text-left">
                     <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-500 shrink-0"></i> Buka dengan Excel/Spreadsheet
                 </button>
                 <!-- 3. Salin Tautan -->
-                <button onclick="copyFileUrlFromModal()" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-purple-50 border border-slate-200 hover:border-purple-300 rounded-xl text-xs font-bold text-slate-700 hover:text-purple-600 transition-all shadow-xs cursor-pointer text-left">
-                    <i data-lucide="copy" class="w-4 h-4 text-purple-500 shrink-0"></i> Salin Tautan Berkas
+                <button onclick="copyFileUrlFromModal()" class="w-full flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 transition-all shadow-xs cursor-pointer text-left">
+                    <i data-lucide="copy" class="w-4 h-4 text-indigo-500 shrink-0"></i> Salin Tautan Berkas
                 </button>
             </div>
             <div class="pt-2 flex justify-end">
@@ -210,11 +379,11 @@
             <form onsubmit="handleAdminLogin(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Password Admin</label>
-                    <input type="password" id="adminPasswordInput" required placeholder="Masukkan password..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+                    <input type="password" id="adminPasswordInput" required placeholder="Masukkan password..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-800/50">
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="toggleAuthModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Batal</button>
-                    <button type="submit" class="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl shadow-lg cursor-pointer">Masuk</button>
+                    <button type="submit" class="px-4 py-2 text-xs font-semibold text-white bg-blue-900 hover:bg-blue-800 rounded-xl shadow-lg cursor-pointer">Masuk</button>
                 </div>
             </form>
         </div>
@@ -245,27 +414,27 @@
     <div id="linkModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                <h3 id="linkModalTitle" class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="file-plus" class="text-indigo-600 w-5 h-5"></i> Tambah Tautan Berkas</h3>
+                <h3 id="linkModalTitle" class="text-base font-bold text-slate-800 flex items-center gap-2"><i data-lucide="file-plus" class="text-blue-900 w-5 h-5"></i> Tambah Tautan Berkas</h3>
                 <button onclick="toggleLinkModal(false)" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <form id="linkForm" onsubmit="handleLinkSubmit(event)" class="space-y-4">
                 <input type="hidden" id="editingLinkId" value="">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nama File / Judul Laporan</label>
-                    <input type="text" id="fileTitle" required placeholder="Contoh: Rekap Penjualan harian" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+                    <input type="text" id="fileTitle" required placeholder="Contoh: Rekap Penjualan harian" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-800/50">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tautan URL Berkas</label>
-                    <input type="url" id="fileUrl" required placeholder="https://1drv.ms/x/c/..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+                    <input type="url" id="fileUrl" required placeholder="https://1drv.ms/x/c/..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-800/50">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Simpan / Pindah ke Folder</label>
-                        <select id="fileFolder" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"></select>
+                        <select id="fileFolder" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-800/50"></select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Format Berkas</label>
-                        <select id="fileType" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+                        <select id="fileType" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-800/50">
                             <option value="excel">Excel / Spreadsheet</option>
                             <option value="document">Dokumen / PDF / Word</option>
                             <option value="archive">Zip / Rar / Format Lain</option>
@@ -274,25 +443,24 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Keterangan / Deskripsi Singkat</label>
-                    <textarea id="fileDesc" rows="2" placeholder="Catatan opsional monitoring berkas harian..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none"></textarea>
+                    <textarea id="fileDesc" rows="2" placeholder="Catatan opsional monitoring berkas harian..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-800/50 resize-none"></textarea>
                 </div>
                 <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
                     <button type="button" onclick="toggleLinkModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Batal</button>
-                    <button type="submit" id="linkSubmitBtn" class="px-4 py-2 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-xl shadow-lg cursor-pointer">Simpan Link</button>
+                    <button type="submit" id="linkSubmitBtn" class="px-4 py-2 text-xs font-semibold text-white bg-gradient-to-r from-blue-900 to-indigo-800 hover:from-blue-800 hover:to-indigo-700 rounded-xl shadow-lg cursor-pointer">Simpan Link</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="mt-24 border-t border-white/20 py-8 px-6 text-center max-w-7xl mx-auto">
-        <div class="text-xs text-white/70 font-medium drop-shadow-sm">
+    <footer class="mt-24 border-t border-white/15 py-8 px-6 text-center max-w-7xl mx-auto w-full">
+        <div class="text-xs text-sky-100/80 font-medium drop-shadow-sm">
             My WorkSpace • Daily Monitoring System © 2026
         </div>
     </footer>
 
     <script>
-        // Versi v27: Ikon folder Monitoring Sales diganti menjadi ikon laporan/spreadsheet 3D bernuansa Teal-Emerald yang profesional dan kontras
         let defaultFolders = ["Semua Berkas", "Monitoring Sales"];
         let defaultLinks = [
             {
@@ -416,7 +584,7 @@
 
             if (show) {
                 if (editName) {
-                    titleEl.innerHTML = `<i data-lucide="edit-3" class="text-indigo-600 w-5 h-5"></i> Edit Nama Folder`;
+                    titleEl.innerHTML = `<i data-lucide="edit-3" class="text-blue-900 w-5 h-5"></i> Edit Nama Folder`;
                     inputEl.value = editName;
                     oldNameInput.value = editName;
                     submitBtn.innerText = "Simpan Perubahan";
@@ -459,7 +627,7 @@
                 if (editId) {
                     const item = driveLinks.find(l => l.id === editId);
                     if (item) {
-                        titleEl.innerHTML = `<i data-lucide="edit-3" class="text-indigo-600 w-5 h-5"></i> Edit Berkas & Pindah Folder`;
+                        titleEl.innerHTML = `<i data-lucide="edit-3" class="text-blue-900 w-5 h-5"></i> Edit Berkas & Pindah Folder`;
                         document.getElementById('editingLinkId').value = item.id;
                         document.getElementById('fileTitle').value = item.title;
                         document.getElementById('fileUrl').value = item.url;
@@ -469,7 +637,7 @@
                         submitBtn.innerText = "Simpan Perubahan";
                     }
                 } else {
-                    titleEl.innerHTML = `<i data-lucide="file-plus" class="text-indigo-600 w-5 h-5"></i> Tambah Tautan Berkas`;
+                    titleEl.innerHTML = `<i data-lucide="file-plus" class="text-blue-900 w-5 h-5"></i> Tambah Tautan Berkas`;
                     document.getElementById('editingLinkId').value = '';
                     document.getElementById('linkForm').reset();
                     if (activeFolder && activeFolder !== "Semua Berkas") select.value = activeFolder;
@@ -665,23 +833,23 @@
                 fCard.onclick = () => openFolder(f);
                 
                 let iconType = isSelected ? 'folder-open' : 'folder';
-                let iconColor = isSelected ? 'text-indigo-600' : 'text-amber-500';
+                let iconColor = isSelected ? 'text-blue-900' : 'text-amber-500';
 
                 if (isLocked) {
                     iconType = 'lock';
                     iconColor = 'text-amber-600';
                 } else {
-                    if (f === "Semua Berkas") { iconType = 'database'; iconColor = 'text-indigo-600'; }
-                    else if (isSalesOrMonitoring) { iconType = 'file-spreadsheet'; iconColor = 'text-teal-700'; }
+                    if (f === "Semua Berkas") { iconType = 'database'; iconColor = 'text-blue-900'; }
+                    else if (isSalesOrMonitoring) { iconType = 'file-spreadsheet'; iconColor = 'text-sky-700'; }
                 }
 
                 let actionButtons = '';
                 if (isAdmin && f !== "Semua Berkas") {
                     actionButtons = `
                         <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all bg-white/90 p-1 rounded-xl border border-slate-200 shadow-sm">
-                            ${idx > 1 ? `<button onclick="moveFolder(${idx}, -1, event)" title="Geser Kiri" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>` : ''}
-                            ${idx < folders.length - 1 ? `<button onclick="moveFolder(${idx}, 1, event)" title="Geser Kanan" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>` : ''}
-                            <button onclick="toggleFolderModal(true, '${f}'); event.stopPropagation();" title="Edit Nama" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
+                            ${idx > 1 ? `<button onclick="moveFolder(${idx}, -1, event)" title="Geser Kiri" class="p-1 text-slate-500 hover:text-blue-900 cursor-pointer"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>` : ''}
+                            ${idx < folders.length - 1 ? `<button onclick="moveFolder(${idx}, 1, event)" title="Geser Kanan" class="p-1 text-slate-500 hover:text-blue-900 cursor-pointer"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>` : ''}
+                            <button onclick="toggleFolderModal(true, '${f}'); event.stopPropagation();" title="Edit Nama" class="p-1 text-slate-500 hover:text-blue-900 cursor-pointer"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
                         </div>
                     `;
                 }
@@ -731,7 +899,7 @@
                     lGrid.classList.remove('hidden');
                     
                     filtered.forEach((item, index) => {
-                        let icon = 'file-text'; let color = 'text-indigo-600 bg-indigo-50 border-indigo-200';
+                        let icon = 'file-text'; let color = 'text-blue-900 bg-blue-50 border-blue-200';
                         if (item.type === 'excel') { icon = 'file-spreadsheet'; color = 'text-emerald-600 bg-emerald-50 border-emerald-200'; }
                         else if (item.type === 'archive') { icon = 'archive'; color = 'text-amber-600 bg-amber-50 border-amber-200'; }
 
@@ -739,9 +907,9 @@
                         if (isAdmin) {
                             fileActionButtons = `
                                 <div class="flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-slate-200 shadow-sm">
-                                    ${index > 0 ? `<button onclick="moveLink(${item.id}, -1)" title="Geser Kiri/Atas" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>` : ''}
-                                    ${index < filtered.length - 1 ? `<button onclick="moveLink(${item.id}, 1)" title="Geser Kanan/Bawah" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>` : ''}
-                                    <button onclick="toggleLinkModal(true, ${item.id})" title="Edit & Pindah Folder" class="p-1 text-slate-500 hover:text-indigo-600 cursor-pointer"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
+                                    ${index > 0 ? `<button onclick="moveLink(${item.id}, -1)" title="Geser Kiri/Atas" class="p-1 text-slate-500 hover:text-blue-900 cursor-pointer"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>` : ''}
+                                    ${index < filtered.length - 1 ? `<button onclick="moveLink(${item.id}, 1)" title="Geser Kanan/Bawah" class="p-1 text-slate-500 hover:text-blue-900 cursor-pointer"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>` : ''}
+                                    <button onclick="toggleLinkModal(true, ${item.id})" title="Edit & Pindah Folder" class="p-1 text-slate-500 hover:text-blue-900 cursor-pointer"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
                                     <button onclick="deleteLink(${item.id})" class="p-1 text-slate-500 hover:text-red-500 cursor-pointer" title="Hapus Link"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                                 </div>
                             `;
@@ -758,11 +926,11 @@
                                         ${fileActionButtons}
                                     </div>
                                 </div>
-                                <h3 class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-indigo-600 transition-colors">${item.title}</h3>
+                                <h3 class="text-sm font-bold text-slate-800 line-clamp-1 group-hover:text-blue-900 transition-colors">${item.title}</h3>
                                 <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">${item.description}</p>
                             </div>
                             <div class="mt-5 pt-3 border-t border-slate-200/80 flex justify-end translate-z">
-                                <button onclick="toggleChoiceModal(true, '${item.title.replace(/'/g, "\\'")}', '${item.url}')" class="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 hover:text-indigo-500 cursor-pointer">
+                                <button onclick="toggleChoiceModal(true, '${item.title.replace(/'/g, "\\'")}', '${item.url}')" class="inline-flex items-center gap-1 text-xs font-bold text-blue-900 hover:text-blue-700 cursor-pointer">
                                     Buka Berkas <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                                 </button>
                             </div>
