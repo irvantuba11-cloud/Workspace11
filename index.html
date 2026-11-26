@@ -159,20 +159,27 @@
         .corp-badge-navy {
             background: linear-gradient(145deg, #1e3a8a 0%, #0f172a 100%);
             color: #ffffff;
-            border: 1px solid rgba(147, 197, 253, 0.55);
+            border: 1.5px solid rgba(147, 197, 253, 0.7);
             box-shadow:
-                0 8px 16px -4px rgba(15, 23, 42, 0.45),
-                inset 0 1px 2px rgba(255, 255, 255, 0.35);
+                0 10px 18px -4px rgba(15, 23, 42, 0.52),
+                inset 0 2px 3px rgba(255, 255, 255, 0.4);
             font-weight: 800;
             font-size: 13px;
             letter-spacing: 0.06em;
         }
-        .ms-forms-badge {
-            background: linear-gradient(145deg, #0d9488 0%, #0f766e 100%);
-            border: 1px solid rgba(153, 246, 228, 0.65);
+        .daily-sheet-badge {
+            background: linear-gradient(145deg, #10b981 0%, #047857 58%, #0f172a 100%);
+            border: 1.5px solid rgba(167, 243, 208, 0.88);
             box-shadow:
-                0 8px 16px -4px rgba(15, 118, 110, 0.4),
-                inset 0 1px 2px rgba(255, 255, 255, 0.35);
+                0 10px 18px -4px rgba(4, 120, 87, 0.5),
+                inset 0 2px 3px rgba(255, 255, 255, 0.45);
+        }
+        .ms-forms-badge {
+            background: linear-gradient(145deg, #14b8a6 0%, #0f766e 60%, #115e59 100%);
+            border: 1.5px solid rgba(153, 246, 228, 0.85);
+            box-shadow:
+                0 10px 18px -4px rgba(15, 118, 110, 0.48),
+                inset 0 2px 3px rgba(255, 255, 255, 0.42);
         }
         .translate-z {
             transform: translateZ(18px);
@@ -606,8 +613,8 @@
             }
         ];
 
-        let folders = JSON.parse(localStorage.getItem('od_folders_v32')) || defaultFolders;
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v32')) || defaultLinks;
+        let folders = JSON.parse(localStorage.getItem('od_folders_v34')) || defaultFolders;
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v34')) || defaultLinks;
 
         let activeFolder = null;
         let searchQuery = "";
@@ -642,15 +649,11 @@
                                     <stop offset="100%" stop-color="#e0f2fe"/>
                                 </linearGradient>
                             </defs>
-                            <!-- Tab & Badan Belakang Folder 3D -->
                             <path d="M6 12C6 9.79086 7.79086 8 10 8H19.5C20.7 8 21.85 8.54 22.6 9.48L25 12.5H38C40.2091 12.5 42 14.2909 42 16.5V35C42 37.2091 40.2091 39 38 39H10C7.79086 39 6 37.2091 6 35V12Z" fill="url(#salesFolderBack)"/>
-                            <!-- Lembar Dokumen Menyembul Terang -->
                             <rect x="13" y="13" width="22" height="16" rx="2.5" fill="url(#salesDocSheet)" stroke="#bae6fd" stroke-width="1"/>
                             <line x1="17" y1="18" x2="31" y2="18" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
                             <line x1="17" y1="22.5" x2="27" y2="22.5" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
-                            <!-- Panel Depan Folder 3D Menyala -->
                             <path d="M4.5 20.5C4.5 18.567 6.067 17 8 17H40C41.933 17 43.5 18.567 43.5 20.5L41.5 37.5C41.3 39.2 39.85 40.5 38.15 40.5H9.85C8.15 40.5 6.7 39.2 6.5 37.5L4.5 20.5Z" fill="url(#salesFolderFront)" stroke="#e0f2fe" stroke-width="1.3"/>
-                            <!-- Garis Kilau Atas -->
                             <line x1="8.5" y1="18.6" x2="39.5" y2="18.6" stroke="#ffffff" stroke-opacity="0.85" stroke-width="1.4" stroke-linecap="round"/>
                         </svg>
                     </div>
@@ -681,12 +684,27 @@
             if (item.type === 'forms' || titleLower.includes('market share') || titleLower.includes('forms')) {
                 return `
                     <div class="ms-forms-badge w-11 h-11 rounded-xl flex items-center justify-center text-white" title="Microsoft Forms">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="3" y="4" width="6" height="6" rx="1.2" fill="#ffffff"/>
-                            <rect x="3" y="12" width="6" height="6" rx="1.2" fill="#ffffff" fill-opacity="0.85"/>
-                            <line x1="11.5" y1="6.2" x2="20.5" y2="6.2" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
-                            <line x1="11.5" y1="11" x2="20.5" y2="11" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
-                            <line x1="11.5" y1="15.8" x2="17.5" y2="15.8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+                        <svg class="w-6 h-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="4" width="6.2" height="6.2" rx="1.4" fill="#ffffff"/>
+                            <rect x="3" y="12.5" width="6.2" height="6.2" rx="1.4" fill="#ffffff" fill-opacity="0.88"/>
+                            <line x1="12" y1="6.4" x2="20.8" y2="6.4" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round"/>
+                            <line x1="12" y1="11.4" x2="20.8" y2="11.4" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round"/>
+                            <line x1="12" y1="16.4" x2="18" y2="16.4" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                `;
+            }
+
+            if (item.type === 'excel' || titleLower.includes('pengawalan') || titleLower.includes('harian')) {
+                return `
+                    <div class="daily-sheet-badge w-11 h-11 rounded-xl flex items-center justify-center text-white" title="Pengawalan Harian">
+                        <svg class="w-6 h-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3.5" y="3.5" width="17" height="17" rx="3" fill="#ffffff" fill-opacity="0.16" stroke="#ffffff" stroke-width="2.2"/>
+                            <line x1="3.5" y1="9.2" x2="20.5" y2="9.2" stroke="#ffffff" stroke-width="2.2"/>
+                            <line x1="9.5" y1="9.2" x2="9.5" y2="20.5" stroke="#ffffff" stroke-width="2.2"/>
+                            <rect x="6" y="12" width="1.6" height="5.5" rx="0.6" fill="#ffffff"/>
+                            <rect x="12.2" y="13.5" width="1.6" height="4" rx="0.6" fill="#ffffff"/>
+                            <rect x="15.6" y="11.2" width="1.6" height="6.3" rx="0.6" fill="#a7f3d0"/>
                         </svg>
                     </div>
                 `;
@@ -694,10 +712,7 @@
 
             let icon = 'file-text';
             let color = 'text-blue-900 bg-blue-50 border-blue-200';
-            if (item.type === 'excel') {
-                icon = 'file-spreadsheet';
-                color = 'text-emerald-600 bg-emerald-50 border-emerald-200';
-            } else if (item.type === 'archive') {
+            if (item.type === 'archive') {
                 icon = 'archive';
                 color = 'text-amber-600 bg-amber-50 border-amber-200';
             }
@@ -893,8 +908,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v32', JSON.stringify(folders));
-            localStorage.setItem('od_links_v32', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v34', JSON.stringify(folders));
+            localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -929,8 +944,8 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_folders_v32', JSON.stringify(folders));
-            localStorage.setItem('od_links_v32', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v34', JSON.stringify(folders));
+            localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -940,7 +955,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v32', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -957,7 +972,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v32', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -967,8 +982,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v32', JSON.stringify(folders));
-                localStorage.setItem('od_links_v32', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v34', JSON.stringify(folders));
+                localStorage.setItem('od_links_v34', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -984,7 +999,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v32', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v34', JSON.stringify(folders));
             renderWorkspace();
         }
 
