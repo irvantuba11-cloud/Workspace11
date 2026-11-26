@@ -9,34 +9,34 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
-            background-color: #060d19;
+            background-color: #050c1a;
             perspective: 1000px;
             min-height: 100vh;
             width: 100%;
             position: relative;
             overflow-x: hidden;
         }
-        /* Foto latar belakang terpisah dengan filter penajam SVG (feConvolveMatrix) + kontras & saturasi */
-        .bg-photo-layer {
+        /* Latar belakang vektor SVG siluet kota & gedung perkantoran modern (tajam 100% di semua layar) */
+        .city-skyline-backdrop {
             position: fixed;
             inset: 0;
             z-index: -2;
             pointer-events: none;
-            background-image: url('43.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            filter: url(#hd-sharpen-filter) contrast(1.14) saturate(1.16) brightness(1.04);
-            image-rendering: -webkit-optimize-contrast;
-            transform: translateZ(0);
+            background: radial-gradient(circle at 50% 22%, #173875 0%, #0b1b3d 48%, #040914 100%);
+            overflow: hidden;
         }
-        /* Lapisan sangat tipis agar teks di luar kartu tetap terbaca tanpa membuat foto buram/gelap */
+        .city-skyline-backdrop svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        /* Lapisan vignetting halus di luar kartu agar keterbacaan tetap nyaman */
         .bg-photo-overlay {
             position: fixed;
             inset: 0;
             z-index: -1;
             pointer-events: none;
-            background: linear-gradient(180deg, rgba(6, 13, 25, 0.08) 0%, rgba(6, 13, 25, 0.03) 55%, rgba(4, 9, 18, 0.20) 100%);
+            background: linear-gradient(180deg, rgba(4, 10, 24, 0.14) 0%, rgba(4, 10, 24, 0.04) 55%, rgba(2, 6, 16, 0.28) 100%);
         }
         .glass-3d-nav {
             background: rgba(255, 255, 255, 0.94);
@@ -108,20 +108,211 @@
 </head>
 <body class="min-h-screen text-slate-800 font-sans antialiased pb-12 flex flex-col justify-between">
 
-    <!-- Definisi Filter Penajam SVG (feConvolveMatrix Unsharp Mask) -->
-    <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true">
-        <defs>
-            <filter id="hd-sharpen-filter">
-                <feConvolveMatrix order="3" preserveAlpha="true" kernelMatrix="
-                    0   -0.45    0
-                   -0.45  2.80  -0.45
-                    0   -0.45    0
-                "/>
-            </filter>
-        </defs>
-    </svg>
+    <!-- Latar Belakang Siluet Kota & Gedung Perkantoran Modern (SVG HD) -->
+    <div class="city-skyline-backdrop" aria-hidden="true">
+        <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Langit Malam Biru Tua Korporat -->
+                <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#040916"/>
+                    <stop offset="45%" stop-color="#0a1d42"/>
+                    <stop offset="78%" stop-color="#133169"/>
+                    <stop offset="100%" stop-color="#071226"/>
+                </linearGradient>
 
-    <div class="bg-photo-layer" aria-hidden="true"></div>
+                <!-- Cahaya Cakrawala Kota -->
+                <radialGradient id="horizonGlow" cx="52%" cy="68%" r="55%">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.26"/>
+                    <stop offset="45%" stop-color="#1d4ed8" stop-opacity="0.16"/>
+                    <stop offset="100%" stop-color="#040916" stop-opacity="0"/>
+                </radialGradient>
+
+                <!-- Gradasi Gedung Lapis Belakang -->
+                <linearGradient id="bldgBack" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#142d5e"/>
+                    <stop offset="100%" stop-color="#08142b"/>
+                </linearGradient>
+
+                <!-- Gradasi Gedung Lapis Tengah (Kaca Modern) -->
+                <linearGradient id="bldgMid" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#102752"/>
+                    <stop offset="50%" stop-color="#091836"/>
+                    <stop offset="100%" stop-color="#050e21"/>
+                </linearGradient>
+
+                <!-- Gradasi Gedung Lapis Depan -->
+                <linearGradient id="bldgFront" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0a1936"/>
+                    <stop offset="100%" stop-color="#030814"/>
+                </linearGradient>
+
+                <!-- Sisi Kaca Terang Gedung -->
+                <linearGradient id="glassHighlight" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.22"/>
+                    <stop offset="60%" stop-color="#1e40af" stop-opacity="0.08"/>
+                    <stop offset="100%" stop-color="#030814" stop-opacity="0"/>
+                </linearGradient>
+
+                <!-- Pola Jendela Perkantoran Terang & Redup -->
+                <pattern id="officeWinA" width="18" height="22" patternUnits="userSpaceOnUse">
+                    <rect x="3" y="4" width="5" height="9" rx="0.6" fill="#7dd3fc" fill-opacity="0.32"/>
+                    <rect x="11" y="4" width="5" height="9" rx="0.6" fill="#e0f2fe" fill-opacity="0.14"/>
+                    <rect x="3" y="15" width="5" height="5" rx="0.6" fill="#38bdf8" fill-opacity="0.18"/>
+                    <rect x="11" y="15" width="5" height="5" rx="0.6" fill="#fde68a" fill-opacity="0.22"/>
+                </pattern>
+
+                <pattern id="officeWinB" width="14" height="18" patternUnits="userSpaceOnUse">
+                    <rect x="2" y="3" width="10" height="3.5" rx="0.5" fill="#bae6fd" fill-opacity="0.26"/>
+                    <rect x="2" y="9" width="10" height="3.5" rx="0.5" fill="#38bdf8" fill-opacity="0.14"/>
+                    <rect x="2" y="14" width="10" height="2.5" rx="0.5" fill="#fef08a" fill-opacity="0.20"/>
+                </pattern>
+
+                <pattern id="officeWinWarm" width="20" height="24" patternUnits="userSpaceOnUse">
+                    <rect x="3" y="4" width="6" height="8" rx="0.6" fill="#fde68a" fill-opacity="0.28"/>
+                    <rect x="12" y="4" width="6" height="8" rx="0.6" fill="#93c5fd" fill-opacity="0.24"/>
+                    <rect x="3" y="15" width="6" height="6" rx="0.6" fill="#60a5fa" fill-opacity="0.16"/>
+                </pattern>
+
+                <!-- Efek Kabut Halus Dasar Kota -->
+                <linearGradient id="groundMist" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#071329" stop-opacity="0"/>
+                    <stop offset="65%" stop-color="#061024" stop-opacity="0.65"/>
+                    <stop offset="100%" stop-color="#030813" stop-opacity="0.96"/>
+                </linearGradient>
+            </defs>
+
+            <!-- Latar Langit & Cahaya -->
+            <rect width="1920" height="1080" fill="url(#skyGrad)"/>
+            <rect width="1920" height="1080" fill="url(#horizonGlow)"/>
+
+            <!-- Bintang / Titik Cahaya Halus di Langit Atas -->
+            <g fill="#bae6fd" opacity="0.35">
+                <circle cx="180" cy="120" r="1.2"/>
+                <circle cx="340" cy="85" r="1.5"/>
+                <circle cx="520" cy="150" r="1"/>
+                <circle cx="790" cy="95" r="1.3"/>
+                <circle cx="1060" cy="115" r="1.1"/>
+                <circle cx="1290" cy="80" r="1.6"/>
+                <circle cx="1540" cy="140" r="1.2"/>
+                <circle cx="1760" cy="100" r="1.4"/>
+            </g>
+
+            <!-- LAPIS 1: Siluet Gedung Pencakar Langit Jauh (Background Skyline) -->
+            <g fill="url(#bldgBack)" opacity="0.88">
+                <rect x="20" y="540" width="95" height="540"/>
+                <rect x="130" y="470" width="110" height="610"/>
+                <polygon points="130,470 185,435 240,470"/>
+                <rect x="260" y="510" width="85" height="570"/>
+                <rect x="370" y="410" width="115" height="670"/>
+                <rect x="424" y="340" width="6" height="70"/>
+                <rect x="510" y="490" width="100" height="590"/>
+                <rect x="635" y="380" width="120" height="700"/>
+                <rect x="655" y="355" width="80" height="25"/>
+                <rect x="780" y="460" width="95" height="620"/>
+                <rect x="900" y="350" width="130" height="730"/>
+                <polygon points="900,350 1030,310 1030,350"/>
+                <rect x="962" y="255" width="5" height="65"/>
+                <rect x="1060" y="440" width="105" height="640"/>
+                <rect x="1190" y="390" width="125" height="690"/>
+                <rect x="1340" y="480" width="95" height="600"/>
+                <rect x="1460" y="370" width="130" height="710"/>
+                <rect x="1522" y="300" width="6" height="70"/>
+                <rect x="1615" y="450" width="110" height="630"/>
+                <rect x="1750" y="420" width="100" height="660"/>
+                <rect x="1865" y="510" width="75" height="570"/>
+            </g>
+
+            <!-- LAPIS 2: Gedung Perkantoran Modern dengan Jendela & Fasad Kaca -->
+            <g>
+                <!-- Gedung Kiri 1 -->
+                <rect x="65" y="520" width="125" height="560" fill="url(#bldgMid)"/>
+                <rect x="77" y="535" width="101" height="460" fill="url(#officeWinA)"/>
+                <rect x="65" y="520" width="28" height="560" fill="url(#glassHighlight)"/>
+
+                <!-- Menara Perkantoran Kiri 2 (Bertingkat Modern) -->
+                <rect x="220" y="430" width="135" height="650" fill="url(#bldgMid)"/>
+                <rect x="242" y="395" width="91" height="35" fill="#132d5e"/>
+                <rect x="285" y="330" width="5" height="65" fill="#38bdf8" opacity="0.65"/>
+                <circle cx="287.5" cy="328" r="3" fill="#ef4444"/>
+                <rect x="234" y="445" width="107" height="540" fill="url(#officeWinB)"/>
+                <rect x="220" y="430" width="32" height="650" fill="url(#glassHighlight)"/>
+
+                <!-- Menara Kembar / Korporat Tengah-Kiri -->
+                <rect x="445" y="365" width="145" height="715" fill="url(#bldgMid)"/>
+                <polygon points="445,365 590,330 590,365" fill="#173875"/>
+                <rect x="462" y="382" width="111" height="590" fill="url(#officeWinWarm)"/>
+                <rect x="445" y="365" width="35" height="715" fill="url(#glassHighlight)"/>
+
+                <!-- Gedung Kaca Tinggi Tengah -->
+                <rect x="715" y="325" width="155" height="755" fill="url(#bldgMid)"/>
+                <rect x="735" y="295" width="115" height="30" fill="#173875"/>
+                <rect x="790" y="220" width="5" height="75" fill="#7dd3fc" opacity="0.7"/>
+                <circle cx="792.5" cy="218" r="3.2" fill="#38bdf8"/>
+                <rect x="732" y="345" width="121" height="630" fill="url(#officeWinA)"/>
+                <rect x="715" y="325" width="40" height="755" fill="url(#glassHighlight)"/>
+
+                <!-- Gedung Modern Miring Tengah-Kanan -->
+                <rect x="985" y="390" width="140" height="690" fill="url(#bldgMid)"/>
+                <polygon points="985,390 1125,425 1125,390" fill="#071226"/>
+                <rect x="1002" y="430" width="106" height="545" fill="url(#officeWinB)"/>
+                <rect x="985" y="390" width="32" height="690" fill="url(#glassHighlight)"/>
+
+                <!-- Menara Kaca Kanan 1 -->
+                <rect x="1250" y="340" width="160" height="740" fill="url(#bldgMid)"/>
+                <rect x="1272" y="310" width="116" height="30" fill="#153269"/>
+                <rect x="1328" y="240" width="5" height="70" fill="#7dd3fc" opacity="0.65"/>
+                <circle cx="1330.5" cy="238" r="3" fill="#ef4444"/>
+                <rect x="1268" y="358" width="124" height="610" fill="url(#officeWinWarm)"/>
+                <rect x="1250" y="340" width="38" height="740" fill="url(#glassHighlight)"/>
+
+                <!-- Gedung Kanan 2 -->
+                <rect x="1555" y="420" width="145" height="660" fill="url(#bldgMid)"/>
+                <rect x="1573" y="438" width="109" height="530" fill="url(#officeWinA)"/>
+                <rect x="1555" y="420" width="34" height="660" fill="url(#glassHighlight)"/>
+
+                <!-- Gedung Ujung Kanan -->
+                <rect x="1765" y="485" width="130" height="595" fill="url(#bldgMid)"/>
+                <rect x="1780" y="502" width="100" height="470" fill="url(#officeWinB)"/>
+            </g>
+
+            <!-- LAPIS 3: Siluet Gedung Perkantoran Depan (Kontras Tajam) -->
+            <g>
+                <rect x="0" y="610" width="110" height="470" fill="url(#bldgFront)"/>
+                <rect x="14" y="628" width="82" height="360" fill="url(#officeWinB)" opacity="0.7"/>
+
+                <rect x="330" y="560" width="140" height="520" fill="url(#bldgFront)"/>
+                <rect x="348" y="578" width="104" height="400" fill="url(#officeWinA)" opacity="0.75"/>
+                <line x1="330" y1="560" x2="470" y2="560" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="2"/>
+
+                <rect x="575" y="505" width="165" height="575" fill="url(#bldgFront)"/>
+                <rect x="595" y="525" width="125" height="450" fill="url(#officeWinB)" opacity="0.8"/>
+                <line x1="575" y1="505" x2="740" y2="505" stroke="#7dd3fc" stroke-opacity="0.4" stroke-width="2"/>
+
+                <rect x="855" y="545" width="150" height="535" fill="url(#bldgFront)"/>
+                <rect x="874" y="564" width="112" height="410" fill="url(#officeWinWarm)" opacity="0.72"/>
+                <line x1="855" y1="545" x2="1005" y2="545" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="2"/>
+
+                <rect x="1115" y="515" width="155" height="565" fill="url(#bldgFront)"/>
+                <rect x="1135" y="535" width="115" height="430" fill="url(#officeWinA)" opacity="0.78"/>
+                <line x1="1115" y1="515" x2="1270" y2="515" stroke="#7dd3fc" stroke-opacity="0.4" stroke-width="2"/>
+
+                <rect x="1400" y="575" width="165" height="505" fill="url(#bldgFront)"/>
+                <rect x="1420" y="594" width="125" height="390" fill="url(#officeWinB)" opacity="0.72"/>
+
+                <rect x="1685" y="550" width="135" height="530" fill="url(#bldgFront)"/>
+                <rect x="1702" y="568" width="101" height="410" fill="url(#officeWinA)" opacity="0.75"/>
+            </g>
+
+            <!-- Cahaya Jalan Raya / Boulevard Kota di Bagian Bawah -->
+            <rect x="0" y="920" width="1920" height="160" fill="url(#groundMist)"/>
+            <g opacity="0.55">
+                <line x1="0" y1="1012" x2="1920" y2="1012" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="28 18"/>
+                <line x1="0" y1="1024" x2="1920" y2="1024" stroke="#fde68a" stroke-width="1.2" stroke-dasharray="16 26"/>
+                <line x1="0" y1="1040" x2="1920" y2="1040" stroke="#60a5fa" stroke-width="2" stroke-dasharray="45 22"/>
+            </g>
+        </svg>
+    </div>
+
     <div class="bg-photo-overlay" aria-hidden="true"></div>
 
     <div>
