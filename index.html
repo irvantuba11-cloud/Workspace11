@@ -364,11 +364,19 @@
                 folder: "Monitoring Sales",
                 type: "document",
                 description: "Microsoft Forms"
+            },
+            {
+                id: 3,
+                title: "Human Capital",
+                url: "https://irvantuba11-cloud.github.io/portal-hc-sukun/index.html",
+                folder: "Monitoring Sales",
+                type: "document",
+                description: "Portal HC PT. Sukun Wartono Indonesia"
             }
         ];
 
-        let folders = JSON.parse(localStorage.getItem('od_folders_v27')) || defaultFolders;
-        let driveLinks = JSON.parse(localStorage.getItem('od_links_v27')) || defaultLinks;
+        let folders = JSON.parse(localStorage.getItem('od_folders_v28')) || defaultFolders;
+        let driveLinks = JSON.parse(localStorage.getItem('od_links_v28')) || defaultLinks;
 
         let activeFolder = null;
         let searchQuery = "";
@@ -563,8 +571,8 @@
                 folders.push(newName);
             }
 
-            localStorage.setItem('od_folders_v27', JSON.stringify(folders));
-            localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v28', JSON.stringify(folders));
+            localStorage.setItem('od_links_v28', JSON.stringify(driveLinks));
             toggleFolderModal(false);
             renderWorkspace();
         }
@@ -599,7 +607,8 @@
                 activeFolder = folder;
             }
 
-            localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
+            localStorage.setItem('od_folders_v28', JSON.stringify(folders));
+            localStorage.setItem('od_links_v28', JSON.stringify(driveLinks));
             toggleLinkModal(false);
             renderWorkspace();
             showToast("Perubahan link berhasil disimpan permanen!");
@@ -609,7 +618,7 @@
             if (!isAdmin) return;
             if (confirm("Hapus link data ini?")) {
                 driveLinks = driveLinks.filter(item => item.id !== id);
-                localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
+                localStorage.setItem('od_links_v28', JSON.stringify(driveLinks));
                 renderWorkspace();
             }
         }
@@ -626,7 +635,7 @@
             driveLinks[index] = driveLinks[targetIndex];
             driveLinks[targetIndex] = temp;
 
-            localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
+            localStorage.setItem('od_links_v28', JSON.stringify(driveLinks));
             renderWorkspace();
         }
 
@@ -636,8 +645,8 @@
             if (confirm(`Hapus folder "${folderName}" beserta seluruh berkas monitoring di dalamnya?`)) {
                 folders = folders.filter(f => f !== folderName);
                 driveLinks = driveLinks.filter(item => item.folder !== folderName);
-                localStorage.setItem('od_folders_v27', JSON.stringify(folders));
-                localStorage.setItem('od_links_v27', JSON.stringify(driveLinks));
+                localStorage.setItem('od_folders_v28', JSON.stringify(folders));
+                localStorage.setItem('od_links_v28', JSON.stringify(driveLinks));
                 if (activeFolder === folderName) activeFolder = null;
                 renderWorkspace();
             }
@@ -653,7 +662,7 @@
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
 
-            localStorage.setItem('od_folders_v27', JSON.stringify(folders));
+            localStorage.setItem('od_folders_v28', JSON.stringify(folders));
             renderWorkspace();
         }
 
