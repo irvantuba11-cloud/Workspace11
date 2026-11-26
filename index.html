@@ -9,40 +9,25 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
-            background: #0b192c;
+            background-color: #0b192c;
+            background-image: url('bg-city.jpg'), url('bg-city.jfif');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             perspective: 1000px;
             min-height: 100vh;
             width: 100%;
             position: relative;
             overflow-x: hidden;
         }
-        /* Full-Screen Realistic Modern Glass Skyline Background */
-        .skyline-backdrop-layer {
-            position: fixed;
-            inset: -28px;
-            width: calc(100vw + 56px);
-            height: calc(100vh + 56px);
-            z-index: -1;
-            pointer-events: none;
-            overflow: hidden;
-            transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
-            transition: transform 0.25s ease-out;
-            will-change: transform;
-        }
-        .skyline-backdrop-layer svg {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .skyline-scrim {
+        /* Lapisan halus agar teks di luar kartu tetap terbaca tanpa menutupi foto gedung */
+        .bg-photo-overlay {
             position: fixed;
             inset: 0;
-            width: 100vw;
-            height: 100vh;
             z-index: -1;
             pointer-events: none;
-            background:
-                linear-gradient(180deg, rgba(11, 25, 44, 0.22) 0%, rgba(15, 29, 49, 0.14) 50%, rgba(8, 17, 30, 0.48) 100%);
+            background: linear-gradient(180deg, rgba(11, 25, 44, 0.16) 0%, rgba(11, 25, 44, 0.08) 55%, rgba(8, 17, 30, 0.35) 100%);
         }
         .glass-3d-nav {
             background: rgba(255, 255, 255, 0.92);
@@ -51,10 +36,9 @@
             border-bottom: 1px solid rgba(203, 213, 225, 0.8);
             box-shadow: 0 4px 25px rgba(2, 6, 23, 0.22);
         }
-        /* Wadah Ikon 3D Header */
         .logo-3d-box {
             background: linear-gradient(145deg, #1e3a8a, #0f172a);
-            box-shadow: 
+            box-shadow:
                 0 10px 20px -5px rgba(15, 23, 42, 0.5),
                 inset 0 2px 3px rgba(147, 197, 253, 0.6),
                 inset 0 -3px 6px rgba(2, 6, 23, 0.8);
@@ -115,145 +99,7 @@
 </head>
 <body class="min-h-screen text-slate-800 font-sans antialiased pb-12 flex flex-col justify-between">
 
-    <!-- Full-Screen Realistic Glass Skyscrapers Backdrop (Di Luar Menu Login & Kartu) -->
-    <div id="skylineBackdrop" class="skyline-backdrop-layer" aria-hidden="true">
-        <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <!-- Langit Biru Baja & Kabut Pagi/Sore Modern -->
-                <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#4e799e"/>
-                    <stop offset="38%" stop-color="#7fa4c2"/>
-                    <stop offset="72%" stop-color="#a7bfd1"/>
-                    <stop offset="100%" stop-color="#2c445c"/>
-                </linearGradient>
-
-                <!-- Cahaya Matahari Menyamping dari Kiri -->
-                <radialGradient id="sunGlow" cx="18%" cy="22%" r="55%">
-                    <stop offset="0%" stop-color="#e8f3fc" stop-opacity="0.72"/>
-                    <stop offset="45%" stop-color="#9fc0da" stop-opacity="0.25"/>
-                    <stop offset="100%" stop-color="#4e799e" stop-opacity="0"/>
-                </radialGradient>
-
-                <!-- Fasad Kaca Terang (Sisi Kiri Terkena Cahaya) -->
-                <linearGradient id="glassLitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#c9dfee" stop-opacity="0.92"/>
-                    <stop offset="35%" stop-color="#7c9db8" stop-opacity="0.88"/>
-                    <stop offset="78%" stop-color="#3f5d78" stop-opacity="0.92"/>
-                    <stop offset="100%" stop-color="#1e3246" stop-opacity="0.96"/>
-                </linearGradient>
-
-                <!-- Fasad Kaca Bayangan Dalam (Sisi Kanan Berdimensi 3D) -->
-                <linearGradient id="glassShadowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#38546e" stop-opacity="0.94"/>
-                    <stop offset="45%" stop-color="#21354a" stop-opacity="0.96"/>
-                    <stop offset="100%" stop-color="#0f1b29" stop-opacity="0.99"/>
-                </linearGradient>
-
-                <!-- Gedung Latar Belakang Berkabut Halus -->
-                <linearGradient id="farHazeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#93b1c8" stop-opacity="0.78"/>
-                    <stop offset="65%" stop-color="#61819c" stop-opacity="0.84"/>
-                    <stop offset="100%" stop-color="#294157" stop-opacity="0.92"/>
-                </linearGradient>
-
-                <!-- Pantulan Cahaya Diagonal Kaca -->
-                <linearGradient id="sheenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
-                    <stop offset="50%" stop-color="#d6e9f5" stop-opacity="0.06"/>
-                    <stop offset="100%" stop-color="#ffffff" stop-opacity="0.18"/>
-                </linearGradient>
-
-                <!-- Kabut Horizon Bawah -->
-                <linearGradient id="bottomMist" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#16283b" stop-opacity="0"/>
-                    <stop offset="65%" stop-color="#112030" stop-opacity="0.45"/>
-                    <stop offset="100%" stop-color="#09131f" stop-opacity="0.85"/>
-                </linearGradient>
-
-                <filter id="farBlur" x="-10%" y="-10%" width="120%" height="120%">
-                    <feGaussianBlur stdDeviation="2.5"/>
-                </filter>
-            </defs>
-
-            <!-- Latar Langit & Cahaya Matahari -->
-            <rect x="0" y="0" width="1920" height="1080" fill="url(#skyGrad)"/>
-            <rect x="0" y="0" width="1920" height="1080" fill="url(#sunGlow)"/>
-
-            <!-- Awan Halus di Langit Atas -->
-            <g opacity="0.24" filter="url(#farBlur)">
-                <ellipse cx="420" cy="175" rx="260" ry="38" fill="#e8f3fc"/>
-                <ellipse cx="960" cy="130" rx="340" ry="44" fill="#dcebf7"/>
-                <ellipse cx="1520" cy="195" rx="280" ry="36" fill="#e2effa"/>
-            </g>
-
-            <!-- LAYER 1: Cakrawala Gedung Jauh Berkabut -->
-            <g filter="url(#farBlur)">
-                <rect x="0" y="470" width="110" height="610" fill="url(#farHazeGrad)"/>
-                <rect x="115" y="390" width="95" height="690" fill="url(#farHazeGrad)"/>
-                <rect x="235" y="440" width="115" height="640" fill="url(#farHazeGrad)"/>
-                <rect x="520" y="365" width="105" height="715" fill="url(#farHazeGrad)"/>
-                <rect x="645" y="420" width="90" height="660" fill="url(#farHazeGrad)"/>
-                <rect x="865" y="320" width="110" height="760" fill="url(#farHazeGrad)"/>
-                <rect x="995" y="280" width="125" height="800" fill="url(#farHazeGrad)"/>
-                <rect x="1145" y="355" width="105" height="725" fill="url(#farHazeGrad)"/>
-                <rect x="1430" y="380" width="110" height="700" fill="url(#farHazeGrad)"/>
-                <rect x="1560" y="330" width="120" height="750" fill="url(#farHazeGrad)"/>
-                <rect x="1780" y="410" width="140" height="670" fill="url(#farHazeGrad)"/>
-            </g>
-
-            <!-- LAYER 2: Gedung Pencakar Langit Kaca Lapis Tengah -->
-            <!-- Gedung Kiri Menjulang -->
-            <g>
-                <polygon points="160,1080 160,210 275,165 275,1080" fill="url(#glassLitGrad)"/>
-                <polygon points="275,1080 275,165 375,205 375,1080" fill="url(#glassShadowGrad)"/>
-                <polygon points="160,210 275,165 375,205 260,250" fill="#dbeaf5"/>
-                <polygon points="165,240 270,198 270,560 165,602" fill="url(#sheenGrad)"/>
-            </g>
-
-            <!-- Gedung Kiri-Tengah Perspektif Miring -->
-            <g>
-                <polygon points="395,1080 395,310 490,275 490,1080" fill="url(#glassLitGrad)"/>
-                <polygon points="490,1080 490,275 575,310 575,1080" fill="url(#glassShadowGrad)"/>
-            </g>
-
-            <!-- Menara Pusat Berpuncak Lancip (Supertall Spire) -->
-            <g>
-                <line x1="945" y1="65" x2="945" y2="175" stroke="#dcebf7" stroke-width="3"/>
-                <polygon points="845,1080 845,220 945,175 945,1080" fill="url(#glassLitGrad)"/>
-                <polygon points="945,1080 945,175 1045,220 1045,1080" fill="url(#glassShadowGrad)"/>
-                <polygon points="850,250 940,210 940,620 850,660" fill="url(#sheenGrad)"/>
-            </g>
-
-            <!-- Gedung Kanan-Tengah Bertingkat -->
-            <g>
-                <polygon points="1245,1080 1245,260 1350,220 1350,1080" fill="url(#glassLitGrad)"/>
-                <polygon points="1350,1080 1350,220 1445,260 1445,1080" fill="url(#glassShadowGrad)"/>
-                <polygon points="1250,290 1345,252 1345,640 1250,678" fill="url(#sheenGrad)"/>
-            </g>
-
-            <!-- LAYER 3: Gedung Kaca Foreground Bersudut Lebar (Seperti Referensi) -->
-            <!-- Foreground Kiri: Curtain Wall Sudut Perspektif -->
-            <g>
-                <polygon points="-20,1080 -20,140 120,215 120,1080" fill="url(#glassLitGrad)"/>
-                <polygon points="120,1080 120,215 195,245 195,1080" fill="url(#glassShadowGrad)"/>
-                <polygon points="-15,180 112,248 112,720 -15,652" fill="url(#sheenGrad)"/>
-            </g>
-
-            <!-- Foreground Kanan: Menara Kaca Dominan Perspektif Sudut -->
-            <g>
-                <polygon points="1540,1080 1540,150 1720,85 1720,1080" fill="url(#glassLitGrad)"/>
-                <polygon points="1720,1080 1720,85 1940,165 1940,1080" fill="url(#glassShadowGrad)"/>
-                <polygon points="1548,185 1712,125 1712,760 1548,820" fill="url(#sheenGrad)"/>
-            </g>
-
-            <!-- Wadah Detail Jendela Kaca & Mullion Halus yang Di-generate Otomatis -->
-            <g id="proceduralFacadeDetails"></g>
-
-            <!-- Kabut Halus di Bagian Bawah -->
-            <rect x="0" y="0" width="1920" height="1080" fill="url(#bottomMist)"/>
-        </svg>
-    </div>
-    <div class="skyline-scrim" aria-hidden="true"></div>
+    <div class="bg-photo-overlay" aria-hidden="true"></div>
 
     <div>
         <!-- Toast Notifikasi -->
@@ -266,7 +112,6 @@
         <nav class="glass-3d-nav sticky top-0 z-50 px-6 py-4">
             <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
-                    <!-- Ikon Logo 3D Kubus / Menara Kaca Isometric -->
                     <div class="logo-3d-box p-2.5 rounded-2xl transform transition-all hover:scale-105 hover:-rotate-3 duration-300 flex items-center justify-center">
                         <svg class="w-8 h-8 drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <polygon points="20,4 35,12 20,20 5,12" fill="url(#cubeTop)"/>
@@ -296,14 +141,13 @@
                         <p class="text-xs text-blue-800 font-bold tracking-widest uppercase mt-0.5">daily monitoring system</p>
                     </div>
                 </div>
-                
+
                 <div class="flex items-center gap-3 w-full md:w-auto">
                     <div class="relative flex-1 md:w-64">
                         <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
                         <input type="text" id="searchInput" placeholder="Cari laporan atau data..." class="w-full pl-10 pr-4 py-2 bg-white/95 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-800/40 focus:border-blue-800 transition-all shadow-sm">
                     </div>
-                    
-                    <!-- Tombol Kontrol Admin -->
+
                     <div id="adminActionButtons" class="hidden items-center gap-2">
                         <button onclick="toggleFolderModal(true)" class="inline-flex items-center gap-2 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-emerald-600 text-sm font-bold rounded-xl transition-all shadow-sm cursor-pointer">
                             <i data-lucide="folder-plus" class="w-4 h-4"></i> + Folder
@@ -313,12 +157,10 @@
                         </button>
                     </div>
 
-                    <!-- Tombol Salin Link Aplikasi -->
                     <button onclick="copyAppUrl()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-blue-900 text-xs font-bold rounded-xl transition-all shadow-sm cursor-pointer" title="Salin Tautan Aplikasi">
                         <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Salin Link App
                     </button>
 
-                    <!-- Indikator / Tombol Auth Mode -->
                     <div id="authContainer">
                         <button onclick="toggleAuthModal(true)" class="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer">
                             <i data-lucide="shield" class="w-3.5 h-3.5 text-amber-400"></i> Login Admin
@@ -330,8 +172,6 @@
 
         <!-- Main Workspace -->
         <main class="max-w-7xl mx-auto px-6 py-10">
-            
-            <!-- Folder Section -->
             <div class="mb-12">
                 <div class="flex items-center justify-between mb-5">
                     <h2 class="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-2 drop-shadow-[0_2px_8px_rgba(2,6,23,0.75)]">
@@ -341,7 +181,6 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="folderGrid"></div>
             </div>
 
-            <!-- Folder Content Area -->
             <div id="folderContentContainer" class="hidden">
                 <div class="border-t border-white/25 my-8 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div class="flex items-center gap-3">
@@ -355,10 +194,8 @@
                     <div class="px-3 py-1 bg-white/95 border border-white/50 rounded-full text-xs font-semibold text-slate-700 tracking-wider shadow-sm" id="itemCounter">0 Link Terarsip</div>
                 </div>
 
-                <!-- Links Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="linksGrid"></div>
 
-                <!-- Empty State -->
                 <div id="emptyState" class="hidden text-center py-20 glass-3d-card rounded-2xl border-dashed border-2 border-slate-300">
                     <div class="inline-flex p-4 bg-white text-slate-400 border border-slate-200 rounded-full mb-4 shadow-sm">
                         <i data-lucide="database-zap" class="w-8 h-8"></i>
@@ -370,7 +207,7 @@
         </main>
     </div>
 
-    <!-- Modal Pilihan Buka Dengan (Choice Modal) -->
+    <!-- Modal Pilihan Buka Dengan -->
     <div id="openChoiceModal" class="fixed inset-0 z-150 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
@@ -395,7 +232,7 @@
         </div>
     </div>
 
-    <!-- Modal Form (Login Admin Password) -->
+    <!-- Modal Login Admin -->
     <div id="authModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
@@ -415,7 +252,7 @@
         </div>
     </div>
 
-    <!-- Modal Form (Create / Edit Folder) -->
+    <!-- Modal Create / Edit Folder -->
     <div id="folderModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
@@ -436,7 +273,7 @@
         </div>
     </div>
 
-    <!-- Modal Form (Input / Edit Link & Pindah Folder) -->
+    <!-- Modal Input / Edit Link -->
     <div id="linkModal" class="fixed inset-0 z-100 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-4">
         <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
@@ -487,103 +324,6 @@
     </footer>
 
     <script>
-        /* =========================================================
-           1. REALISTIC GLASS SKYSCRAPER MULLIONS & PARALLAX
-           ========================================================= */
-        function renderFacadeMullions() {
-            const container = document.getElementById('proceduralFacadeDetails');
-            if (!container) return;
-            container.innerHTML = '';
-
-            const svgNS = "http://www.w3.org/2000/svg";
-            const addEl = (tag, attrs) => {
-                const el = document.createElementNS(svgNS, tag);
-                for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-                container.appendChild(el);
-            };
-
-            // Garis kaca & lantai realistis pada gedung foreground kanan (x: 1540 -> 1940)
-            for (let i = 1; i <= 14; i++) {
-                const t = i / 15;
-                const xTop = 1540 + t * 180;
-                const yTop = 150 - t * 65;
-                addEl('line', {
-                    x1: xTop, y1: yTop, x2: xTop, y2: 1080,
-                    stroke: '#d8ebf8', 'stroke-width': '1.2', 'stroke-opacity': '0.26'
-                });
-            }
-            for (let y = 165; y < 1060; y += 22) {
-                const dy = (y - 150) * 0.25;
-                addEl('line', {
-                    x1: 1540, y1: y + dy, x2: 1720, y2: y,
-                    stroke: '#0f1d2c', 'stroke-width': '1.1', 'stroke-opacity': '0.32'
-                });
-                addEl('line', {
-                    x1: 1720, y1: y, x2: 1940, y2: y + 55,
-                    stroke: '#08121e', 'stroke-width': '1.2', 'stroke-opacity': '0.45'
-                });
-            }
-
-            // Garis kaca pada gedung foreground kiri (x: -20 -> 195)
-            for (let i = 1; i <= 8; i++) {
-                const t = i / 9;
-                const xTop = -20 + t * 140;
-                const yTop = 140 + t * 75;
-                addEl('line', {
-                    x1: xTop, y1: yTop, x2: xTop, y2: 1080,
-                    stroke: '#e2f1fc', 'stroke-width': '1.1', 'stroke-opacity': '0.24'
-                });
-            }
-            for (let y = 210; y < 1060; y += 24) {
-                addEl('line', {
-                    x1: -20, y1: y - 45, x2: 120, y2: y,
-                    stroke: '#102033', 'stroke-width': '1.1', 'stroke-opacity': '0.32'
-                });
-            }
-
-            // Garis kaca pada menara tengah & kiri-tengah
-            for (let x = 858; x < 1038; x += 14) {
-                addEl('line', {
-                    x1: x, y1: 215, x2: x, y2: 1080,
-                    stroke: '#d6e9f5', 'stroke-width': '0.9', 'stroke-opacity': '0.18'
-                });
-            }
-            for (let y = 240; y < 1060; y += 26) {
-                addEl('line', {
-                    x1: 845, y1: y, x2: 1045, y2: y,
-                    stroke: '#0c1826', 'stroke-width': '0.9', 'stroke-opacity': '0.26'
-                });
-            }
-
-            // Cahaya jendela kantor halus berjarak (tanpa efek berlebihan)
-            const warmWindows = [
-                [1625, 380, 14, 6], [1655, 424, 18, 6], [1605, 512, 16, 6],
-                [1755, 445, 16, 6], [1790, 510, 20, 6], [1835, 580, 18, 6],
-                [42, 390, 14, 6], [76, 462, 16, 6], [885, 450, 12, 5],
-                [975, 502, 14, 5], [1285, 420, 14, 5], [1375, 498, 16, 5]
-            ];
-            warmWindows.forEach(([wx, wy, ww, wh]) => {
-                addEl('rect', {
-                    x: wx, y: wy, width: ww, height: wh, rx: '1',
-                    fill: '#fef3c7', 'fill-opacity': '0.34'
-                });
-            });
-        }
-
-        function initBackdropParallax() {
-            const backdrop = document.getElementById('skylineBackdrop');
-            if (!backdrop) return;
-            window.addEventListener('mousemove', (e) => {
-                const nx = (e.clientX / window.innerWidth - 0.5) * -18;
-                const ny = (e.clientY / window.innerHeight - 0.5) * -14;
-                backdrop.style.setProperty('--px', `${nx.toFixed(1)}px`);
-                backdrop.style.setProperty('--py', `${ny.toFixed(1)}px`);
-            });
-        }
-
-        /* =========================================================
-           2. LOGIKA WORKSPACE & DAILY MONITORING SYSTEM
-           ========================================================= */
         let defaultFolders = ["Semua Berkas", "Monitoring Sales"];
         let defaultLinks = [
             {
@@ -606,7 +346,7 @@
 
         let folders = JSON.parse(localStorage.getItem('od_folders_v27')) || defaultFolders;
         let driveLinks = JSON.parse(localStorage.getItem('od_links_v27')) || defaultLinks;
-        
+
         let activeFolder = null;
         let searchQuery = "";
         let isAdmin = false;
@@ -618,7 +358,7 @@
             msgEl.innerText = message;
             toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
             toast.classList.add('translate-y-0', 'opacity-100');
-            
+
             setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
                 toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
@@ -629,7 +369,7 @@
             const appUrl = window.location.href;
             navigator.clipboard.writeText(appUrl).then(() => {
                 showToast("Link aplikasi berhasil disalin ke clipboard!");
-            }).catch(err => {
+            }).catch(() => {
                 alert("Gagal menyalin link aplikasi.");
             });
         }
@@ -650,9 +390,9 @@
         function openInSpreadsheetApp() {
             if (currentChoiceUrl) {
                 toggleChoiceModal(false);
-                let cleanUrl = currentChoiceUrl.replace(/^https?:\/\//, '');
-                let spreadsheetIntent = `intent://${cleanUrl}#Intent;scheme=https;package=com.microsoft.office.excel;end;`;
-                
+                const cleanUrl = currentChoiceUrl.replace(/^https?:\/\//, '');
+                const spreadsheetIntent = `intent://${cleanUrl}#Intent;scheme=https;package=com.microsoft.office.excel;end;`;
+
                 if (/Android/i.test(navigator.userAgent)) {
                     window.location.href = spreadsheetIntent;
                 } else {
@@ -730,7 +470,7 @@
             const titleEl = document.getElementById('linkModalTitle');
             const submitBtn = document.getElementById('linkSubmitBtn');
             const select = document.getElementById('fileFolder');
-            
+
             select.innerHTML = '';
             folders.forEach(f => {
                 if (f !== "Semua Berkas") {
@@ -885,7 +625,7 @@
             if (!isAdmin) return;
             const targetIndex = index + direction;
             if (targetIndex < 0 || targetIndex >= folders.length) return;
-            
+
             const temp = folders[index];
             folders[index] = folders[targetIndex];
             folders[targetIndex] = temp;
@@ -933,7 +673,7 @@
 
             const fGrid = document.getElementById('folderGrid');
             fGrid.innerHTML = '';
-            
+
             const restrictedFolders = ["Semua Berkas", "Action Plan", "KPI", "Umum", "Keuangan"];
 
             folders.forEach((f, idx) => {
@@ -954,7 +694,7 @@
                 const fCard = document.createElement('div');
                 fCard.className = `${cardStyleClass} p-6 rounded-2xl cursor-pointer flex flex-col justify-between group ${isLocked ? 'opacity-85 border-amber-400/50' : ''}`;
                 fCard.onclick = () => openFolder(f);
-                
+
                 let iconType = isSelected ? 'folder-open' : 'folder';
                 let iconColor = isSelected ? 'text-blue-900' : 'text-amber-500';
 
@@ -1007,7 +747,7 @@
 
                 const filtered = driveLinks.filter(item => {
                     const matchesFolder = activeFolder === "Semua Berkas" || item.folder === activeFolder;
-                    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                           item.description.toLowerCase().includes(searchQuery.toLowerCase());
                     return matchesFolder && matchesSearch;
                 });
@@ -1020,7 +760,7 @@
                 } else {
                     emptyState.classList.add('hidden');
                     lGrid.classList.remove('hidden');
-                    
+
                     filtered.forEach((item, index) => {
                         let icon = 'file-text'; let color = 'text-blue-900 bg-blue-50 border-blue-200';
                         if (item.type === 'excel') { icon = 'file-spreadsheet'; color = 'text-emerald-600 bg-emerald-50 border-emerald-200'; }
@@ -1070,11 +810,7 @@
             renderWorkspace();
         });
 
-        window.addEventListener('DOMContentLoaded', () => {
-            renderFacadeMullions();
-            initBackdropParallax();
-            renderWorkspace();
-        });
+        window.addEventListener('DOMContentLoaded', renderWorkspace);
     </script>
 </body>
 </html>
